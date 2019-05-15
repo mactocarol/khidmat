@@ -1,0 +1,750 @@
+﻿	<!DOCTYPE html>
+	<html lang="en">
+	  <head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    <link rel="icon" href="../../favicon.ico">
+
+	    <title>khidmat</title>
+
+	    <link href="css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="fonts/axiforma/font.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/owl.carousel.min.css">
+        <link rel="stylesheet" href="css/bootstrap-select.min.css" />
+        <link rel="stylesheet" href="js/plugins/jqueryui/jquery-ui.css">
+	    <link href="css/style.css" rel="stylesheet">
+        <link href="css/responsive.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/plugins/jqueryui/jquery-ui.js"></script>
+	<script>
+	$( function() {
+		$( "#slider-range" ).slider({
+			range: true,
+			min: 0,
+			max: 500,
+			values: [ 75, 300 ],
+			slide: function( event, ui ) {
+				$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+			}
+		});
+		$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+	} );
+	</script>
+
+	   <script src="js/bootstrap.min.js"></script>
+
+	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	    <!--[if lt IE 9]>
+	      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	  </head>
+
+	  <body>
+      <!-- header Start -->
+        <header class="main_header user_header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                        <div class="site_logo">
+                            <a href="#"><img src="images/logo.png"></a>
+                        </div>
+                        <button type="button" class="navbar_toggle">
+                          Menu  
+                        </button>
+                    </div>
+                    <div class="col-md-9 col-xs-12">
+                        <nav class="navigation_wrap pull-right">
+                          <div class="navigation_menu">
+                            <ul class="">
+                                <li><a href="#">Services </a></li>
+                                <li><a href="#">Help </a></li>
+                                <li><a href="#">blog</a></li>
+                                <li><a href="#">become a professional</a></li>
+                                <li><a href="#"><i class="fa fa-map-marker"></i> select location</a></li>
+                                <li class="login-btn"><a href="login.html">login / signup</a></li>
+                            </ul>
+                          </div><!--/.nav-collapse -->
+                      </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- header End -->
+<section class="breadcrumb_outer">
+	<div class="container">
+    	<div class="row">
+        	<div class="col-lg-6">
+            	<h2 class="text-capitalize">Job list</h2>
+            </div>
+            <div class="col-lg-6">
+            	 <ol class="breadcrumb pull-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Job list</li>
+                  </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="search_list_outer">
+	<div class="container">
+    	<div class="row">
+        	<div class="col-lg-4">
+            	<div class="filter_outer">
+                	<div class="filter_heading">
+                    	<h3>Search Filter </h3><a href="#" class="pull-right">Clear all</a>
+                    </div>
+                    <div class="filter_section">
+                    	<h4>search by keywords   <span class="pull-right"><i class="fa fa-minus"></i></span></h4>
+                    	<div class="form_panel">
+                        	<div class="form-group">
+                            	<div class="form_panel_inner"><input type="search" class="form-control" placeholder="Search Here">
+                                <button class="btn btn-fixed"><i class="fa fa-search"></i></button></div>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="filter_section">
+                    	<h4>search by Category   <span class="pull-right"><i class="fa fa-minus"></i></span></h4>
+                    	<div class="form_panel">
+                        	<div class="form-group">
+                            	<div class="advanced_search_row">
+						<select data-size="7" class="selectpicker  fill_selectbtn_in own_selectbox" data-title="property_type" id="property_type" data-width="100%">
+						<option value="1" selected>Appliance  Repair</option>
+                        <option value="2">Building construction</option>
+                        <option value="3">Wedding Planner</option>
+                        <option value="4">Salon</option> 
+						<option value="5">Painter</option>
+                        <option value="6">Home Cleaning</option>
+						</select>
+                        </div>
+                            </div>
+                            <div class="form-group">
+                            	<button class="btn btn-secondry"	>Search</button>
+                            </div>
+                            
+                        </div>    
+                    </div>
+                    <div class="filter_section">
+                    	<h4>Job By Type<span class="pull-right"><i class="fa fa-minus"></i></span></h4>
+                    	<div class="form_panel">
+                        	<div class="form-groupcheckbox">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="fixed-project" name="job-type">
+                                    <label class="form-check-label" for="fixed-project">
+                                        Fixed Project
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-groupcheckbox">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="hourly-project" name="job-type">
+                                    <label class="form-check-label" for="hourly-project">
+                                        Hourly Project
+                                    </label>
+                                </div>
+                            </div>
+                         </div>
+                         </div>
+                            <div class="filter_section">
+                                <h4>Job By skills  <span class="pull-right"><i class="fa fa-minus"></i></span></h4>
+                                <div class="form_panel">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search Here">
+                                    </div>
+                                </div>    
+                            </div>
+                             <div class="filter_section">
+                                <h4>search by Price   <span class="pull-right"><i class="fa fa-minus"></i></span></h4>
+                                <div class="form_panel">
+                                    <div class="form-group">
+                                    <div id="slider-range"></div>
+                                    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    
+
+
+
+                                    </div>
+                                </div>    
+                            </div>
+                            
+                            <div class="filter_section">
+                                <h4>search by Location   <span class="pull-right"><i class="fa fa-minus"></i></span></h4>
+                                <div class="form_panel">
+                                    <div class="form-group">
+                                        <input type="search" class="form-control" placeholder="Search Here">
+                                        <button class="btn btn-fixed"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>    
+                            </div>
+                            
+                            
+                            
+                   
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            <div class="col-lg-8">
+            	<div class="filtered-job-listing-wrapper">
+            	<div class="job-view-controller-wrapper">
+                	<div class="row">
+                    	<div class="col-lg-6">
+                        	<div class="showing-number">
+                            <span>Showing 1–12 of 28 Jobs</span>
+                          </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                        	<div class="job-view-controller">
+                            	
+						<select data-size="7"class="selectpicker  fill_selectbtn_in own_selectbox" data-title="controller" id="controller" data-width="100%">
+						<option value="1" selected>Most Recent</option>
+                        <option value="2">Top Rated</option>
+                        <option value="3">Most Popular</option>
+						</select>
+                        
+                          </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="job-filter-result">
+                	<div class="job-list">
+                    	<div class="row">
+                        	<div class="col-lg-9">
+                            	<h4><a href="#">Wedding Invitation</a></h4>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                                <ul>
+                                	<li><i class="fa fa-clock-o"></i> Open 37 minutes ago - 10 Bids</li>
+                                    <li><i class="fa fa-map-marker"></i> Dubai - United Arab  Emirates</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                            	<div class="job-price">$522-$1,045</div>
+                                <div class="price-currency">USD	</div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="job-list">
+                    	<div class="row">
+                        	<div class="col-lg-9">
+                            	<h4><a href="#">Wedding Invitation</a></h4>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                                <ul>
+                                	<li><i class="fa fa-clock-o"></i> Open 37 minutes ago - 10 Bids</li>
+                                    <li><i class="fa fa-map-marker"></i> Dubai - United Arab  Emirates</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                            	<div class="job-price">$522-$1,045</div>
+                                <div class="price-currency">USD	</div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="job-list">
+                    	<div class="row">
+                        	<div class="col-lg-9">
+                            	<h4><a href="#">Wedding Invitation</a></h4>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                                <ul>
+                                	<li><i class="fa fa-clock-o"></i> Open 37 minutes ago - 10 Bids</li>
+                                    <li><i class="fa fa-map-marker"></i> Dubai - United Arab  Emirates</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                            	<div class="job-price">$522-$1,045</div>
+                                <div class="price-currency">USD	</div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="job-list">
+                    	<div class="row">
+                        	<div class="col-lg-9">
+                            	<h4><a href="#">Wedding Invitation</a></h4>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                                <ul>
+                                	<li><i class="fa fa-clock-o"></i> Open 37 minutes ago - 10 Bids</li>
+                                    <li><i class="fa fa-map-marker"></i> Dubai - United Arab  Emirates</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                            	<div class="job-price">$522-$1,045</div>
+                                <div class="price-currency">USD	</div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="job-list">
+                    	<div class="row">
+                        	<div class="col-lg-9">
+                            	<h4><a href="#">Wedding Invitation</a></h4>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                                <ul>
+                                	<li><i class="fa fa-clock-o"></i> Open 37 minutes ago - 10 Bids</li>
+                                    <li><i class="fa fa-map-marker"></i> Dubai - United Arab  Emirates</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                            	<div class="job-price">$522-$1,045</div>
+                                <div class="price-currency">USD	</div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+                
+                
+                
+                
+                <nav aria-label="Page navigation example" class="pagination_outer text-right">
+              <ul class="pagination justify-content-center">
+               
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        	
+        
+          
+           
+  
+   
+   
+    
+           
+<section class="quality_outer">
+    <div class="container">
+        <div class="row">
+        	<div class="col-md-4">
+            	<div class="quality_inner">
+                	<i class="fa fa-shield"></i>
+                	<h3>High Quality & Trusted Professionals</h3>
+                    <p>We provide only verified, background checked and high quality professionals</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+            	<div class="quality_inner">
+                	<i class="fa fa-user"></i>
+                	<h3>Matched to Your Needs</h3>
+                    <p>We match you with the right professionals with the right budget</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+            	<div class="quality_inner">
+                	<i class="fa fa-thumbs-up"></i>
+                	<h3>Hassle Free Service Delivery</h3>
+                    <p>Super convenient, guaranteed service from booking to delivery</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="counter_outer text-center">
+    <div class="container">
+        <div class="row">
+        	<div class="col-md-3">
+            	<h3>254</h3>
+                	<p>total services</p>
+            </div>
+            <div class="col-md-3">
+            	<h3>172</h3>
+                	<p>won awards</p>
+            </div>
+            <div class="col-md-3">
+            	<h3>12168</h3>
+                	<p>happy coustomer every year</p>
+            </div>
+            <div class="col-md-3">
+            	<h3>254</h3>
+                	<p>verified experties</p>
+            </div>
+		</div>
+    </div>
+</section>
+
+<section class="footer_links">
+	
+    	<div id="parentHorizontalTab">
+            <ul class="resp-tabs-list hor_1">
+               
+                <li>Beauty Services</li>
+                 <li>Recent launches </li>
+                <li>Appliances Services</li>
+                <li>Trending Services </li>
+                <li>Home Cleaning</li>
+                <li>Pest Control</li>
+                <li>Home Needs</li>
+                 <li>Home Needs</li>
+            </ul>
+            <div class="resp-tabs-container hor_1 container">
+                <div>
+                	<div class="row">
+                    	<ul>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Winter Moisture Infusion </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Monthly Premium Package </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Facials & Clean-Ups </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Style My Hair </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> L'Oréal Anti Dandruff Hair Spa </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Waxing - Detan Liposoluble </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Seasoul Body Polish </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Massages </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Pre Bridal Magic Package </a></li> 
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Pre Bridal Supreme Package </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Friend's Wedding Look </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Stunning Bridal Look </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> All in one Dhamaka Package </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Festive Economy Package </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Pedicure </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Threading </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Detanning  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Manicure </a></li>
+                    </ul>
+                     
+					</div>
+                </div>
+                <div>
+                  <div class="row">
+                    <ul>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Men's Grooming & Massages </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Renovation & Refurbishment </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Construction </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Interior Design </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> HomeSpection </a></li>
+                    </ul>
+					</div>
+                </div>
+                <div>
+                  <div class="row">
+                    <ul>
+                      <li><a href="#"> <i class="fa fa-long-arrow-right"></i>     Washing Machine  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Refrigerator  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Geyser  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Water Purifier  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> TV  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Microwave Oven  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Chimney and Hob  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Wet Servicing  </a></li>
+                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> AC  </a></li>
+                    </ul>
+					</div>
+                </div>
+                 <div>
+                	<div class="row">
+                    <div class="col-md-4">
+        <ul>
+            <li><a href="#"> Winter Moisture Infusion </a></li>
+            <li><a href="#"> Monthly Premium Package </a></li>
+            <li><a href="#">  Facials & Clean-Ups </a></li>
+            <li><a href="#"> Style My Hair </a></li>
+            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
+            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
+        </ul>
+ </div>
+<div class="col-md-4">
+        <ul>
+            <li><a href="#"> Pre Bridal Magic Package </a></li>
+             <li><a href="#">Pre Bridal Supreme Package </a></li>
+             <li><a href="#">Friend's Wedding Look </a></li>
+             <li><a href="#">Stunning Bridal Look </a></li>
+             <li><a href="#">All in one Dhamaka Package</a></li>
+            <li><a href="#">Seasoul Body Polish</a></li>
+        </ul>
+    </div>
+<div class="col-md-4">
+    <ul>
+        <li><a href="#">Massages </a></li>
+        <li><a href="#">Festive Economy Package </a></li>
+        <li><a href="#"> Pedicure</a></li>
+        <li><a href="#">Threading</a></li> 
+        <li><a href="#"> Detanning </a></li>
+        <li><a href="#">Manicure </a></li>
+
+    </ul>
+</div>
+					</div>
+                </div>
+                <div>
+                    <div class="row">
+                    <div class="col-md-4">
+        <ul>
+            <li><a href="#"> Winter Moisture Infusion </a></li>
+            <li><a href="#"> Monthly Premium Package </a></li>
+            <li><a href="#">  Facials & Clean-Ups </a></li>
+            <li><a href="#"> Style My Hair </a></li>
+            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
+            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
+        </ul>
+ </div>
+<div class="col-md-4">
+        <ul>
+            <li><a href="#"> Pre Bridal Magic Package </a></li>
+             <li><a href="#">Pre Bridal Supreme Package </a></li>
+             <li><a href="#">Friend's Wedding Look </a></li>
+             <li><a href="#">Stunning Bridal Look </a></li>
+             <li><a href="#">All in one Dhamaka Package</a></li>
+            <li><a href="#">Seasoul Body Polish</a></li>
+        </ul>
+    </div>
+<div class="col-md-4">
+    <ul>
+        <li><a href="#">Massages </a></li>
+        <li><a href="#">Festive Economy Package </a></li>
+        <li><a href="#"> Pedicure</a></li>
+        <li><a href="#">Threading</a></li> 
+        <li><a href="#"> Detanning </a></li>
+        <li><a href="#">Manicure </a></li>
+
+    </ul>
+</div>
+					</div>
+                </div>
+                <div>
+                   <div class="row">
+                    <div class="col-md-4">
+        <ul>
+            <li><a href="#"> Winter Moisture Infusion </a></li>
+            <li><a href="#"> Monthly Premium Package </a></li>
+            <li><a href="#">  Facials & Clean-Ups </a></li>
+            <li><a href="#"> Style My Hair </a></li>
+            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
+            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
+        </ul>
+ </div>
+<div class="col-md-4">
+        <ul>
+            <li><a href="#"> Pre Bridal Magic Package </a></li>
+             <li><a href="#">Pre Bridal Supreme Package </a></li>
+             <li><a href="#">Friend's Wedding Look </a></li>
+             <li><a href="#">Stunning Bridal Look </a></li>
+             <li><a href="#">All in one Dhamaka Package</a></li>
+            <li><a href="#">Seasoul Body Polish</a></li>
+        </ul>
+    </div>
+<div class="col-md-4">
+    <ul>
+        <li><a href="#">Massages </a></li>
+        <li><a href="#">Festive Economy Package </a></li>
+        <li><a href="#"> Pedicure</a></li>
+        <li><a href="#">Threading</a></li> 
+        <li><a href="#"> Detanning </a></li>
+        <li><a href="#">Manicure </a></li>
+
+    </ul>
+</div>
+					</div>
+                </div>
+                 <div>
+                	<div class="row">
+                    <div class="col-md-4">
+        <ul>
+            <li><a href="#"> Winter Moisture Infusion </a></li>
+            <li><a href="#"> Monthly Premium Package </a></li>
+            <li><a href="#">  Facials & Clean-Ups </a></li>
+            <li><a href="#"> Style My Hair </a></li>
+            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
+            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
+        </ul>
+ </div>
+<div class="col-md-4">
+        <ul>
+            <li><a href="#"> Pre Bridal Magic Package </a></li>
+             <li><a href="#">Pre Bridal Supreme Package </a></li>
+             <li><a href="#">Friend's Wedding Look </a></li>
+             <li><a href="#">Stunning Bridal Look </a></li>
+             <li><a href="#">All in one Dhamaka Package</a></li>
+            <li><a href="#">Seasoul Body Polish</a></li>
+        </ul>
+    </div>
+<div class="col-md-4">
+    <ul>
+        <li><a href="#">Massages </a></li>
+        <li><a href="#">Festive Economy Package </a></li>
+        <li><a href="#"> Pedicure</a></li>
+        <li><a href="#">Threading</a></li> 
+        <li><a href="#"> Detanning </a></li>
+        <li><a href="#">Manicure </a></li>
+
+    </ul>
+</div>
+					</div>
+                </div>
+                <div>
+                    <div class="row">
+                    <div class="col-md-4">
+        <ul>
+            <li><a href="#"> Winter Moisture Infusion </a></li>
+            <li><a href="#"> Monthly Premium Package </a></li>
+            <li><a href="#">  Facials & Clean-Ups </a></li>
+            <li><a href="#"> Style My Hair </a></li>
+            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
+            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
+        </ul>
+ </div>
+<div class="col-md-4">
+        <ul>
+            <li><a href="#"> Pre Bridal Magic Package </a></li>
+             <li><a href="#">Pre Bridal Supreme Package </a></li>
+             <li><a href="#">Friend's Wedding Look </a></li>
+             <li><a href="#">Stunning Bridal Look </a></li>
+             <li><a href="#">All in one Dhamaka Package</a></li>
+            <li><a href="#">Seasoul Body Polish</a></li>
+        </ul>
+    </div>
+<div class="col-md-4">
+    <ul>
+        <li><a href="#">Massages </a></li>
+        <li><a href="#">Festive Economy Package </a></li>
+        <li><a href="#"> Pedicure</a></li>
+        <li><a href="#">Threading</a></li> 
+        <li><a href="#"> Detanning </a></li>
+        <li><a href="#">Manicure </a></li>
+
+    </ul>
+</div>
+					</div>
+                </div>
+                
+            </div>
+        </div>
+</section>
+      
+      <footer>
+      	<div class="container">
+        	<div class="row">
+            	<div class="col-md-4"><a href="#"><img src="images/logo-footer.png" width="200"></a></div>
+                <div class="col-md-4"><p>&copy; Copyright 2019. All Rights Reserved.</p></div>
+                <div class="col-md-4"><ul>
+                	<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google"></i></a></li>
+                </ul></div>
+            </div>
+        </div>
+      </footer>
+      </body>
+        <script src="js/owl.carousel.js"></script>
+        <script src="js/bootstrap-select.min.js"></script>
+        <script src="js/easyResponsiveTabs.js"></script>
+        <script  type="text/javascript" src="js/typeahead.bundle.js"></script>
+        <script src="js/custom.js"></script>
+         <script>
+            $(document).ready(function() {
+              $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                responsiveClass: true,
+                responsive: {
+                  0: {
+                    items: 1,
+                    nav: true
+                  },
+                  600: {
+                    items: 3,
+                    nav: false
+                  },
+                  1000: {
+                    items: 4,
+                    nav: true,
+                    loop: false,
+                    margin: 20
+                  }
+                }
+              })
+            })
+          </script>
+           <script type="text/javascript">
+    $(document).ready(function() {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function(event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+
+    });
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    // Defining the local dataset
+    var cars = ['Abu Dhabi 	', 'Aden', ' 	Doha', ' 	Dubai', ' 	Hawalli', 'Jeddah', 'Sharjah', 'Dammam', 'Riyadh', ' 	Mecca'];
+    
+    // Constructing the suggestion engine
+    var cars = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        local: cars
+    });
+    
+    // Initializing the typeahead
+    $('.typeahead').typeahead({
+        hint: true,
+        highlight: true, /* Enable substring highlighting */
+        minLength: 1 /* Specify minimum characters required for showing result */
+    },
+    {
+        name: 'cars',
+        source: cars
+    });
+});  
+</script>
+
+<script>
+$(document).ready(function(){        
+   $('#manually').click(function(){        
+   			$('#location').modal('hide');
+    }); 
+    }); 
+</script>
+<script>
+$(document).ready(function(){
+  $(".filter_section h4").click(function(){
+    $(this).next(".form_panel").slideToggle();
+	  $(this).find("i").toggleClass("fa-plus");
+  });
+});
+</script>
+	</html>
