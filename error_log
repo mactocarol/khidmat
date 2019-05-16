@@ -1,0 +1,16 @@
+[15-May-2019 05:00:35 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/views/order_detail_view.php on line 55
+[15-May-2019 05:26:58 America/Chicago] PHP Fatal error:  Call to undefined method User::sendemail() in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/controllers/User.php on line 36
+[15-May-2019 05:49:34 America/Chicago] PHP Fatal error:  Call to undefined method User::email() in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/controllers/User.php on line 37
+[15-May-2019 05:50:10 America/Chicago] PHP Fatal error:  Call to undefined method User::email() in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/controllers/User.php on line 38
+[15-May-2019 06:41:49 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/views/order_detail_view.php on line 57
+[15-May-2019 06:43:14 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/views/order_detail_view.php on line 57
+[15-May-2019 06:44:21 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/views/order_detail_view.php on line 57
+[15-May-2019 06:45:47 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/views/order_detail_view.php on line 58
+[15-May-2019 06:45:52 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/views/order_detail_view.php on line 58
+[15-May-2019 06:45:53 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/views/order_detail_view.php on line 58
+[15-May-2019 06:46:34 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/mlsknlel/public_html/carol/khidmat/application/modules/user/views/order_detail_view.php on line 58
+[15-May-2019 06:48:43 America/Chicago] PHP Fatal error:  Call to a member function row_array() on boolean in /home3/mlsknlel/public_html/carol/khidmat/application/core/MY_Model.php on line 98
+[15-May-2019 06:49:04 America/Chicago] PHP Fatal error:  Call to a member function row_array() on boolean in /home3/mlsknlel/public_html/carol/khidmat/application/core/MY_Model.php on line 98
+[15-May-2019 06:58:01 America/Chicago] PHP Fatal error:  Call to a member function row_array() on boolean in /home3/mlsknlel/public_html/carol/khidmat/application/core/MY_Model.php on line 98
+[15-May-2019 06:59:46 America/Chicago] PHP Fatal error:  Call to a member function row_array() on boolean in /home3/mlsknlel/public_html/carol/khidmat/application/core/MY_Model.php on line 98
+[15-May-2019 07:01:12 America/Chicago] PHP Fatal error:  Call to a member function row_array() on boolean in /home3/mlsknlel/public_html/carol/khidmat/application/core/MY_Model.php on line 98

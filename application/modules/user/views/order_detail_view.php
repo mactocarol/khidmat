@@ -48,13 +48,54 @@
                         </div>
                     
                         <div class="section_content">
+                        <h4>Services</h4>    
                             <p>
-                            <?php $service = json_decode($order['services']); ?>
+                            <?php $service = json_decode($order['services']); ?>                            
                             <?php foreach($service as $key => $value){ ?>
+                                <?php if(isset($value->label)){
+                                    //print_r($value);
+                                    if($value->list != '_'){
+                                        if(!in_array($value->list,$listt)){
+                                            $listt[] = $value->list;
+                                            echo '<p><h4>'.implode(' ',explode('_',$value->list)).'</h4></p>';
+                                        }            
+                                    }
+                                    
+                                    foreach($value as $keyy=>$row){
+                                        if($keyy != 'list'){
+                                            if($keyy == 'label'){                        
+                                                echo '<strong>'.ucwords(implode(' ',explode('_',$value->keylabel))).'</strong> : '.$row.'<br>';
+                                            }
+                                            if($keyy == 'select'){                        
+                                                echo '<strong>'.ucwords(implode(' ',explode('_',$value->keyselect))).'</strong> : '.$row.'</br>';
+                                            }
+                                            if($keyy == 'qty'){                        
+                                                echo '<strong>'.ucwords(implode(' ',explode('_',$value->keyqty))).'</strong> : '.$row.'</br>';
+                                            }
+                                        }                
+                                    }
+                                }else{ ?>
                                 <strong><?=$key?> : </strong><?=$value?><br>
-                            <?php } ?>
+                            <?php } }?>
                             <?php ?>
                             </p>
+                        </div>
+                        
+                        <div class="section_content">
+                        <h4>Billing Address</h4>    
+                        <?php $billing = json_decode($order['billing']);
+                        if(!empty($billing)){ ?>
+                          <p>
+                            <strong>Name : </strong><?=$billing->name?><br>
+                            <strong>Email : </strong><?=$billing->email?><br>
+                            <strong>Address : </strong><?=$billing->address?><br>
+                            <strong>City : </strong><?=$billing->city?><br>
+                            <strong>State : </strong><?=$billing->state?><br>
+                            <strong>Zipcode : </strong><?=$billing->zipcode?><br>
+                          </p>
+                        <?php } else { ?>
+                            <p>No Information Provided</p>
+                        <?php } ?>
                         </div>
                         <!--<div class="Request_btn button">
                           <button class="btn btn_start"><i class="fa fa-play" aria-hidden="true"></i><span>Start</span></button>

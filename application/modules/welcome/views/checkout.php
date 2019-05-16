@@ -25,12 +25,39 @@
                     <p><strong>Service Name : </strong><?php echo ($this->session->userdata('services')) ? $this->session->userdata('services')->title : ''; ?></p>
                 </div>
                 <hr>
+                <?php //print_r($this->session->userdata('service_cart1'));?>
                 <div class="service">
                 <?php $service = ($this->session->userdata('service_cart')) ? $this->session->userdata('service_cart') : $this->session->userdata('service_cart1'); ?>
-                <?php foreach($service as $key => $value){ ?>
-                    <strong><?=$key?> : </strong><?=$value?><br>
-                <?php } ?>
-                <?php ?>
+                <?php if($this->session->userdata('service_cart')){
+                        foreach($this->session->userdata('service_cart') as $key => $value){ ?>
+                            <strong><?=$key?> : </strong><?=$value?><br>
+                <?php } } ?>
+                <?php
+                if($this->session->userdata('service_cart1')){
+                foreach($this->session->userdata('service_cart1') as $key=>$value){            
+                    if($value['list'] != '_'){
+                        if(!in_array($value['list'],$listt)){
+                            $listt[] = $value['list'];
+                            echo '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                        }            
+                    }
+                    
+                    foreach($value as $keyy=>$row){
+                        if($keyy != 'list'){
+                            if($keyy == 'label'){                        
+                                echo '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'</p>';
+                            }
+                            if($keyy == 'select'){                        
+                                echo '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
+                            }
+                            if($keyy == 'qty'){                        
+                                echo '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p>';
+                            }
+                        }                
+                    }
+                }
+                }
+                ?>
                 </div>
                 <hr>
                 <div class="location">

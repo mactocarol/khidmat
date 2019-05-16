@@ -6,6 +6,7 @@ class User extends MY_Controller
         public function __construct(){
             parent::__construct();
             $this->load->model('user_model');
+            $this->load->helper('my_helper');
             $page = '';
         }
         public function index(){
@@ -32,8 +33,9 @@ class User extends MY_Controller
             $this->load->view('login_view',$data);			
         }
         
-        public function register(){	    
-	    //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
+        public function register(){
+//        $this->load->library('email');    
+	    //$this->email("mss.parvezkhan@gmail.com","My subject",'$msg');
 	    
             $data=new stdClass();
             if($this->session->flashdata('item')) {
@@ -53,18 +55,20 @@ class User extends MY_Controller
                 
             if(!empty($_POST)){                
                // print_r($_POST);die;
-               if ( $this->user_model->username_exists($this->input->post('username')) == TRUE ) 
+               if ( $this->user_model->email_exists($this->input->post('email')) == TRUE ) 
                 {
-                    //redirect('user/register');
+                    $data->error=1;
+                    $data->success=0;
+                    $data->message='Email Already Exists';
+                    $this->session->set_flashdata('item',$data);
+                    redirect('user/register');
                 } 
                 
                         $key=md5 (uniqid());
                         //sending conformation mail to signup user
                         
                         $to = $this->input->post('email');
-                        $sub = "Confirm Your Account";
-                        
-                        $this->load->helper('my_helper');						
+                        $sub = "Confirm Your Account";                                                					
 			
 
                                $udata=array(                                            
@@ -77,10 +81,10 @@ class User extends MY_Controller
                                 );
                                     $new_id = $this->user_model->new_user($udata);
                                     
-                                    //$body['to'] = get_user($new_id)->f_name;						
-                                    //$body['title'] = 'Thank You Registration';			
-                                    //$body['message'] = "<a href='".base_url()."user/register_user/$key'>Click here</a>"." to confirm your account";								
-                                    //$this->sendregisteremail($to,$sub,$body);
+                                    $body['to'] = get_user($new_id)->f_name;						
+                                    $body['title'] = 'Thank You Registration';			
+                                    $message = "<a href='".base_url()."user/register_user/$key'>Click here</a>"." to confirm your account";								
+                                    $this->email($to,$sub,$message);
                                 if($this->input->post('user') == 'seller'){
                                     redirect('user/service_register/'.base64_encode($new_id));
                                 }
@@ -271,8 +275,8 @@ class User extends MY_Controller
             if(!empty($key)){                
                 if ($this->user_model->is_key_valid($key))
                 {
-                    $user = $this->user_model->SelectSingleRecord('users','*',array("key"=>$key),$orderby=array());
-                    $userdata = array("user_id"=>$user->parent_id,"child_id"=>$user->id);
+                    //$user = $this->user_model->UpdateRecord('users',array("status"=>'1'),array());
+                    //$userdata = array("user_id"=>$user->parent_id,"child_id"=>$user->id);
                     //$this->user_model->InsertRecord('downline',$userdata);
                     $data= new stdClass();
                     $data->page_title = "Registration";
