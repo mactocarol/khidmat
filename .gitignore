@@ -1,0 +1,2 @@
+# Ignore file named `database.php`
+/application/config/database.php
