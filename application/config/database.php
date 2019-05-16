@@ -79,10 +79,6 @@ $db['default'] = array(
 	'username' => '',
 	'password' => '',
 	'database' => '',
-<<<<<<< HEAD
-	//'database' => '',
-=======
->>>>>>> master
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
