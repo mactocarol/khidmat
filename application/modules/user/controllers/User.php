@@ -4,6 +4,7 @@ class User extends MY_Controller
 {
 	//private $connection;
         public function __construct(){
+            die;
             parent::__construct();
             $this->load->model('user_model');
             $this->load->helper('my_helper');
