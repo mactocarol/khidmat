@@ -3,8 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class User extends MY_Controller 
 {
 	//private $connection;
-        public function __construct(){
-            die;
+        public function __construct(){            
             parent::__construct();
             $this->load->model('user_model');
             $this->load->helper('my_helper');
