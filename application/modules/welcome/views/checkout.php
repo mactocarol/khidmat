@@ -64,6 +64,14 @@
                 <p><strong>Location : </strong><?php echo ($this->session->userdata('location_cart')) ? ($this->session->userdata('location_cart')['location']) : '--'; ?></p>
                 <p><strong>City : </strong><?php echo ($this->session->userdata('location_cart')) ? ($this->session->userdata('location_cart')['city']) : '--'; ?></p>
                 </div>
+                
+                <?php if($schedule = $this->session->userdata('schedule_cart')) {?>
+                <hr>
+                <div class="schedule">
+                <p><strong>Schedule Time : </strong><?php echo ($schedule) ? $schedule['dateslots'].' '.$schedule['timeslots'] : '--'; ?></p>                
+                </div>
+                <?php } ?>
+                
                 <hr>
                 <div class="provider">
                 <p><strong>Provider : </strong><?php echo ($vendor) ? ($vendor->f_name.' '.$vendor->l_name) : '--'; ?></p>

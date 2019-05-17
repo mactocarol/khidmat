@@ -65,7 +65,7 @@
                                         <?php if($value['field_type'] == 'select-box'){?>
                                             <div class="form-group">
                                                 <label><?=($value['field_key'])?$value['field_key']:''?></label>
-                                                <select class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>" onclick="submit_form();">
+                                                <select class="form-control col-md-12" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>" onclick="submit_form();">
                                                     <?php foreach(explode(',',$value['field_value']) as $res) { ?>                
                                                         <option><?=$res?></option>
                                                     <?php } ?>
@@ -73,9 +73,9 @@
                                             </div>                        
                                         <?php } ?>
                                         <?php if($value['field_type'] == 'input'){?>
-                                            <div class="form-group">
+                                            <div class="form-group col-md-12">
                                                 <label><?=($value['field_name'])?$value['field_name']:''?></label>
-                                                <input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_key'])?$value['field_key']:''?>" value="" onclick="submit_form();">                                                    
+                                                <input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_key'])?$value['field_key']:''?>" value="" onchange="submit_form();" required>                                                    
                                             </div>                        
                                         <?php } ?>
                                         <?php if($value['field_type'] == 'radio'){?>
@@ -92,11 +92,12 @@
                                             </div>                        
                                         <?php } ?>
                                 <?php }else{ ?>
+                                        
                                         <?php if(count($row) == 2) { $col = 4; }?>
                                         <?php if(count($row) == 3) { $col = 3; }?>
                                         <h4><?php if($value['list_name']) { if($key == 0) { echo $value['list_name']; }  $l = implode('_',explode(' ',$value['list_name'])); }else{ $l = '_'; }?></h4>
                                         <?php if($value['field_type'] == 'label'){?>
-                                            <input type="hidden" id="keylabel" name="keylabel" value="<?=($value['field_key'])?$value['field_key']:''?>">
+                                            <input type="hidden" id="keylabel" value="<?=($value['field_key'])?$value['field_key']:''?>">
                                             <div class="col-md-<?=$col?>">
                                             <div class="form-group">
                                                 <label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>                                                
@@ -104,19 +105,19 @@
                                                 <?php foreach(explode(',',$value['field_value']) as $k=>$res) { ?>
                                                 <div class="form-group">
                                                     <label class="form-control"><?=$res?></label>
-                                                    <input id="label<?=$k.$l?>" name="<?=($value['field_name'])?$value['field_name'].$k:''?>" type="hidden" value="<?=$res?>">
+                                                    <input id="label<?=$k.$l?>" type="hidden" value="<?=$res?>">
                                                 </div>    
                                                 <?php  } ?>                                                
                                             </div>
                                             </div>
                                         <?php } ?>
                                         <?php if($value['field_type'] == 'select-box'){?>
-                                            <input type="hidden" id="keyselect" name="keyselect" value="<?=($value['field_key'])?$value['field_key']:''?>">
+                                            <input type="hidden" id="keyselect"  value="<?=($value['field_key'])?$value['field_key']:''?>">
                                             <div class="col-md-<?=$col?>">
                                             <label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
                                             <?php for($i=0;$i<$mm;$i++){?>
                                                 <div class="form-group">                                                    
-                                                    <select class="form-control" id="select<?=$i.$l?>" name="<?=($value['field_name'])?$value['field_name'].$i:''?>">
+                                                    <select class="form-control" id="select<?=$i.$l?>" >
                                                         <?php foreach(explode(',',$value['field_value']) as $res) { ?>                
                                                             <option><?=$res?></option>
                                                         <?php } ?>
@@ -126,12 +127,12 @@
                                             </div>
                                         <?php } ?>
                                         <?php if($value['field_type'] == 'qty'){?>
-                                            <input type="hidden" id="keyqty" name="keyqty" value="<?=($value['field_key'])?$value['field_key']:''?>">
+                                            <input type="hidden" id="keyqty"  value="<?=($value['field_key'])?$value['field_key']:''?>">
                                             <div class="col-md-<?=$col?>">
                                             <label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
                                             <?php for($i=0;$i<$mm;$i++){?>
                                                 <div class="form-group">                                                    
-                                                    <input class="form-control" value="1" id="qty<?=$i.$l?>" name="<?=($value['field_name'])?$value['field_name'].$i:''?>">                                                       
+                                                    <input class="form-control" value="1" id="qty<?=$i.$l?>" >                                                       
                                                 </div>
                                             <?php } ?>    
                                             </div>
@@ -146,6 +147,7 @@
                                             <?php } ?>    
                                             </div>
                                         <?php } ?>
+                                        
                                 <?php } ?>
                                 
                             <?php } ?>
@@ -170,6 +172,10 @@
                                 </div>
                                 
                                 <div id="location_cart">
+                                    
+                                </div>
+                                
+                                <div id="schedule_cart">
                                     
                                 </div>
                                 
@@ -198,12 +204,14 @@
                             </div>
                            </div>-->
                             <div class="continue_div">
-                                <button class="red_button text-uppercase" id="continue" onclick="load_next_tab();">Continue <i class="fas fa-long-arrow-alt-right"></i></button>
+                                <button class="red_button text-uppercase" id="continue" style="display: none;" onclick="load_next_tab();">Continue <i class="fas fa-long-arrow-alt-right"></i></button>
                             </div>
                             <span class="error alert-danger" style="display: none">Please Select atleast one service</span>
                             <span class="error1 alert-danger" style="display: none">Please save your location</span>
+                            <span class="error11 alert-danger" style="display: none">Please set your scheduled time</span>
                             <span class="error2 alert-danger" style="display: none">Please select any provider</span>
                             <span class="error3 alert-danger" style="display: none">Please save billing or shipping address</span>
+                            <input type="hidden" id="errorflag">
                         </div>
                     </div>
                 	
@@ -234,13 +242,22 @@
 
 <script>
     function submit_form(){
+        $('#continue').show();
         $.ajax({
             type: 'post',
             url: '<?php echo site_url('welcome/add_services');?>',
             data: $('#form').serialize(),
             success: function (response) {
               //alert('form was submitted');
-              $('#cart').html(response);
+              console.log(response);
+              var obj = JSON.parse(response);
+              $('#cart').html(obj.html);
+                if(obj.servicemethod == ' On Site'){
+                  $('.schedule').show();  
+                }else{
+                  $('.schedule').hide();
+                }
+              
             }
           });
     }
@@ -274,7 +291,19 @@
             data: $('#locationform').serialize(),
             success: function (response) {
               console.log(response);
-              $('#location_cart').html('<hr>'+response);
+              $('#location_cart').html('<hr>'+response);              
+            }
+          });
+    }
+    
+    function save_schedule(){
+        $.ajax({
+            type: 'post',
+            url: '<?php echo site_url('welcome/save_schedule');?>',
+            data: $('#scheduleform').serialize(),
+            success: function (response) {
+              console.log(response);
+              $('#schedule_cart').html('<hr>'+response);
             }
           });
     }
@@ -312,7 +341,10 @@
         if($('#next_tab').val()){
           nextpage = $('#next_tab').val();  
         }
-        //alert(nextpage);
+        
+        if(nextpage == 'location'){
+            submit_form();
+        }
         
         if(nextpage == 'finished'){
             var url = '<?php echo site_url('welcome/load_next_tab1/');?>';
@@ -330,8 +362,17 @@
                 if(nextpage == 'location'){
                     $('.error').show();
                 }
-                if(nextpage == 'provider'){
+                if(nextpage == 'schedule'){
                     $('.error1').show();
+                    $('#errorflag').val(1);
+                }
+                if(nextpage == 'provider'){                    
+                    if($('#errorflag').val() === '1') {
+                        //alert($('#errorflag').val());
+                        $('.error11').show();
+                    }else{
+                        $('.error1').show();
+                    }
                 }
                 if(nextpage == 'checkout'){
                     $('.error2').show();
@@ -347,16 +388,26 @@
                         $('.needs').removeClass('active');
                         $('.location').addClass('active');
                     }
+                    if(nextpage == 'schedule'){                        
+                        $('.tab').html(response);
+                        $('.error').hide();
+                        $('.error1').hide();                        
+                        $('.location').removeClass('active');
+                        $('.schedule').addClass('active');
+                    }
                     if(nextpage == 'provider'){
                         $('.tab').html(response);
                         $('.error').hide();
                         $('.error1').hide();
+                        $('.error11').hide();
                         $('.location').removeClass('active');
+                        $('.schedule').removeClass('active');
                         $('.provider').addClass('active');
                     }
                     if(nextpage == 'checkout'){
                         $('.tab').html(response);
                         $('.error1').hide();
+                        $('.error11').hide();
                         $('.error2').hide();
                         $('.provider').removeClass('active');
                         $('.checkout').addClass('active');

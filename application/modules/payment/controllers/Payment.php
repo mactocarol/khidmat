@@ -29,6 +29,7 @@ class Payment extends MY_Controller
                         $odata['servicename'] = json_encode($this->session->userdata('services')->title);
                         $odata['services'] = ($this->session->userdata('service_cart')) ? json_encode($this->session->userdata('service_cart')) : json_encode($this->session->userdata('service_cart1'));
                         $odata['location'] = json_encode($this->session->userdata('location_cart'));
+                        $odata['schedule'] = json_encode($this->session->userdata('schedule_cart'));
                         $odata['vendor_id'] = $vendorid;
                         $odata['billing'] = json_encode($this->session->userdata('billing_cart'));
                         

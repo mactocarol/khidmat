@@ -46,6 +46,15 @@
                           <i class="fa fa-cog" aria-hidden="true"></i>
                           <span>Order No : <?=($order['order_id'])?($order['order_id']):''?></span>
                         </div>
+                        
+                        <?php $schedule = json_decode($order['schedule']); ?>
+                        
+                        <?php if($schedule != '' && $schedule != '1'){?>
+                        <div class="section_content">
+                          <i class="fa fa-cog" aria-hidden="true"></i>
+                          <span>Schedule Time : <?=($schedule)?($schedule->dateslots.' '.$schedule->timeslots):''?></span>
+                        </div>
+                        <?php } ?>
                     
                         <div class="section_content">
                         <h4>Services</h4>    

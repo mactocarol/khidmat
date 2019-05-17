@@ -20,6 +20,10 @@
                 </select>
             </div>
         </div>
-       <input type="hidden" value="provider" id="next_tab">
+       <?php if($servicemethod == ' On Site'){ ?>
+           <input type="hidden" value="schedule" id="next_tab">
+       <?php }else{ ?>
+           <input type="hidden" value="provider" id="next_tab">
+       <?php } ?>
        <span class="btn btn-primary" onclick="save_location();">Save</span>
     </form>

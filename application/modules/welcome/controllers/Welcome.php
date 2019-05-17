@@ -78,10 +78,13 @@ class Welcome extends MY_Controller {
         }
         //print_r($category); die;
         
-        foreach($category as $c){
+        foreach($category as $c){            
             if($c['id'] == $subcat){
                 if(empty($c['subcategory'])){
-                    redirect('welcome/services/'.$subcat);        
+                    $is_service_exist = $this->welcome_model->SelectRecord('services','*',$udata=array("status"=>"1","category_id"=>$c['id'],"is_deleted"=>"0"),'id asc');
+                    if($is_service_exist){
+                        redirect('welcome/services/'.$subcat);
+                    }
                 }
             }
         }
@@ -99,6 +102,7 @@ class Welcome extends MY_Controller {
         $this->session->unset_userdata('service_cart');
         $this->session->unset_userdata('service_cart1');
         $this->session->unset_userdata('location_cart');
+        $this->session->unset_userdata('schedule_cart');
         $this->session->unset_userdata('provider_cart');
         $this->session->unset_userdata('billing_cart');
         
@@ -142,9 +146,45 @@ class Welcome extends MY_Controller {
         
         $this->session->set_userdata('service_cart',$_POST);
         
-        foreach($_POST as $key=>$value){
-            echo '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+        $html = ''; $servicemethod = '';
+        $listt = [];
+        foreach($this->session->userdata('service_cart1') as $key=>$value){            
+            if($value['list'] != '_'){
+                if(!in_array($value['list'],$listt)){
+                    $listt[] = $value['list'];
+                    $html .= '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                }            
+            }
+            
+            foreach($value as $keyy=>$row){
+                if($keyy != 'list'){
+                    if($keyy == 'label'){                        
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'</p>';
+                    }
+                    if($keyy == 'select'){                        
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
+                    }
+                    if($keyy == 'qty'){                        
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p>';
+                    }
+                }
+                if($keyy == 'Service_Method'){
+                    $servicemethod = $row;
+                }
+            }
         }
+        
+        $html .= '<hr>'; 
+        foreach($_POST as $key=>$value){
+            if($value){
+            $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+            }
+            if($key == 'Service_Method'){
+                $servicemethod = $value;
+            }
+        }
+        
+        print_r(json_encode((array("html"=>$html,"servicemethod"=>$servicemethod))));
 	}
     
     public function add_services1($serviceid=Null)
@@ -178,32 +218,43 @@ class Welcome extends MY_Controller {
             $this->session->set_userdata('service_cart1',$arr);
         }
         //print_r($this->session->userdata('service_cart1')); die;
-        $listt = [];
+        $listt = []; $html = '';
         foreach($this->session->userdata('service_cart1') as $key=>$value){            
             if($value['list'] != '_'){
                 if(!in_array($value['list'],$listt)){
                     $listt[] = $value['list'];
-                    echo '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                    $html .= '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
                 }            
             }
             
             foreach($value as $keyy=>$row){
                 if($keyy != 'list'){
                     if($keyy == 'label'){                        
-                        echo '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'</p>';
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'</p>';
                     }
                     if($keyy == 'select'){                        
-                        echo '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
                     }
                     if($keyy == 'qty'){                        
-                        echo '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p>';
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p>';
                     }
-                }                
+                }
+                if($keyy == 'Service_Method'){
+                    $servicemethod = $row;
+                }
             }
         }
-        //foreach($_POST as $key=>$value){
-        //    echo '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
-        //}
+        
+        $html .= '<hr>';
+        foreach($this->session->userdata('service_cart') as $key=>$value){
+            if($value){
+                $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+            }
+            if($key == 'Service_Method'){
+                $servicemethod = $value;
+            }
+        }
+        print_r(json_encode((array("html"=>$html))));
 	}
     
     
@@ -229,15 +280,37 @@ class Welcome extends MY_Controller {
         //print_r($_POST); die;
         $data = new stdClass();
         if($_POST['nextpage'] == 'location'){
-            if(($this->session->userdata('service_cart')) || ($this->session->userdata('service_cart1'))){            
-                    $this->load->view('location_tab.php');                    
+            if(($this->session->userdata('service_cart')) || ($this->session->userdata('service_cart1'))){
+                //print_r($_SESSION); die;
+                    $servicemethod = '';
+                    foreach($this->session->userdata('service_cart') as $key=>$value){
+                        if(!$value){
+                            return false;
+                        }
+                        if($key == 'Service_Method'){
+                            $servicemethod = $value;
+                        }
+                    }
+                    
+                    $data->servicemethod = $servicemethod;
+                    $this->load->view('location_tab.php',$data);                    
             }else{
                 echo 0;
             }
         }
         
+        if($_POST['nextpage'] == 'schedule'){
+            $this->session->unset_userdata('schedule_cart');
+            if(($this->session->userdata('location_cart')) ){                    
+                    $this->load->view('schedule_tab.php',$data);
+            }else{
+                echo 0;
+            }            
+        }
+        
         if($_POST['nextpage'] == 'provider'){
-            if(($this->session->userdata('location_cart')) ){
+            
+            if(($this->session->userdata('schedule_cart')) ){
                     $vendors = $this->welcome_model->joindataResult('v.vendor_id','u.id',array(),'u.*,v.charges','vendor_services as v','users as u',$orderby=Null);
                     //print_r($vendors); die;
                     $data->vendors = $vendors;
@@ -283,10 +356,20 @@ class Welcome extends MY_Controller {
 	{
        
         $this->session->set_userdata('location_cart',$_POST);
+        $this->session->set_userdata('schedule_cart',1);
         //print_r($_POST);
         foreach($_POST as $key=>$value){
             echo '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
         }
+	}
+    
+    
+    public function save_schedule()
+	{
+       
+        $this->session->set_userdata('schedule_cart',$_POST);
+        //print_r($_POST);        
+            echo '<p><strong>Scheduled Time</strong> : '.$_POST['dateslots'].' '.$_POST['timeslots'].'</p>';        
 	}
     
     public function select_provider()
