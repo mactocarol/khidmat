@@ -40,7 +40,7 @@
         	<div class="login-inner">
             	<div class="login-header"><h1><i class="fa fa-lock"></i> create an account</h1></div>
                 <div class="login-form">
-                	<form method="post" id="user_form" action="<?php echo site_url('user/register');?>">
+                	<form method="post" id="registerform" action="<?php echo site_url('user/register');?>">
                     	<div class="form-group">
                         	<input type="text" placeholder="UserName" name="username" class="form-control" required>
                         </div>
@@ -69,8 +69,8 @@
                         </div>
                         <div class="row">
                         	<div class="col-md-8"><div class="form-groupcheckbox">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="terms" name="terms" required>
+                                <div class="form-group">
+                                    <input class="form-check-input" type="radio" id="terms" name="terms" >
                                     <label class="form-check-label" for="terms">
                                         I Agree <a href="#">Terms and Condition</a>
                                     </label>
@@ -154,7 +154,7 @@
     </div>
 </section>
 
-<section class="footer_links">
+<!--<section class="footer_links">
 	
     	<div id="parentHorizontalTab">
             <ul class="resp-tabs-list hor_1">
@@ -398,147 +398,141 @@
                 
             </div>
         </div>
-</section>
+</section>-->
 <!---->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstr‌​apValidator.js"></script>-->
+<script src="<?php echo base_url('front/js');?>/bootstrapValidator.min.js"></script>
 
 <script>
-//    $(document).ready(function() {
-//	//alert('http://localhost/caroldata.com/hmvc_hotel_booking/registration/register_email_exists');
-//    $('#add_form').bootstrapValidator({
-//        //container: '#messages',
-//        feedbackIcons: {
-//            valid: 'glyphicon glyphicon-ok',
-//            invalid: 'glyphicon glyphicon-remove',
-//            validating: 'glyphicon glyphicon-refresh'
-//        },
-//        fields: {
-//            username: {
-//                validators: {
-//					notEmpty: {
-//						message : 'The Username Field is required'
-//					},
-//					 remote: {  
-//					 type: 'POST',
-//					 url: "<?php echo site_url();?>user/check_username_exists",
-//					 data: function(validator) {
-//						 return {
-//							 //email: $('#email').val()
-//							 email: validator.getFieldElements('username').val()
-//							 };
-//						},
-//					 message: 'This Username is already in use.'     
-//					 },
-//                     callback: {
-//                        message: 'please enter only letters and numbers',
-//                        callback: function(value, validator, $field) {
-//                            if (!isUsernameValid(value)) {
-//                              return {
-//                                valid: false,
-//                              };
-//                            }
-//                            else
-//                            {
-//                              return {
-//                                valid: true,
-//                              };    
-//                            }
-//
-//                        }
-//                    },
-//                    stringLength: {
-//						min: 3 ,
-//						max: 15,
-//						message: 'The Username length min 3 and max 15 character Long'
-//					}
-//				},
-//			},
-//            f_name: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'The First Name is required'
-//                    },
-//                }
-//            },
-//			contact: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'The Contact is required'
-//                    },
-//                }
-//            },
-//            category: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'The Category is required'
-//                    },
-//                }
-//            },
-//            //dob: {
-//            //    validators: {
-//            //        notEmpty: {
-//            //            message: 'The Date Of Birth is required and cannot be empty'
-//            //        },
-//            //    }
-//            //},
-//            gender: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'The Gender is required'
-//                    },
-//                }
-//            },
-//			email: {
-//                validators: {
-//					notEmpty: {
-//						message : 'The email Field is required'
-//					},
-//					 remote: {  
-//					 type: 'POST',
-//					 url: "<?php echo site_url();?>user/check_email_exists",
-//					 data: function(validator) {
-//						 return {
-//							 //email: $('#email').val()
-//							 email: validator.getFieldElements('email').val()
-//							 };
-//						},
-//					 message: 'This email is already in use.'     
-//					 }
-//				},
-//			},    
-//			
-//			password: {
-//				validators: {
-//                    notEmpty: {
-//						message : 'The password Field is required'
-//					},
-//					identical: {
-//                        field: 'repassword',
-//                        message: 'The password and its confirm are not the same'
-//                    },
-//					stringLength: {
-//						min: 6 ,
-//						max: 15,
-//						message: 'The password length min 6 and max 15 character Long'
-//					}
-//				}
-//			},
-//			repassword: {
-//				validators: {
-//                    notEmpty: {
-//						message : 'The password Field is required'
-//					},
-//					identical: {
-//                        field: 'password',
-//                        message: 'The password and its confirm are not the same'
-//                    }
-//					
-//				}
-//			},
-//        }
-//    });
-//
-//});
+    $(document).ready(function() {
+	//alert('http://localhost/caroldata.com/hmvc_hotel_booking/registration/register_email_exists');
+    $('#registerform').bootstrapValidator({
+        //container: '#messages',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            username: {
+                validators: {
+					notEmpty: {
+						message : 'The Username Field is required'
+					},
+					 remote: {  
+					 type: 'POST',
+					 url: "<?php echo site_url();?>user/check_username_exists",
+					 data: function(validator) {
+						 return {
+							 //email: $('#email').val()
+							 email: validator.getFieldElements('username').val()
+							 };
+						},
+					 message: 'This Username is already in use.'     
+					 },
+                     callback: {
+                        message: 'please enter only letters and numbers',
+                        callback: function(value, validator, $field) {
+                            if (!isUsernameValid(value)) {
+                              return {
+                                valid: false,
+                              };
+                            }
+                            else
+                            {
+                              return {
+                                valid: true,
+                              };    
+                            }
+
+                        }
+                    },
+                    stringLength: {
+						min: 3 ,
+						max: 15,
+						message: 'The Username length min 3 and max 15 character Long'
+					}
+				},
+			},
+            f_name: {
+                validators: {
+                    notEmpty: {
+                        message: 'The First Name is required'
+                    },
+                }
+            },
+			contact: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Contact is required'
+                    },
+                }
+            },
+            
+            //dob: {
+            //    validators: {
+            //        notEmpty: {
+            //            message: 'The Date Of Birth is required and cannot be empty'
+            //        },
+            //    }
+            //},
+            terms: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please accept terms & conditions'
+                    },
+                }
+            },
+			email: {
+                validators: {
+					notEmpty: {
+						message : 'The email Field is required'
+					},
+					 remote: {  
+					 type: 'POST',
+					 url: "<?php echo site_url();?>user/check_email_exists",
+					 data: function(validator) {
+						 return {
+							 //email: $('#email').val()
+							 email: validator.getFieldElements('email').val()
+							 };
+						},
+					 message: 'This email is already in use.'     
+					 }
+				},
+			},    
+			
+			password: {
+				validators: {
+                    notEmpty: {
+						message : 'The password Field is required'
+					},
+					identical: {
+                        field: 'repassword',
+                        message: 'The password and its confirm are not the same'
+                    },
+					stringLength: {
+						min: 6 ,
+						max: 15,
+						message: 'The password length min 6 and max 15 character Long'
+					}
+				}
+			},
+			confirm_password: {
+				validators: {
+                    notEmpty: {
+						message : 'The password Field is required'
+					},
+					identical: {
+                        field: 'password',
+                        message: 'The password and its confirm are not the same'
+                    }
+					
+				}
+			},
+        }
+    });
+
+});
     
 function isUsernameValid(value)
 {

@@ -1,303 +1,280 @@
-
-<div class="dashboard col-md-12">
-<div class="row">
-	<div class="container">
-    	<?php echo $this->load->view('user/includes/sidebar'); ?>
-        <div class="col-md-9 col-sm-8">
-        	<div class="col-md-9">
-            <div class="sidebar_title">Edit Profile</div>
-            <?php
-			if($this->session->flashdata('item')) {
-				$items = $this->session->flashdata('item');
-				if($items->success){
-				?>
-					<div class="alert alert-success" id="alert">
-							<strong>Success!</strong> <?php print_r($items->message); ?>
-					</div>
-				<?php
-				}else{
-				?>
-					<div class="alert alert-danger" id="alert">
-							<strong>Error!</strong> <?php print_r($items->message); ?>
-					</div>
-				<?php
-				}
-			}
-			?>
-            <!--<form id="profile_detail">-->
-            <form role="form" id="edit_user_form" name="" method="post" action="<?php echo base_url().'user/profile'; ?>" enctype="multipart/form-data">                
-            <h2>Basic detail</h2>
-            <table>
-                <tr>
-                	<td>
-                        <label>First name</label>
-                        <div class="input_box form-group"> 
-                        	<input type="text" placeholder="Enter Firstname" name="f_name" class="input-text form-control" value="<?php echo ($result->f_name) ? $result->f_name : '';?>" required="required">
-                            <i class="fa fa-user"></i>
-                        </div>
-                </td></tr>
-                <tr>
-                	<td>
-                        <label>Last name</label>
-                        <div class="input_box form-group"> 
-                        	<input type="text" placeholder="Enter Last name" name="l_name" class="input-text form-control" value="<?php echo ($result->l_name) ? $result->l_name : '';?>">
-                            <i class="fa fa-user"></i>
-                        </div>
-                </td></tr>
-            	<tr>
-                	<td>
-                        <label>Username</label>
-                        <div class="input_box form-group"> 
-                        	<input type="text" placeholder="Enter Username" name="username" class="input-text form-control" value="<?php echo ($result->username) ? $result->username : 'Not Mentioned';?>" required="required">
-                            <i class="fa fa-user"></i>
-                        </div>
-                </td></tr>
-                <tr><td>
-                        <label>Email address</label>
-                        <div class="input_box form-group">
-                        	<input type="email" placeholder="Enter Your Email Address" class="input-text form-control" name="email" value="<?php echo isset($result->email)? $result->email:'';?>">
-                            <i class="fa fa-envelope"></i>
-                        </div>
-                </td></tr>
-                
-                <tr><td>
-                        <label>phone</label>
-                        <div class="input_box form-group">
-                        	<input type="tel" placeholder="Enter Your Phone No." class="input-text form-control" name="contact"  value="<?php echo isset($result->contact)? $result->contact:'';?>">
-                            <i class="fa fa-phone"></i>
-                        </div>
-                </td></tr>
-                <tr><td>
-                        <label>Date Of Birth</label>
-                        <div class="input_box form-group">
-                        	<input type="text" placeholder="Enter Your DOB" class="input-text form-control" id="datepicker" name="dob" value="<?php echo isset($result->dob)? $result->dob:'';?>">
-                            <i class="fa fa-calendar"></i>
-                        </div>
-                </td></tr>
-                
-                <tr><td>
-                        <label>Gender</label>
-                        <div class="input_box form-group">
-                        	<input type="text" placeholder="Enter Your Gender" class="input-text form-control" name="gender" value="<?php echo isset($result->gender)? $result->gender:'';?>" readonly>
-                            <i class="fa fa-user"></i>
-                        </div>
-                </td></tr>
-                
-                 <tr><td>
-                        <label>Nationality</label>
-                        <div class="input_box form-group">
-                        	<input type="text" placeholder="Enter Your Nationality" class="input-text form-control" name="address" value="<?php echo isset($result->address)? $result->address:'';?>">
-                            <i class="fa  fa-home"></i>
-                        </div>
-                </td></tr>
-                <tr><td>
-                        <label>About Me</label>
-                        <div class="input_box form-group">
-                        	<input type="text" placeholder="About Me" class="input-text form-control" name="about_me" value="<?php echo isset($result->about_me)? $result->about_me:'';?>">
-                            <i class="fa fa-file"></i>
-                        </div>
-                </td></tr>
-                
-               </tr>
-            </table>
-            <h2>Other detail</h2>
-            <table>
-            	<tr>
-                <tr><td>
-                        <label>Category</label>
-                        <?php $category = explode(',',$result->user_type);?>
-                        <select  id="boot-multiselect-demo" name="category[]" required multiple="multiple">                            
-                            <?php foreach($categories as $c):?>
-                            <option value="<?=$c['id']?>" <?php if($c['id'] == $category[0] || $c['id'] == $category[1] || $c['id'] == $category[2] || $c['id'] == $category[3] || $c['id'] == $category[4] || $c['id'] == $category[5] || $c['id'] == $category[6] || $c['id'] == $category[7] || $c['id'] == $category[8]) echo 'selected';?>><?=$c['name']?></option>
-                            <?php endforeach;?>
-                        </select>                                                                    
-                </td></tr>
-                <tr><td>
-                        <label>Company Name (if any)</label>
-                        <div class="input_box form-group">
-                        	<input type="text" placeholder="Enter Company Name" name="companyname" class="input-text form-control" value="<?php echo isset($result->companyname)? $result->companyname:'';?>">
-                            <i class="fa fa-building-o"></i>
-                        </div>
-                </td></tr>
-                <tr><td>
-                        <label>Company Logo (if any)</label>
-                        <div class="input_box form-group">
-                        	 <input type="file" name="file" class="file" id="upload_file" >
-                                     <div class="input-group input_box">
-                                       <i class="fa fa-file-image-o"></i>
-                                       <input type="text" class="form-control input-text browse-text" name="" placeholder="Upload Logo"  onkeypress="return false;">
-                                      
-                                         <button class="browse btn btn-primary input-lg" type="button"> Browse</button>
-                                       
-                                     </div>
-                        </div>
-                        <img src="<?php echo base_url('upload/profile_image/logo/'.$result->companylogo);?>" width="100">
-                </td></tr>
-                <tr><td>
-                        <label>Designation (if any)</label>
-                        <div class="input_box form-group">
-                        	<input type="text" placeholder="Enter Designation" name="designation" class="input-text form-control" value="<?php echo isset($result->designation)? $result->designation:'';?>">
-                            <i class="fa fa-building-o"></i>
-                        </div>
-                </td></tr>
-                <tr><td>
-                        <label>Experience (if any)</label>
-                        <div class="input_box">
-                        	<select class="selectpicker filter_job" data-live-search="true" name="experience">
-                                <option selected="selected" value="0">Select Experience</option>
-                                <option data-tokens="0" value="0">Fresher</option>
-                                <?php for($i=1; $i<=10; $i++){ ?>
-                                    <option data-tokens="<?=$i?>" value="<?=$i?>" <?php if($i == $result->experience) echo 'selected'; ?>><?=$i?> +</option>
-                                <?php } ?>                    
-                            </select>                            
-                        </div>
-                </td></tr>
-               </tr>
-                
-            </table>
-            
-            <h2>social detail</h2>
-            <table>
-            	<tr>
-                	<tr><td>
-                        <label>facebook</label>
-                        <div class="input_box form-group">
-                        	<input type="text" name="fb_link" placeholder="Enter Your Facebook link" class="input-text form-control" value="<?php echo isset($result->fb_link)? $result->fb_link:'';?>">
-                            <i class="fa fa-facebook"></i>
-                        </div>
-                </td></tr>
-                <tr><td>
-                        <label>twitter</label>
-                        <div class="input_box form-group">
-                        	<input type="text" name="twitter_link" placeholder="Enter Your Twitter link" class="input-text form-control" value="<?php echo isset($result->twitter_link)? $result->twitter_link:'';?>">
-                            <i class="fa fa-twitter"></i>
-                        </div>
-                </td></tr>
-                <tr><td>
-                       
-                        	<input type="submit" value="save changes" class="btn btn-primary">
-                            
-                </td></tr>
-                
-            
-                
-               </tr>
-            </table>
-            </form>
+<?php echo $this->load->view('header'); ?>
+<section class="breadcrumb_outer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="text-capitalize">Profile</h2>
             </div>
-            <div class="col-md-3">
-            	<div class="chnage_profile_outer text-center">
-            	<div class="chnage_profile">
-                	<img src="<?php echo base_url('upload/profile_image/thumb/'.$result->image);?>">
-                    <div class="edit_profile_img">
-                    	<a data-toggle="modal" data-target="#myModal"><i class="fa fa-upload"></i> upload image</a>
-                    </div>
-                </div>
-                <h1><?php echo ($result->username) ? $result->username : 'Not Mentioned';?></h1>
-                </div>
-                
-                <ul class="action_profile_edit">
-                <li><a href="<?php echo site_url('products/add/3');?>" class="btn btn-primary"><i class="fa fa-upload"></i> upload images</a></li>
-                <li><a href="<?php echo site_url('products/add/1');?>" class="btn btn-primary"><i class="fa fa-upload"></i> upload videos</a></li>
-                <li><a href="<?php echo site_url('products/add/2');?>" class="btn btn-primary"><i class="fa fa-upload"></i> upload music</a></li>
-				<li><a href="<?php echo site_url('add-products');?>" class="btn btn-primary"><i class="fa fa-upload"></i> upload products</a></li>
-                <li><a href="<?php echo site_url('album/add');?>" class="btn btn-primary"><i class="fa fa-upload"></i> upload album</a></li>
-                </ul>
-                
+            <div class="col-lg-6">
+                 <ol class="breadcrumb pull-right">
+                    <li class="breadcrumb-item"><a href="<?php echo site_url('user');?>">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                  </ol>
             </div>
         </div>
-        	
     </div>
-</div>
-</div>
+</section>  
+<section class="template2_outer template2_outer_height">
+  <div class="container">
+      <div class="template2_in">
+          <div class="row">
+            <?php
+                // display error & success messages
+                if(isset($message)) {					
+                    if($success){
+                    ?>
+                      <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Success!</strong> <?php print_r($message); ?>
+                      </div>						
+                    <?php
+                    }else{
+                    ?>
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Error!</strong> <?php print_r($message); ?>
+                        </div>						
+                    <?php
+                    }
+                }
+                ?>
+            <div class="col-md-4">
+                <div class="customer_detail">
+                  
+                  <div class="buyer_profile_box  profile_image">
+                    <img src="<?php echo base_url('upload/profile_image/'.$result->image);?>">
+                    <form method="post" action="<?php echo site_url('user/upload_image'); ?>" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="profile_pic" class="form-control" required>
+                    </div>    
+                    <button type="submit" class="btn btn-danger">Change Picture</button>
+                    </form>
+                    <h2><?php echo ($result->username) ? $result->username : ''; ?></h2>
+                    <span><?php echo ($result->email) ? $result->email : ''; ?></span>                                    
+                </div>
+              </div>
+            </div>
 
-<script src="<?php echo base_url();?>/assets/bootstrapValidator.min.js"></script>
+              
+              <div class="col-md-8">                
+                <form method="post" id="updateuserform" action="<?php echo site_url('user/profile');?>">
+                  <div class="right_profile_content">                  
+                   <h2>My Profile</h2>
+                   <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>First name</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="text" name="f_name" placeholder="First Name" value="<?=$result->f_name?>">
+                      </div>
+                    </div>
+                  </div>
+                   
+                  <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Last name</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                         <input type="text" name="l_name" placeholder="Last Name" value="<?=$result->l_name?>">
+                        </div>
+                    </div>
+                  </div> 
+                                     
+                  
+                  <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Email</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="email" name="email" placeholder="Your Email" value="<?=$result->email?>">
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Password</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="text" name="password" placeholder="Password" value="">
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Confirm Password</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="text" name="confirm_password" placeholder="Confirm Password" value="">
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Date of Birth</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="text" name="dob" id="dob" placeholder="Date of Birth" value="<?=$result->dob?>" autocomplete="off" readonly>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Contact</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="number" name="contact" placeholder="Your Contact Number" value="<?=$result->phone?>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                
+                <div class="right_profile_content">
+                   <div class="content_border"></div>
+
+                  <h2>Address</h2>
+                    <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Address</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="text" id="address" name="address" placeholder="Your Street Address" value="<?=$result->address?>" autocomplete="off" >
+                        <input type="hidden" name="address_hidden">
+                      </div>
+                    </div>
+                  </div>
+
+                   <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Country</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="text" name="country" placeholder="Country" value="<?=$result->country?>">
+                      </div>
+                    </div>
+                  </div>
+                                    
+
+                  <div class="input_profile_box">
+                      <div class="col-md-3">
+                        <span>Post Code</span>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="input_fields">
+                        <input type="phone" name="zip_code" placeholder="Post Code" value="<?=$result->zip_code?>">
+                      </div>
+                    </div>
+                  </div>
+
+                   <div class="profile_map_section">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d6633805.364206802!2d-87.88941902534398!3d35.722215099780996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1skingsland+!5e0!3m2!1sen!2sin!4v1555570498807!5m2!1sen!2sin" frameborder="0" style="border:0" allowfullscreen></iframe>
+                  </div>
+
+
+                </div>
+                
+
+                <div class="profile_buttons">
+                  <button type="submit" class="button-1">save changes</button>
+                  <button type="reset" class="button-2">cancel</button>
+                </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+</section>
+<script type="text/javascript">
+
+$(function () {
+    $("#dob").datepicker({         
+         dateFormat: "dd MM yy",
+         changeMonth: true,
+         changeYear: true,
+         maxDate: "-18Y",         
+         yearRange: "-50:+0",
+     });
+ });
+ </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCCQzJ9DJLTRjrxLkRk6jaSrvcc5BfDtWM" type="text/javascript"></script>
+<script>
+     var options = {        
+        types: ['geocode'] //this should work !        
+      };
+	var input = document.getElementById('address');
+	
+    
+      var componentForm = {
+        street_number: 'short_name',
+        route: 'long_name',
+        premise: 'long_name',
+        locality: 'long_name',
+        administrative_area_level_1: 'short_name',
+        sublocality_level_1:'short_name',
+        country: 'long_name',
+        postal_code: 'short_name'
+      };
+      var autocomplete = new google.maps.places.Autocomplete(input,options);
+     // autocomplete.addListener('place_changed', function() {
+     google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place = autocomplete.getPlace();
+            //console.log(place);
+            //code for remove other locality
+            var addr = '';
+            for (var i = 0; i < place.address_components.length; i++) {
+              var addressType = place.address_components[i].types[0];
+              //console.log(addressType);
+              if (componentForm[addressType]) {
+                
+                var val = place.address_components[i][componentForm[addressType]];
+                                
+                if(addressType == 'premise'){
+                    //console.log(val);
+                    addr += val+' ';
+                }
+                if(addressType == 'route'){
+                    //console.log(val);
+                    addr += val+' ';
+                }
+                if(addressType == 'sublocality_level_1'){
+                    //console.log(val);
+                    addr += val+' ';
+                }            
+              }
+            }
+            console.log(addr);
+            $('#address_hidden').val(addr);
+            //code for remove other locality
+    });
+</script>
+<script src="<?php echo base_url('front/js');?>/bootstrapValidator.min.js"></script>
+
 <script>
     $(document).ready(function() {
 	//alert('http://localhost/caroldata.com/hmvc_hotel_booking/registration/register_email_exists');
-    $('#edit_user_form').bootstrapValidator({
+    $('#updateuserform').bootstrapValidator({
         //container: '#messages',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',
             validating: 'glyphicon glyphicon-refresh'
         },
-        fields: {
-            username: {
-                validators: {
-					notEmpty: {
-						message : 'The Username Field is required'
-					},
-					 remote: {  
-					 type: 'POST',
-					 url: "<?php echo site_url();?>user/check_username_exists",
-					 data: function(validator) {
-						 return {
-							 //email: $('#email').val()
-							 email: validator.getFieldElements('username').val()
-							 };
-						},
-					 message: 'This Username is already in use.'     
-					 },
-                     callback: {
-                        message: 'please enter only letters and numbers',
-                        callback: function(value, validator, $field) {
-                            if (!isUsernameValid(value)) {
-                              return {
-                                valid: false,
-                              };
-                            }
-                            else
-                            {
-                              return {
-                                valid: true,
-                              };    
-                            }
-
-                        }
-                    },
-                    stringLength: {
-						min: 3 ,
-						max: 15,
-						message: 'The Username length min 3 and max 15 character Long'
-					}
-				},
-			},
-            f_name: {
-                validators: {
-                    notEmpty: {
-                        message: 'The First Name is required'
-                    },
-                }
-            },
-			contact: {
-                validators: {
-                    notEmpty: {
-                        message: 'The Contact is required'
-                    },
-                }
-            },
-            category: {
-                validators: {
-                    notEmpty: {
-                        message: 'The Category is required'
-                    },
-                }
-            },
-            //dob: {
-            //    validators: {
-            //        notEmpty: {
-            //            message: 'The Date Of Birth is required and cannot be empty'
-            //        },
-            //    }
-            //},
-            gender: {
-                validators: {
-                    notEmpty: {
-                        message: 'The Gender is required'
-                    },
-                }
-            },
+        fields: {                        
 			email: {
                 validators: {
 					notEmpty: {
@@ -305,7 +282,7 @@
 					},
 					 remote: {  
 					 type: 'POST',
-					 url: "<?php echo site_url();?>user/check_email_exists",
+					 url: "<?php echo site_url();?>user/check_email_exists1",
 					 data: function(validator) {
 						 return {
 							 //email: $('#email').val()
@@ -318,10 +295,7 @@
 			},    
 			
 			password: {
-				validators: {
-                    notEmpty: {
-						message : 'The password Field is required'
-					},
+				validators: {                    
 					identical: {
                         field: 'repassword',
                         message: 'The password and its confirm are not the same'
@@ -333,11 +307,8 @@
 					}
 				}
 			},
-			repassword: {
-				validators: {
-                    notEmpty: {
-						message : 'The password Field is required'
-					},
+			confirm_password: {
+				validators: {                    
 					identical: {
                         field: 'password',
                         message: 'The password and its confirm are not the same'
@@ -350,18 +321,6 @@
 
 });
     
-function isUsernameValid(value)
-{
-  var fieldNum = /^[a-z0-9]+$/i;
 
-  if ((value.match(fieldNum))) {
-      return true
-  }
-  else
-  {
-      return false
-  }
-
-}
 </script>
-
+<?php echo $this->load->view('footer'); ?>

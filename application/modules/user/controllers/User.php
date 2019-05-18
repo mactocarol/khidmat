@@ -10,7 +10,7 @@ class User extends MY_Controller
             $page = '';
         }
         public function index(){
-            if($this->session->userdata('logged_in') && $this->session->userdata('user_group_id') == 2){
+            if($this->session->userdata('logged_in')){
                 redirect('user/dashboard');
             }
             
@@ -130,13 +130,19 @@ class User extends MY_Controller
                                                 			
                                $udata=array(                                            
                                     'vendor_id'=>base64_decode($this->input->post('sellerid')),
-                                    'services'=>json_encode($this->input->post('category'))                                                                        
+                                    'services'=>json_encode(array_merge($this->input->post('category'),$this->input->post('subcategory')))                                                                        
                                 );                                    
                                     $this->user_model->InsertRecord('vendor_services',$udata);
                                                                                                             
                                     redirect('user/service_register_two/'.($this->input->post('sellerid')));                                   
                 }                                              
                //print_r($this->db->last_query()); die;
+               $categories = $this->user_model->SelectRecord('category','*',array("level"=>0,"status"=>'1',"is_deleted"=>"0"),'id asc');
+               foreach($categories as $key => $value){
+                    $subcategories = $this->user_model->SelectRecord('category','*',array("parent_id"=>$value['id'],"status"=>'1',"is_deleted"=>"0"),'id asc');
+                    $categories[$key]['subcategories'] = $subcategories;
+               }
+               $data->categories = $categories;
                $data->title = "Register | Khidmat";
                $this->load->view('seller_register_one_view',$data);
                 
@@ -393,7 +399,7 @@ class User extends MY_Controller
                         'user_id' => $result->id,
                         'email' => $result->username,
                         'image' => $result->image,
-                        'user_group_id' => 2,
+                        'user_group_id' => $result->user_type,
                         'logged_in' => TRUE
                         );
                     }else if($result1){
@@ -401,7 +407,7 @@ class User extends MY_Controller
                         'user_id' => $result1->id,
                         'email' => $result1->username,
                         'image' => $result1->image,
-                        'user_group_id' => 2,
+                        'user_group_id' => $result->user_type,
                         'logged_in' => TRUE
                         );
                     }
@@ -430,10 +436,7 @@ class User extends MY_Controller
         }
         
         public function dashboard()
-        {
-            if($this->session->userdata('user_group_id') != 2){
-                redirect('user');
-            }
+        {            
             if(!$this->session->userdata('logged_in')){
                 redirect('user');
             }
@@ -470,9 +473,7 @@ class User extends MY_Controller
         public function orderDetail($id)
         {
             $id = base64_decode($id);
-            if($this->session->userdata('user_group_id') != 2){
-                redirect('user');
-            }
+            
             if(!$this->session->userdata('logged_in')){
                 redirect('user');
             }
@@ -506,77 +507,44 @@ class User extends MY_Controller
         }
         
         public function profile(){
-            if($this->session->userdata('user_group_id') != 2){
+            if(!$this->session->userdata('logged_in')){
                 redirect('user');
             }
+            if($this->session->userdata('user_group_id') != 2){
+                
+            }
             $data=new stdClass();
+            
 			$udata = array("id"=>$this->session->userdata('user_id'));                
             $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());
-            $logo = $data->result->companylogo;
-			if($_POST){                
-                
-                if($_FILES['file']['name'] != ''){                               
-                                
-                                $upload_path = './upload/profile_image/logo/';
-                                $config['upload_path'] = $upload_path;                                
-                                $config['allowed_types'] = 'jpg|jpeg|gif|png';                                                                    
-                                
-                                $this->load->library ('upload',$config);
-                                                                
-                                if ($this->upload->do_upload('file'))
-                                {                                    
-                                    $uploaddata = $this->upload->data();                                    
-                                    $logo = $uploaddata['file_name'];                                    
-                                }
-                                else
-                                {                                    
-                                    $data->error=1;
-                                    $data->success=0;
-                                    $data->message=$this->upload->display_errors(); 
-                                    $this->session->set_flashdata('item', $data);
-                                    redirect('user/profile');	
-                                }
-                       
-                       }
+            
+			if($_POST){                                                
                 
                 $udata=array(                                            
                         'email'=>$this->input->post('email'),
-                        'username'=>$this->input->post('username'),
-                        'contact'=>$this->input->post('contact'),
-                        'user_type'=> implode(',',$this->input->post('category')),
-                        'companylogo'=>$logo,
+                        'phone'=>$this->input->post('contact'),
                         'f_name'=>$this->input->post('f_name'),
                         'l_name'=>$this->input->post('l_name'),
-                        'dob'=>$this->input->post('dob'),
-                        'companyname'=>$this->input->post('companyname'),
+                        'dob'=>$this->input->post('dob'),                        
                         'address'=>$this->input->post('address'),
-                        'about_me'=>$this->input->post('about_me'),                        
-                        'designation'=>$this->input->post('designation'),
-                        'experience'=>$this->input->post('experience'),
-			'fb_link'=>$this->input->post('fb_link'),
-			'twitter_link'=>$this->input->post('twitter_link')
+                        'country'=>$this->input->post('country'),
+                        'zip_code'=>$this->input->post('zip_code')                        
                         );
                     
                     if($this->input->post('password') != ''){
                         $udata=array(                                            
-                        'email'=>$this->input->post('email'),
-                        'username'=>$this->input->post('username'),
-                        'contact'=>$this->input->post('contact'),
-                        'user_type'=> implode(',',$this->input->post('category')),
-                        'companylogo'=>$logo,
+                        'email'=>$this->input->post('email'),                        
+                        'phone'=>$this->input->post('contact'),                        
                         'f_name'=>$this->input->post('f_name'),
                         'l_name'=>$this->input->post('l_name'),
-                        'dob'=>$this->input->post('dob'),
-                        'companyname'=>$this->input->post('companyname'),
-                        'address'=>$this->input->post('address'),
-                        'about_me'=>$this->input->post('about_me'),  
-                        'designation'=>$this->input->post('designation'),
-                        'experience'=>$this->input->post('experience'),
-			'fb_link'=>$this->input->post('fb_link'),
-			'twitter_link'=>$this->input->post('twitter_link'),
+                        'dob'=>$this->input->post('dob'),                        
+                        'address'=>$this->input->post('address'),                        
+                        'country'=>$this->input->post('country'),
+                        'zip_code'=>$this->input->post('zip_code'),
                         'password'=>md5($this->input->post('password'))
                         );
                     }
+                    //print_r($udata); die;
 				if ($this->user_model->UpdateRecord('users',$udata,array("id"=>$this->session->userdata('user_id'))))
 				{
                     $data->error=0;
@@ -588,19 +556,16 @@ class User extends MY_Controller
                     $data->success=0;
                     $data->message='Network Error!';                    
                 }
-                //print_r($data); die;
+                //print_r($this->db->last_query()); die;
             $this->session->set_flashdata('item',$data);
-            redirect('user/profile');
+            //redirect('user/profile');
 			//print_r($this->session->flashdata('item')); die;	
 			}                        
-                                    
-            $data->categories = $this->user_model->SelectRecord('category','*',array(),$orderby=array());
+            $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());                                    
             $data->title = 'User Profile';
             $data->field = 'User Profile';
-            $data->page = 'profile';
-            $this->load->view('user/includes/header',$data);		
-            $this->load->view('profile_view',$data);
-            $this->load->view('user/includes/footer',$data);			
+            $data->page = 'profile';            	
+            $this->load->view('profile_view',$data);            
 		}
         
         
@@ -608,76 +573,74 @@ class User extends MY_Controller
             
             $data=new stdClass();
             
-            $data = $_POST['image'];
-
-            list($type, $data) = explode(';', $data);
-            list(, $data)      = explode(',', $data);
+            //$data = $_POST['image'];
+            //
+            //list($type, $data) = explode(';', $data);
+            //list(, $data)      = explode(',', $data);
+            //
+            //$data = base64_decode($data);
+            //$imageName = uniqid().time().'.png';
+            //file_put_contents('./upload/profile_image/thumb/'.$imageName, $data);
+            //
+            //$userpic=$this->user_model->SelectSingleRecord('users','*',array("id"=>$this->session->userdata('user_id')),$orderby=array());
+            //if($userpic->image != 'no_image.jpg'){
+            //    unlink('./upload/profile_image/thumb/'.$userpic->image);    
+            //}            
+            //
+            //$this->user_model->UpdateRecord('users',array("image"=>$imageName),array("id"=>$this->session->userdata('user_id')));
+            //
+            //echo 'done';
             
-            $data = base64_decode($data);
-            $imageName = uniqid().time().'.png';
-            file_put_contents('./upload/profile_image/thumb/'.$imageName, $data);
-            
-            $userpic=$this->user_model->SelectSingleRecord('users','*',array("id"=>$this->session->userdata('user_id')),$orderby=array());
-            if($userpic->image != 'no_image.jpg'){
-                unlink('./upload/profile_image/thumb/'.$userpic->image);    
-            }            
-            
-            $this->user_model->UpdateRecord('users',array("image"=>$imageName),array("id"=>$this->session->userdata('user_id')));
-            
-            echo 'done';
-            
-            //if($_FILES){
-            //    
-            //    $config=[	'upload_path'	=>'./upload/profile_image/',
-            //            'allowed_types'	=>'jpg|gif|png|jpeg',
-            //            'file_name' => strtotime(date('y-m-d h:i:s')).$_FILES["profile_pic"]['name']
-            //        ];
-            //    //print_r(_FILES_); die;
-            //    $this->load->library ('upload',$config);
-            //    
-            //    if ($this->upload->do_upload('profile_pic'))
-            //    {
-            //        $userpic=$this->user_model->SelectSingleRecord('users','*',array("id"=>$this->session->userdata('user_id')),$orderby=array());                                        
-            //        unlink('./upload/'.$userpic->image);
-            //        unlink('./upload/thumb/'.$userpic->image);
-            //        $udata = $this->upload->data();
-            //        //resize profile image
-            //                        $config10['image_library'] = 'gd2';
-            //                        $config10['source_image'] = $udata['full_path'];
-            //                        $config10['new_image'] = './upload/profile_image/thumb/'.$udata['file_name'];
-            //                        $config10['maintain_ratio'] = TRUE;
-            //                        $config10['width']         = 200;
-            //                        $config10['height']       = 200;
-            //                        
-            //                        $this->load->library('image_lib', $config10);
-            //                        
-            //                        $this->image_lib->resize();
-            //        //print_r($udata); die;
-            //        $image_path= $udata['file_name']; 
-            //        $this->user_model->UpdateRecord('users',array("image"=>$image_path),array("id"=>$this->session->userdata('user_id')));
-            //        $data->error=0;
-            //        $data->success=1;
-            //        $data->message='Uploaded Successfully'; 
-            //        $this->session->set_flashdata('item', $data);
-            //        redirect('user/update_profile');	
-            //    }
-            //    else
-            //    {
-            //        $data->error=1;
-            //        $data->success=0;
-            //        $data->message='Only jpeg/png/gif/jpg allowed!'; 
-            //        $this->session->set_flashdata('item', $data);
-            //        redirect('user/update_profile');	
-            //    }
-            //}
-            //$udata = array("id"=>$this->session->userdata('user_id'));                
-            //$data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());
-            //$data->title = 'User Profile Image';
-            //$data->field = 'Dashboard';
-            //$data->page = 'upload_image';
-            //$this->load->view('user/includes/header',$data);		
-            //$this->load->view('profile_pic_view',$data);
-            //$this->load->view('user/includes/footer',$data);
+            if($_FILES){
+                
+                $config=[	'upload_path'	=>'./upload/profile_image/',
+                        'allowed_types'	=>'jpg|gif|png|jpeg',
+                        'file_name' => strtotime(date('y-m-d h:i:s')).$_FILES["profile_pic"]['name']
+                    ];
+                //print_r($_FILES); die;
+                $this->load->library ('upload',$config);
+                
+                if ($this->upload->do_upload('profile_pic'))
+                {
+                    $userpic=$this->user_model->SelectSingleRecord('users','*',array("id"=>$this->session->userdata('user_id')),$orderby=array());                                        
+                    unlink('./upload/profile_image/'.$userpic->image);
+                    unlink('./upload/profile_image/thumb/'.$userpic->image);
+                    $udata = $this->upload->data();
+                    //resize profile image
+                                    $config10['image_library'] = 'gd2';
+                                    $config10['source_image'] = $udata['full_path'];
+                                    $config10['new_image'] = './upload/profile_image/thumb/'.$udata['file_name'];
+                                    $config10['maintain_ratio'] = TRUE;
+                                    $config10['width']         = 200;
+                                    $config10['height']       = 200;
+                                    
+                                    $this->load->library('image_lib', $config10);
+                                    
+                                    $this->image_lib->resize();
+                    //print_r($udata); die;
+                    $image_path= $udata['file_name']; 
+                    $this->user_model->UpdateRecord('users',array("image"=>$image_path),array("id"=>$this->session->userdata('user_id')));
+                    $data->error=0;
+                    $data->success=1;
+                    $data->message='Uploaded Successfully'; 
+                    $this->session->set_flashdata('item', $data);
+                    redirect('user/profile');	
+                }
+                else
+                {
+                    //print_r($this->upload->display_errors()); die;
+                    $data->error=1;
+                    $data->success=0;
+                    $data->message='Only jpeg/png/gif/jpg allowed!'; 
+                    $this->session->set_flashdata('item', $data);
+                    //redirect('user/profile');	
+                }
+            }
+            $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());                                    
+            $data->title = 'User Profile';
+            $data->field = 'User Profile';
+            $data->page = 'profile';            	
+            $this->load->view('profile_view',$data);
 
 		}
         
