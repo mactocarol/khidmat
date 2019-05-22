@@ -56,6 +56,18 @@
             <li <?php if($page == 'list_services') { echo 'class="active"'; }?>><a href="<?php echo site_url('services');?>"><i class="fa fa-circle-o"></i> List</a></li>            
           </ul>
         </li>
+        <li class="treeview <?php if($page == 'add_options' || $page == 'list_options' || $page == 'edit_options' ) { echo 'menu-open'; }?> ">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>Options</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu" style="<?php if($page == 'add_options' || $page == 'list_options' || $page == 'edit_options' ) { echo 'display:block'; }?>">
+            <li <?php if($page == 'add_options') { echo 'class="active"'; }?> ><a href="<?php echo site_url('services/add_options');?>"><i class="fa fa-circle-o"></i> Add</a></li>
+            <li <?php if($page == 'list_options') { echo 'class="active"'; }?>><a href="<?php echo site_url('services/list_options');?>"><i class="fa fa-circle-o"></i> List</a></li>            
+          </ul>
+        </li>
         <li class="treeview <?php if($page == 'add_blogs' || $page == 'list_blogs' || $page == 'edit_blogs' ) { echo 'menu-open'; }?> ">
           <a href="#">
             <i class="fa fa-edit"></i> <span>Blogs</span>

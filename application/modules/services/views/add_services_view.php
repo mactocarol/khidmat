@@ -75,9 +75,13 @@
                              </div>
                              
                              <div class="form-group">
+                                <label>Icon </label>
+                                <input type="text" class="form-control" name="icon" placeholder="Service Icon" value="">
+                             </div>
+                             <!--<div class="form-group">
                                 <label>Image </label>
                                 <input type="file" class="form-control" name="image" >
-                             </div>
+                             </div>-->
                              
                              <div class="box-footer">
                                 <input type="submit" class="btn btn-primary" name="Update_profile" value="Add">

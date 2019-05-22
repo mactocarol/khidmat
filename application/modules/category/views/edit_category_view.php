@@ -76,9 +76,16 @@
                              </div>
                              
                              <div class="form-group">
-                                <label>Image </label>
-                                <input type="file" class="form-control" name="image" >
-                                <img src="<?php echo base_url('upload/category/'.$reslt->image);?>" width="100">
+                                <label>Icon </label>
+                                <input type="text" class="form-control" name="icon" placeholder="Category Icon" value="<?php echo isset($reslt->icon)? $reslt->icon:'';?>">
+                             </div>
+                                                          
+                             <div class="form-group">
+                                <label>Status</label>
+                                <select class="form-control" name="status">
+                                        <option value="1" <?=($reslt->status == '1') ? 'selected' : ''?>>Active</option>
+                                        <option value="0" <?=($reslt->status == '0') ? 'selected' : ''?>>Inactive</option>                                        
+                                </select>    
                              </div>
                              
                              <div class="box-footer">

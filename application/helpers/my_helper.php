@@ -211,6 +211,17 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
             return $reslt;
     }
     
+    function get_service($serviceid){
+        
+            $CI =& get_instance();
+            $CI->db->select('*');
+            $CI->db->where(array('id'=>$serviceid));
+            $query = $CI->db->get('services');            
+            $reslt = $query->row();
+            //print_r($userid); die;
+            return $reslt;
+    }
+    
     function get_job_type($type){
         
             if($type == 1) return "Full Time";

@@ -63,9 +63,9 @@
                             <?php foreach($row as $key => $value) { ?>
                                 <?php if(count($row) == 1){?>
                                         <?php if($value['field_type'] == 'select-box'){?>
-                                            <div class="form-group">
+                                            <div class="form-group col-md-12">
                                                 <label><?=($value['field_key'])?$value['field_key']:''?></label>
-                                                <select class="form-control col-md-12" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>" onclick="submit_form();">
+                                                <select class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>" onclick="submit_form();">
                                                     <?php foreach(explode(',',$value['field_value']) as $res) { ?>                
                                                         <option><?=$res?></option>
                                                     <?php } ?>
@@ -81,7 +81,7 @@
                                         <?php if($value['field_type'] == 'radio'){?>
                                             <div class="form-group">
                                                 <label><?=($value['field_key'])?$value['field_key']:''?></label>
-                                                <div class="form-radio-option">
+                                                <div class="form-radio-option col-md-12">
                                                     <?php foreach(explode(',',$value['field_value']) as $key => $res) { ?>
                                                     <div class="option1">
                                                      <input type="radio" id="<?=$res?>" name="<?=($value['field_name'])?$value['field_name']:''?>" value="<?=$res?>" <?=($key==0)?'checked':''?> onclick="submit_form();">
@@ -95,8 +95,9 @@
                                         
                                         <?php if(count($row) == 2) { $col = 4; }?>
                                         <?php if(count($row) == 3) { $col = 3; }?>
-                                        <h4><?php if($value['list_name']) { if($key == 0) { echo $value['list_name']; }  $l = implode('_',explode(' ',$value['list_name'])); }else{ $l = '_'; }?></h4>
+                                        <h4><?php if($value['list_name']) {   $l = implode('_',explode(' ',$value['list_name'])); }else{ $l = '_'; }?></h4>
                                         <?php if($value['field_type'] == 'label'){?>
+                                            <h4><?php echo $value['list_name'];?></h4>
                                             <input type="hidden" id="keylabel" value="<?=($value['field_key'])?$value['field_key']:''?>">
                                             <div class="col-md-<?=$col?>">
                                             <div class="form-group">
@@ -139,7 +140,7 @@
                                         <?php } ?>
                                         <?php if($value['field_type'] == 'qty'){?>
                                             <div class="col-md-<?=$col?>">
-                                            <label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
+                                            <label><small>&nbsp;<?php($value['field_key'])?$value['field_key']:''?></small></label>
                                             <?php for($i=0;$i<$mm;$i++){?>
                                                 <div class="form-group">                                                    
                                                     <span class="form-control btn btn-primary" onclick="submit_form1(<?=$i?>,'<?=$l?>');"><?=($value['field_value'])?$value['field_value']:''?></span>                                                                                                        
@@ -268,7 +269,7 @@
         var keyselect = $('#keyselect').val();
         var keyqty = $('#keyqty').val();
         var list = lab;
-        //alert(keylabel);
+        //alert(lab);
         console.log({'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty});
         var select = $('#select'+id+lab).val();
         var qty = $('#qty'+id+lab).val();
@@ -278,7 +279,8 @@
             data: {'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty},
             success: function (response) {
               //alert('form was submitted');
-              $('#cart').html(response);
+              var obj = JSON.parse(response);
+              $('#cart').html(obj.html);              
             }
           });
     }

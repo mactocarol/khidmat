@@ -30,7 +30,7 @@ class Category extends MY_Controller
             }            
             
             $html = "";
-            $categories2 = $this->category_model->SelectRecord('category','*',$udata=array("status"=>"1","is_deleted"=>"0","parent_id"=>"0"),'order_id asc');
+            $categories2 = $this->category_model->SelectRecord('category','*',$udata=array("is_deleted"=>"0","parent_id"=>"0"),'order_id asc');
             
             $cname = [];
             $level = 1; 
@@ -46,7 +46,7 @@ class Category extends MY_Controller
                 $r = '';
                 $html  .= '<br>';
     
-                $cat = $this->category_model->SelectRecord('category','*',$udata=array("status"=>"1","is_deleted"=>"0","parent_id"=>$value['id']),'order_id asc');             
+                $cat = $this->category_model->SelectRecord('category','*',$udata=array("is_deleted"=>"0","parent_id"=>$value['id']),'order_id asc');             
                 
                 foreach ($cat as $key => $result) {
                     $parent_id = $result['id']; 
@@ -59,7 +59,7 @@ class Category extends MY_Controller
     
                     while (1) {
     
-                        $data = $this->category_model->SelectRecord('category','*',$udata=array("status"=>"1","is_deleted"=>"0","parent_id"=>$parent_id),'order_id asc');
+                        $data = $this->category_model->SelectRecord('category','*',$udata=array("is_deleted"=>"0","parent_id"=>$parent_id),'order_id asc');
                         //print_r($data);die;
                         if(count($data)>1){
     
@@ -146,7 +146,7 @@ class Category extends MY_Controller
                             }
     
                         }else{
-                            $data = $this->category_model->SelectSingleRecord('category','*',$udata=array("status"=>"1","is_deleted"=>"0","parent_id"=>$parent_id),'order_id asc');                            
+                            $data = $this->category_model->SelectSingleRecord('category','*',$udata=array("is_deleted"=>"0","parent_id"=>$parent_id),'order_id asc');                            
     
                         if(!empty($data))
                         {
@@ -379,56 +379,17 @@ class Category extends MY_Controller
             ///print_r($data); die;
             if(!empty($_POST)){
                 //print_r($_POST);die;
-               $udata['parent_id'] = explode(';',$this->input->post('parent'))[0];               
+               //$udata['parent_id'] = explode(';',$this->input->post('parent'))[0];               
                $orderid = $this->category_model->SelectRecordpaginatoin('category','*',array("parent_id"=>explode(';',$this->input->post('parent'))[0]),'order_id desc', '1','0');
                //print_r($orderid); die;
-               $udata['order_id'] = ($orderid[0]['order_id'] + 1);
+               //$udata['order_id'] = ($orderid[0]['order_id'] + 1);
                
-               $udata['level'] = (explode(';',$this->input->post('parent'))[1] + 1);
+               //$udata['level'] = (explode(';',$this->input->post('parent'))[1] + 1);
                $udata['title'] = $this->input->post('name');
-               $udata['description'] = $this->input->post('description');
-               //print_r($udata); die;
-                if($_FILES['image']['name'] != ''){                               
-                               
-                         $upload_path = './upload/category/';
-                         $config['upload_path'] = $upload_path;
-                         
-                         $config['allowed_types'] = 'jpg|jpeg|gif|png';                                                                    
-                        
-                         $config['overwrite'] = false;
-                         //print_r($config);
-                         $this->load->library ('upload',$config);
-                                                 
-                         if ($this->upload->do_upload('image'))
-                         {                                    
-                             $uploaddata = $this->upload->data();
-                             //print_r($udata); die;
-                             $udata['image'] = $uploaddata['file_name'];
-                             
-                             
-                                 $conf['image_library'] = 'gd2';
-                                 $conf['source_image'] = './upload/category/'.$uploaddata['file_name'];
-                                 $conf['new_image'] = './upload/category/thumb/'.$uploaddata['file_name'];
-                                 $conf['create_thumb'] = False;
-                                 $conf['maintain_ratio'] = False;
-                                 $conf['width']         = 600;
-                                 $conf['height']       = 400;
-                                 
-                                 $this->load->library('image_lib', $conf);
-                                 
-                                 $this->image_lib->resize();                                                                
-                             
-                         }
-                         else
-                         {                                                    
-                             $datas->error=1;
-                             $datas->success=0;
-                             $datas->message=$this->upload->display_errors(); 
-                             $this->session->set_flashdata('item', $datas);
-                             redirect('category/add/');	
-                         }
-                
-                }
+               $udata['description'] = trim($this->input->post('description'));
+               $udata['icon'] = $this->input->post('icon');
+               $udata['status'] = $this->input->post('status');
+               //print_r($udata); die;                
                
                if($this->category_model->UpdateRecord('category',$udata,array("id"=>$id))){
                     $data->error=0;
@@ -535,7 +496,7 @@ class Category extends MY_Controller
         public function delete($id){
             $id = base64_decode($id);
             $data=new stdClass();
-            if($this->category_model->delete_record('category',array("id"=>$id))){
+            if($this->category_model->UpdateRecord('category',array("is_deleted"=>1),array("id"=>$id))){
                 $data->error=0;
                 $data->success=1;
                 $data->message="Category Deleted Successfully";

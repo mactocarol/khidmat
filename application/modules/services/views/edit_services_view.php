@@ -4,12 +4,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Category
+        Services
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo site_url('admin/dashboard');?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Category</li>
+        <li class="active">Service</li>
       </ol>
     </section>
 
@@ -43,19 +43,19 @@
                 
                <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">Edit Category</h3>
+                  <h3 class="box-title">Edit Service</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                  <form role="form" id="link_form" name="" method="post" action="<?php echo base_url().'category/edit/'.base64_encode($reslt->id);?>" enctype="multipart/form-data">
+                  <form role="form" id="link_form" name="" method="post" action="<?php echo base_url().'services/edit/'.base64_encode($reslt->id);?>" enctype="multipart/form-data">
                         <!-- text input -->
                         <section class="col-lg-12 connectedSortable">
                             <div class="form-group">
                                 <label>Category </label>
-                                <select class="form-control" name="parent">
+                                <select class="form-control" name="category">
                                     <?php foreach($categories as $category){?> 
                                         <?php foreach($category as $row){?>                                        
-                                        <option value="<?=$row['id'].';'.$row['level']?>" <?php echo ($row['id'] == $reslt->parent_id) ? 'selected': '';?>>                                            
+                                        <option value="<?=$row['id']?>" <?php echo ($row['id'] == $reslt->category_id) ? 'selected': '';?>>                                            
                                             <?php echo str_repeat('--',$row['level']);?><?=$row['cname']?>                                            
                                         </option>                                        
                                     <?php } } ?>
@@ -76,9 +76,16 @@
                              </div>
                              
                              <div class="form-group">
-                                <label>Image </label>
-                                <input type="file" class="form-control" name="image" >
-                                <img src="<?php echo base_url('upload/category/'.$reslt->image);?>" width="100">
+                                <label>Icon </label>
+                                <input type="text" class="form-control" name="icon" placeholder="Service Icon" value="<?php echo isset($reslt->icon)? $reslt->icon:'';?>">
+                             </div>                             
+                             
+                             <div class="form-group">
+                                <label>Status</label>
+                                <select class="form-control" name="status">
+                                        <option value="1" <?=($reslt->status == '1') ? 'selected' : ''?>>Active</option>
+                                        <option value="0" <?=($reslt->status == '0') ? 'selected' : ''?>>Inactive</option>                                        
+                                </select>    
                              </div>
                              
                              <div class="box-footer">
