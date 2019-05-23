@@ -3,7 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Blogs extends MY_Controller 
 {
 	//private $connection;
-        public function __construct(){
+        public function __construct(){        
             parent::__construct();
             $this->load->model('blogs_model');            
             

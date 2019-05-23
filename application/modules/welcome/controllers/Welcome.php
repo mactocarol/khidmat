@@ -97,15 +97,78 @@ class Welcome extends MY_Controller {
 		$this->load->view('catalog',$data);
 	}
     
+    public function delete_service(){
+        $id = $_POST['id'];
+        $final_session = $this->session->userdata('service_cart1');
+            foreach($final_session as $k => $session)
+            {                
+                 if(($session['id']) == $id)
+                 {
+                    
+                    unset($final_session[$k]);
+                 }
+            }            
+            $final_session = array_values($final_session);
+            $this->session->set_userdata('service_cart1', $final_session);
+            
+            
+            $listt = []; $html = '';
+            foreach($this->session->userdata('service_cart1') as $key=>$value){            
+                if($value['list'] != '_'){
+                    if(!in_array($value['list'],$listt)){
+                        $listt[] = $value['list'];
+                        $html .= '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                    }            
+                }
+                
+                foreach($value as $keyy=>$row){
+                    if($keyy != 'list'){
+                        if($keyy == 'label'){
+                            $var = $value['id'];                        
+                            $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right" onclick="delete_service(\''.$var.'\')"><u>remove</u></span></p>';
+                        }
+                        if($keyy == 'select'){                        
+                            $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
+                        }
+                        if($keyy == 'qty'){                        
+                            $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p><br>';
+                        }
+                    }
+                    if($keyy == 'Service_Method'){
+                        $servicemethod = $row;
+                    }
+                }
+            }
+            
+            $html .= '<hr>';
+            if($this->session->userdata('service_cart')){
+                foreach($this->session->userdata('service_cart') as $key=>$value){
+                    if($value){
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+                    }
+                    if($key == 'Service_Method'){
+                        $servicemethod = $value;
+                    }
+                }
+            }
+            print_r(json_encode((array("html"=>$html))));
+    }
+    
     public function services($serviceid=Null)
 	{
-        $this->session->unset_userdata('service_cart');
-        $this->session->unset_userdata('service_cart1');
-        $this->session->unset_userdata('location_cart');
-        $this->session->unset_userdata('schedule_cart');
-        $this->session->unset_userdata('provider_cart');
-        $this->session->unset_userdata('billing_cart');
+        if($this->session->userdata('serviceid') == $serviceid){
+            
+        }else{
+            $this->session->unset_userdata('service_cart');
+            $this->session->unset_userdata('service_cart1');
+            $this->session->unset_userdata('location_cart');
+            $this->session->unset_userdata('schedule_cart');
+            $this->session->unset_userdata('provider_cart');
+            $this->session->unset_userdata('billing_cart');
+        }
+        $this->session->set_userdata('serviceid',$serviceid);
         
+        //echo "<pre>"; print_r($this->session->userdata('service_cart')); die;
         $data=new stdClass();
         if($this->session->flashdata('item')) {
             $items = $this->session->flashdata('item');
@@ -158,8 +221,9 @@ class Welcome extends MY_Controller {
             
             foreach($value as $keyy=>$row){
                 if($keyy != 'list'){
-                    if($keyy == 'label'){                        
-                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'</p>';
+                    if($keyy == 'label'){
+                        $var = $value['id']; 
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right" onclick="delete_service(\''.$var.'\')"><u>remove</u></span></p>';
                     }
                     if($keyy == 'select'){                        
                         $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
@@ -218,7 +282,7 @@ class Welcome extends MY_Controller {
             $this->session->set_userdata('service_cart1',$arr);
         }
         //print_r($this->session->userdata('service_cart1')); die;
-        $listt = []; $html = '';
+        $listt = []; $html = ''; $servicemethod = '';
         foreach($this->session->userdata('service_cart1') as $key=>$value){            
             if($value['list'] != '_'){
                 if(!in_array($value['list'],$listt)){
@@ -229,14 +293,15 @@ class Welcome extends MY_Controller {
             
             foreach($value as $keyy=>$row){
                 if($keyy != 'list'){
-                    if($keyy == 'label'){                        
-                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'</p>';
+                    if($keyy == 'label'){
+                        $var = $value['id'];                        
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right" onclick="delete_service(\''.$var.'\')"><u>remove</u></span></p>';
                     }
                     if($keyy == 'select'){                        
                         $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
                     }
                     if($keyy == 'qty'){                        
-                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p>';
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p><br>';
                     }
                 }
                 if($keyy == 'Service_Method'){
@@ -246,12 +311,14 @@ class Welcome extends MY_Controller {
         }
         
         $html .= '<hr>';
-        foreach($this->session->userdata('service_cart') as $key=>$value){
-            if($value){
-                $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
-            }
-            if($key == 'Service_Method'){
-                $servicemethod = $value;
+        if($this->session->userdata('service_cart')){
+            foreach($this->session->userdata('service_cart') as $key=>$value){
+                if($value){
+                    $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+                }
+                if($key == 'Service_Method'){
+                    $servicemethod = $value;
+                }
             }
         }
         print_r(json_encode((array("html"=>$html))));
@@ -279,25 +346,68 @@ class Welcome extends MY_Controller {
     public function load_next_tab(){
         //print_r($_POST); die;
         $data = new stdClass();
-        if($_POST['nextpage'] == 'location'){
-            if(($this->session->userdata('service_cart')) || ($this->session->userdata('service_cart1'))){
-                //print_r($_SESSION); die;
-                    $servicemethod = '';
-                    foreach($this->session->userdata('service_cart') as $key=>$value){
-                        if(!$value){
-                            return false;
-                        }
-                        if($key == 'Service_Method'){
-                            $servicemethod = $value;
-                        }
+        if($_POST['check'] == 2){
+                if($_POST['nextpage'] == 'location'){
+                    if(($this->session->userdata('service_cart')) && ($this->session->userdata('service_cart1'))){
+                        //print_r($_SESSION); die;
+                            $servicemethod = '';
+                            //print_r($this->session->userdata('service_cart'));die;
+                            foreach($this->session->userdata('service_cart') as $key=>$value){
+                                if(!$value){
+                                    echo 0;
+                                    return false;
+                                }
+                                if($key == 'Service_Method'){
+                                    $servicemethod = $value;
+                                }
+                            }                                                            
+                                                                
+                            $data->servicemethod = $servicemethod;
+                            $this->load->view('location_tab.php',$data);                    
+                    }else{
+                        echo 0;
                     }
-                    
-                    $data->servicemethod = $servicemethod;
-                    $this->load->view('location_tab.php',$data);                    
-            }else{
-                echo 0;
-            }
+                }    
+        }else if($_POST['check'] == 1){
+                if($_POST['nextpage'] == 'location'){
+                    if(($this->session->userdata('service_cart1'))){
+                        //print_r($_SESSION); die;
+                            $servicemethod = '';
+                            foreach($this->session->userdata('service_cart') as $key=>$value){                                
+                                if($key == 'Service_Method'){
+                                    $servicemethod = $value;
+                                }
+                            }                                                            
+                                                                
+                            $data->servicemethod = $servicemethod;
+                            $this->load->view('location_tab.php',$data);                    
+                    }else{
+                        echo 0;
+                    }
+                }            
+        }else if($_POST['check'] == 0){
+                if($_POST['nextpage'] == 'location'){
+                    if(($this->session->userdata('service_cart'))){
+                        //print_r($_SESSION); die;
+                            $servicemethod = '';
+                            foreach($this->session->userdata('service_cart') as $key=>$value){
+                                if(!$value){
+                                    echo 0;
+                                    return false;
+                                }
+                                if($key == 'Service_Method'){
+                                    $servicemethod = $value;
+                                }
+                            }                                                            
+                                                                
+                            $data->servicemethod = $servicemethod;
+                            $this->load->view('location_tab.php',$data);                    
+                    }else{
+                        echo 0;
+                    }
+                }            
         }
+        
         
         if($_POST['nextpage'] == 'schedule'){
             $this->session->unset_userdata('schedule_cart');

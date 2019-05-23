@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
                     <div class="progress_steps">
-                        <a href="#" class="prog_box needs active">
+                        <a href="javascript:void(0)" onclick="your_need();" class="prog_box needs active">
                             <span class="icon"><i class="fas fa-shopping-bag"></i></span>
                             <span class="icon_text">Your Need</span>
                         </a>
@@ -62,12 +62,12 @@
                             <?php //print_r(count($row)); ?>    
                             <?php foreach($row as $key => $value) { ?>
                                 <?php if(count($row) == 1){?>
-                                        <?php if($value['field_type'] == 'select-box'){?>
+                                        <?php if($value['field_type'] == 'select-box'){?>                                            
                                             <div class="form-group col-md-12">
                                                 <label><?=($value['field_key'])?$value['field_key']:''?></label>
                                                 <select class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>" onclick="submit_form();">
                                                     <?php foreach(explode(',',$value['field_value']) as $res) { ?>                
-                                                        <option><?=$res?></option>
+                                                        <option <?php echo ($this->session->userdata('service_cart')[$value['field_name']] == trim($res)) ? 'selected' : ''; ?>><?=$res?></option>
                                                     <?php } ?>
                                                   </select>
                                             </div>                        
@@ -75,7 +75,7 @@
                                         <?php if($value['field_type'] == 'input'){?>
                                             <div class="form-group col-md-12">
                                                 <label><?=($value['field_name'])?$value['field_name']:''?></label>
-                                                <input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_key'])?$value['field_key']:''?>" value="" onchange="submit_form();" required>                                                    
+                                                <input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_key'])?$value['field_key']:''?>" value="<?php echo $this->session->userdata('service_cart')[implode('_',explode(' ',$value['field_name']))]; ?>" onchange="submit_form();" required>                                                    
                                             </div>                        
                                         <?php } ?>
                                         <?php if($value['field_type'] == 'radio'){?>
@@ -84,13 +84,14 @@
                                                 <div class="form-radio-option col-md-12">
                                                     <?php foreach(explode(',',$value['field_value']) as $key => $res) { ?>
                                                     <div class="option1">
-                                                     <input type="radio" id="<?=$res?>" name="<?=($value['field_name'])?$value['field_name']:''?>" value="<?=$res?>" <?=($key==0)?'checked':''?> onclick="submit_form();">
+                                                     <input type="radio" id="<?=$res?>" name="<?=($value['field_name'])?$value['field_name']:''?>" value="<?=$res?>" <?=($key==0)?'checked':''?> <?php echo ($this->session->userdata('service_cart')['Service_Method'] ==  $res) ? 'checked' : ''; ?> onclick="submit_form();">
                                                         <label for="<?=$res?>"><i class="<?php echo explode(',',$value['field_icon'])[$key]; ?>"></i> <span><?=$res?></span></label>                                               
                                                     </div>
                                                     <?php } ?>
                                                 </div>
                                             </div>                        
                                         <?php } ?>
+                                        <input id="servicetype" type="hidden" value="1">
                                 <?php }else{ ?>
                                         
                                         <?php if(count($row) == 2) { $col = 4; }?>
@@ -148,7 +149,7 @@
                                             <?php } ?>    
                                             </div>
                                         <?php } ?>
-                                        
+                                        <input id="servicetype1" type="hidden" value="1">
                                 <?php } ?>
                                 
                             <?php } ?>
@@ -168,8 +169,54 @@
                         <div class="basket_panel_inner">
                         	<div class="basket_need_item">
                             	<div class="need_item_title row"><h3><?=($services)?$services->title:''?> <!--<i class="far fa-times-circle"></i>--></h3></div>
-                                <div id="cart">
-                                    Your Cart is Empty! Add Service Now
+                                <div id="cart">                                    
+                                    <?php
+                                    $listt = []; $html = ''; $servicemethod = '';
+                                        foreach($this->session->userdata('service_cart1') as $key=>$value){            
+                                            if($value['list'] != '_'){
+                                                if(!in_array($value['list'],$listt)){
+                                                    $listt[] = $value['list'];
+                                                    $html .= '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                                                }            
+                                            }
+                                            
+                                            foreach($value as $keyy=>$row){
+                                                if($keyy != 'list'){
+                                                    if($keyy == 'label'){
+                                                        $var = $value['id'];                        
+                                                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right" onclick="delete_service(\''.$var.'\')"><u>remove</u></span></p>';
+                                                    }
+                                                    if($keyy == 'select'){                        
+                                                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
+                                                    }
+                                                    if($keyy == 'qty'){                        
+                                                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p><br>';
+                                                    }
+                                                }
+                                                if($keyy == 'Service_Method'){
+                                                    $servicemethod = $row;
+                                                }
+                                            }
+                                        }
+                                        
+                                        $html .= '<hr>';
+                                        if($this->session->userdata('service_cart')){
+                                            foreach($this->session->userdata('service_cart') as $key=>$value){
+                                                if($value){
+                                                    $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+                                                }
+                                                if($key == 'Service_Method'){
+                                                    $servicemethod = $value;
+                                                }
+                                            }
+                                        }
+                                        
+                                        if($html != '' && $html != '<hr>'){
+                                            echo $html;    
+                                        }else{
+                                            echo 'Your Cart is Empty! Add Service Now';
+                                        }                                                                                
+                                    ?>
                                 </div>
                                 
                                 <div id="location_cart">
@@ -264,23 +311,36 @@
     }
     
     function submit_form1(id,lab){
+        $('#continue').show();
         var label = $('#label'+id+lab).val();
         var keylabel = $('#keylabel').val();
         var keyselect = $('#keyselect').val();
         var keyqty = $('#keyqty').val();
         var list = lab;
-        //alert(lab);
-        console.log({'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty});
+        //alert(id+lab);
+        console.log({'id':id,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty});
         var select = $('#select'+id+lab).val();
         var qty = $('#qty'+id+lab).val();
         $.ajax({
             type: 'post',
             url: '<?php echo site_url('welcome/add_services1');?>',
-            data: {'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty},
+            data: {'id':id,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty},
             success: function (response) {
               //alert('form was submitted');
               var obj = JSON.parse(response);
               $('#cart').html(obj.html);              
+            }
+          });
+    }
+    
+    function delete_service(id){        
+        $.ajax({
+            type: 'post',
+            url: '<?php echo site_url('welcome/delete_service');?>',
+            data: {'id':id},
+            success: function (response) {
+                var obj = JSON.parse(response);
+                $('#cart').html(obj.html);
             }
           });
     }
@@ -346,6 +406,16 @@
         
         if(nextpage == 'location'){
             submit_form();
+            if($("#servicetype").val()){
+                var check = 0;
+            }
+            if($("#servicetype1").val()){
+                var check = 1;
+            }
+            if($("#servicetype").val() && $("#servicetype1").val()){
+                var check = 2;
+            }
+            //alert(check);
         }
         
         if(nextpage == 'finished'){
@@ -357,7 +427,7 @@
         $.ajax({
             type: 'post',
             url: url,
-            data: {'nextpage':nextpage},
+            data: {'nextpage':nextpage,'check':check},
             success: function (response) {
               console.log(response);
               if(response == 0){                
@@ -421,6 +491,11 @@
               }
             }
           });
+    }
+    
+    
+    function your_need(){
+        location.reload();
     }
 </script>
 
