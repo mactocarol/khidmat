@@ -60,14 +60,14 @@ class Admin extends MY_Controller
                         'user_id' => $result->id,
                         'email' => $result->username,
                         'image' => $result->image,
-                        'user_group_id' => 1,
+                        'user_group_id' => 3,
                         'logged_in' => TRUE
                         );
                     }else if($result1){
                         $sess_array = array(
                         'user_id' => $result1->id,
                         'email' => $result1->username,
-                        'user_group_id' => 1,
+                        'user_group_id' => 3,
                         'image' => $result->image,
                         'logged_in' => TRUE
                         );
@@ -96,7 +96,7 @@ class Admin extends MY_Controller
         
         public function dashboard()
         {
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -136,7 +136,7 @@ class Admin extends MY_Controller
         
         
         public function update_profile(){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -193,7 +193,7 @@ class Admin extends MY_Controller
         
         public function upload_image(){
             $data=new stdClass();
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -271,7 +271,7 @@ class Admin extends MY_Controller
         
         
         public function add_user(){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             
@@ -458,7 +458,7 @@ class Admin extends MY_Controller
         }
         
         public function list_user(){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -499,7 +499,7 @@ class Admin extends MY_Controller
 		}
         
         public function edit_user($id){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -714,7 +714,7 @@ class Admin extends MY_Controller
 		}
         
         public function status($id,$userid){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -751,7 +751,7 @@ class Admin extends MY_Controller
 		}
         
         public function delete($id){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             $data=new stdClass();
@@ -769,7 +769,7 @@ class Admin extends MY_Controller
         }
         
         public function list_payment(){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -1812,7 +1812,7 @@ class Admin extends MY_Controller
         }
         
         public function transaction_fee(){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -1856,7 +1856,7 @@ class Admin extends MY_Controller
 	}
 	
 	public function cards(){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -1907,7 +1907,7 @@ class Admin extends MY_Controller
 	}
 	
 	public function allot_cards(){
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){
@@ -2590,7 +2590,7 @@ class Admin extends MY_Controller
 	
 	public function upload_logo(){
             $data=new stdClass();
-            if($this->session->userdata('user_group_id') != 1){
+            if($this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }
             if(!$this->session->userdata('logged_in')){

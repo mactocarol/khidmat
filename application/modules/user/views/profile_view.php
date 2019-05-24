@@ -42,16 +42,30 @@
                 <div class="customer_detail">
                   
                   <div class="buyer_profile_box  profile_image">
-                    <img src="<?php echo base_url('upload/profile_image/'.$result->image);?>">
+                    <img style="border: 1px solid #a47966;" id="pImg" src="<?php echo base_url('upload/profile_image/'.$result->image);?>">
                     <form method="post" action="<?php echo site_url('user/upload_image'); ?>" enctype="multipart/form-data">
+                    
                     <div class="form-group">
-                        <input type="file" name="profile_pic" class="form-control" required>
-                    </div>    
-                    <button type="submit" class="btn btn-danger">Change Picture</button>
+                        <input onchange="document.getElementById('pImg').src = window.URL.createObjectURL(this.files[0])" id="myId" style="display: none;" type="file" name="profile_pic" class="form-control" required>
+                    </div> 
+
+
+
+                    <button onclick="$('#myId').click();" type="submit" class="btn btn-warning">Select Picture</button>
+
+                    <br><br><br>
+
+                    <button type="submit" class="btn btn-danger">Update Picture</button>
+                    
                     </form>
                     <h2><?php echo ($result->username) ? $result->username : ''; ?></h2>
-                    <span><?php echo ($result->email) ? $result->email : ''; ?></span>                                    
+                    <span><?php echo ($result->email) ? $result->email : ''; ?></span>  
+                    <br><br><br>
+                    <a href="vendor_services">
+                    <button type="button" class="btn btn-info">Service List</button>                                  
+                    </a>
                 </div>
+
               </div>
             </div>
 
@@ -211,7 +225,9 @@ $(function () {
  });
  </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCCQzJ9DJLTRjrxLkRk6jaSrvcc5BfDtWM" type="text/javascript"></script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCCQzJ9DJLTRjrxLkRk6jaSrvcc5BfDtWM" type="text/javascript"></script> -->
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCQzJ9DJLTRjrxLkRk6jaSrvcc5BfDtWM&libraries=places&sensor=false&amp;libraries=places"></script>
 <script>
      var options = {        
         types: ['geocode'] //this should work !        

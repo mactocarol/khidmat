@@ -3,22 +3,26 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Blogs extends MY_Controller 
 {
 	//private $connection;
-        public function __construct(){        
+        public function __construct(){
             parent::__construct();
-            $this->load->model('blogs_model');            
-            
+            $this->load->model('blogs_model');
+            if( $this->session->userdata('user_group_id') != 3){
+                redirect('admin');
+            }
         }
-        public function index(){
-           
-            
+        public function index()
+        {   
             $data=new stdClass();
-            if($this->session->flashdata('item')) {
+            if($this->session->flashdata('item')) 
+            {
                 $items = $this->session->flashdata('item');
-                if($items->success){
+                if($items->success)
+                {
                     $data->error=0;
                     $data->success=1;
                     $data->message=$items->message;
-                }else{
+                }else
+                {
                     $data->error=1;
                     $data->success=0;
                     $data->message=$items->message;
@@ -33,14 +37,17 @@ class Blogs extends MY_Controller
             $this->load->view('admin/includes/header',$data);		
             $this->load->view('list_blogs_view',$data);
             $this->load->view('admin/includes/footer',$data);		
-        }
-        
-        public function add(){
+        }        
+        public function add()
+        {
             
             $data=new stdClass();
-            if($this->session->flashdata('item')) {
+            if($this->session->flashdata('item')) 
+            {
                 $items = $this->session->flashdata('item');
-                if($items->success){
+                // print_r($this->session->flashdata('item'));die();
+                if($items->success)
+                {
                     $data->error=0;
                     $data->success=1;
                     $data->message=$items->message;
@@ -52,16 +59,18 @@ class Blogs extends MY_Controller
                 
             }
             
-            ///print_r($data); die;
-            if(!empty($_POST)){
+            // print_r($data); die;
+            if(!empty($_POST))
+            {
                // print_r($_POST);die;
-                    if($_FILES){
-                     //print_r($_FILES); die;
+                    if($_FILES)
+                    {
+                     // print_r($_FILES); die;
                      $config=[	'upload_path'	=>'./upload/blog/',
                              'allowed_types'	=>'jpg|gif|png|jpeg',
                              'file_name' => strtotime(date('y-m-d h:i:s')).$_FILES["image"]['name']
                          ];
-                     //print_r(_FILES_); die;
+                     // print_r($config); die;
                      $this->load->library ('upload',$config);
                      
                      if ($this->upload->do_upload('image'))
@@ -78,7 +87,6 @@ class Blogs extends MY_Controller
                                          $this->load->library('image_lib', $config10);
                                          
                                          $this->image_lib->resize();
-                         //print_r($udata); die;
                          $udata['image']= $idata['file_name'];                        
                      }
                      else
@@ -87,14 +95,15 @@ class Blogs extends MY_Controller
                          $data->success=0;
                          $data->message=$this->upload->display_errors(); 
                          $this->session->set_flashdata('item', $data);
-                         redirect('blogs/add');	
+                         redirect('blogs/add'); 
                      }
                  }
                
                $udata['title'] = $this->input->post('title');
                $udata['description'] = $this->input->post('description');
                $udata['tags'] = $this->input->post('tags');  
-               if($this->blogs_model->InsertRecord('blogs',$udata)){
+               if($this->blogs_model->InsertRecord('blogs',$udata))
+               {
                     $data->error=0;
                     $data->success=1;
                     $data->message="Blogs Added Successfully";
@@ -116,10 +125,12 @@ class Blogs extends MY_Controller
             $this->load->view('admin/includes/footer',$data);                                        
         }
         
-        public function edit($id){
+        public function edit($id)
+        {
             
             $data=new stdClass();
-            if($this->session->flashdata('item')) {
+            if($this->session->flashdata('item')) 
+            {
                 $items = $this->session->flashdata('item');
                 if($items->success){
                     $data->error=0;
@@ -134,9 +145,11 @@ class Blogs extends MY_Controller
             }
             
             ///print_r($data); die;
-                if(!empty($_POST)){
+                if(!empty($_POST))
+                {
                 
-                    if($_FILES["image"]['name']){
+                    if($_FILES["image"]['name'])
+                    {
                      //print_r($_FILES); die;
                      $config=[	'upload_path'	=>'./upload/blog/',
                              'allowed_types'	=>'jpg|gif|png|jpeg',

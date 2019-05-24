@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-lg-6">
                      <ol class="breadcrumb pull-right">
-                        <li class="breadcrumb-item"><a href="<?=site_url();?>">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?=site_url();?>">Home</a></li>                        
                         <li class="breadcrumb-item active" aria-current="page"><?=($services)?$services->title:''?></li>
                       </ol>
                 </div>
@@ -29,19 +29,19 @@
                             <span class="icon"><i class="fas fa-shopping-bag"></i></span>
                             <span class="icon_text">Your Need</span>
                         </a>
-                        <a href="#" class="prog_box location">
+                        <a href="javascript:void(0)" class="prog_box location">
                             <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
                             <span class="icon_text">Your Location</span>
                         </a>
-                        <a href="#" class="prog_box schedule" style="display: none;">
+                        <a href="javascript:void(0)" class="prog_box schedule" style="display: none;">
                             <span class="icon"><i class="far fa-calendar-alt"></i></span>
                             <span class="icon_text">Schedule</span>
                         </a>
-                        <a href="#" class="prog_box provider">
+                        <a href="javascript:void(0)" class="prog_box provider">
                             <span class="icon"><i class="fas fa-user"></i></span>
                             <span class="icon_text">select provider</span>
                         </a>
-                         <a href="#" class="prog_box checkout">
+                         <a href="javascript:void(0)" class="prog_box checkout">
                             <span class="icon"><i class="fas fa-shopping-cart"></i></span>
                             <span class="icon_text">Checkout</span>
                         </a>
@@ -57,108 +57,126 @@
             	<div class="col-md-7 tab">
                 	<h1><?=($services)?$services->description:''?></h1>
                     <form id="form" method="post">
-                        
                         <?php foreach($options as $row) { ?>
-                            <?php //print_r(count($row)); ?>    
+							<?php //print_r(count($row)); ?>    
                             <?php foreach($row as $key => $value) { ?>
-                                <?php if(count($row) == 1){?>
-                                        <?php if($value['field_type'] == 'select-box'){?>                                            
-                                            <div class="form-group col-md-12">
-                                                <label><?=($value['field_key'])?$value['field_key']:''?></label>
-                                                <select class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>" onclick="submit_form();">
-                                                    <?php foreach(explode(',',$value['field_value']) as $res) { ?>                
-                                                        <option <?php echo ($this->session->userdata('service_cart')[$value['field_name']] == trim($res)) ? 'selected' : ''; ?>><?=$res?></option>
-                                                    <?php } ?>
-                                                  </select>
-                                            </div>                        
-                                        <?php } ?>
-                                        <?php if($value['field_type'] == 'input'){?>
-                                            <div class="form-group col-md-12">
-                                                <label><?=($value['field_name'])?$value['field_name']:''?></label>
-                                                <input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_key'])?$value['field_key']:''?>" value="<?php echo $this->session->userdata('service_cart')[implode('_',explode(' ',$value['field_name']))]; ?>" onchange="submit_form();" required>                                                    
-                                            </div>                        
-                                        <?php } ?>
-                                        <?php if($value['field_type'] == 'radio'){?>
-                                            <div class="form-group">
-                                                <label><?=($value['field_key'])?$value['field_key']:''?></label>
-                                                <div class="form-radio-option col-md-12">
-                                                    <?php foreach(explode(',',$value['field_value']) as $key => $res) { ?>
-                                                    <div class="option1">
-                                                     <input type="radio" id="<?=$res?>" name="<?=($value['field_name'])?$value['field_name']:''?>" value="<?=$res?>" <?=($key==0)?'checked':''?> <?php echo ($this->session->userdata('service_cart')['Service_Method'] ==  $res) ? 'checked' : ''; ?> onclick="submit_form();">
-                                                        <label for="<?=$res?>"><i class="<?php echo explode(',',$value['field_icon'])[$key]; ?>"></i> <span><?=$res?></span></label>                                               
-                                                    </div>
-                                                    <?php } ?>
-                                                </div>
-                                            </div>                        
-                                        <?php } ?>
-                                        <input id="servicetype" type="hidden" value="1">
-                                <?php }else{ ?>
-                                        
-                                        <?php if(count($row) == 2) { $col = 4; }?>
-                                        <?php if(count($row) == 3) { $col = 3; }?>
-                                        <h4><?php if($value['list_name']) {   $l = implode('_',explode(' ',$value['list_name'])); }else{ $l = '_'; }?></h4>
-                                        <?php if($value['field_type'] == 'label'){?>
-                                            <h4><?php echo $value['list_name'];?></h4>
-                                            <input type="hidden" id="keylabel" value="<?=($value['field_key'])?$value['field_key']:''?>">
-                                            <div class="col-md-<?=$col?>">
-                                            <div class="form-group">
-                                                <label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>                                                
-                                                <?php $mm = count(explode(',',$value['field_value'])); ?>
-                                                <?php foreach(explode(',',$value['field_value']) as $k=>$res) { ?>
-                                                <div class="form-group">
-                                                    <label class="form-control"><?=$res?></label>
-                                                    <input id="label<?=$k.$l?>" type="hidden" value="<?=$res?>">
-                                                </div>    
-                                                <?php  } ?>                                                
-                                            </div>
-                                            </div>
-                                        <?php } ?>
-                                        <?php if($value['field_type'] == 'select-box'){?>
-                                            <input type="hidden" id="keyselect"  value="<?=($value['field_key'])?$value['field_key']:''?>">
-                                            <div class="col-md-<?=$col?>">
-                                            <label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
-                                            <?php for($i=0;$i<$mm;$i++){?>
-                                                <div class="form-group">                                                    
-                                                    <select class="form-control" id="select<?=$i.$l?>" >
-                                                        <?php foreach(explode(',',$value['field_value']) as $res) { ?>                
-                                                            <option><?=$res?></option>
-                                                        <?php } ?>
-                                                      </select>
-                                                </div>
-                                            <?php } ?>    
-                                            </div>
-                                        <?php } ?>
-                                        <?php if($value['field_type'] == 'qty'){?>
-                                            <input type="hidden" id="keyqty"  value="<?=($value['field_key'])?$value['field_key']:''?>">
-                                            <div class="col-md-<?=$col?>">
-                                            <label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
-                                            <?php for($i=0;$i<$mm;$i++){?>
-                                                <div class="form-group">                                                    
-                                                    <input class="form-control" value="1" id="qty<?=$i.$l?>" >                                                       
-                                                </div>
-                                            <?php } ?>    
-                                            </div>
-                                        <?php } ?>
-                                        <?php if($value['field_type'] == 'qty'){?>
-                                            <div class="col-md-<?=$col?>">
-                                            <label><small>&nbsp;<?php($value['field_key'])?$value['field_key']:''?></small></label>
-                                            <?php for($i=0;$i<$mm;$i++){?>
-                                                <div class="form-group">                                                    
-                                                    <span class="form-control btn btn-primary" onclick="submit_form1(<?=$i?>,'<?=$l?>');"><?=($value['field_value'])?$value['field_value']:''?></span>                                                                                                        
-                                                </div>
-                                            <?php } ?>    
-                                            </div>
-                                        <?php } ?>
-                                        <input id="servicetype1" type="hidden" value="1">
+							<?php if(count($row) == 1){?>
+							<?php if($value['field_type'] == 'select-box'){?>
+							<div class="form-group col-md-12">
+								<label><?=($value['field_key'])?$value['field_key']:''?></label>
+								<select class="<?=($value['is_multiple'])?'selectpicker':''?> form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" <?=($value['is_multiple'])?'multiple':''?> onchange="submit_form();" required>
+									<?php foreach(explode(',',$value['field_value']) as $res) { ?>                
+										<option <?php echo (in_array(trim($res),$this->session->userdata('service_cart')[$value['field_name']])) ? 'selected' : ''; ?>><?=$res?></option>
+									<?php } ?>
+								  </select>
+							</div>                        
+							<?php } ?>
+							<?php if($value['field_type'] == 'input'){?>
+							<div class="form-group col-md-12">
+								<label><?=($value['field_name'])?$value['field_name']:''?></label>
+								<input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_key'])?$value['field_key']:''?>[]" value="<?php echo $this->session->userdata('service_cart')[implode('_',explode(' ',$value['field_name']))][0]; ?>" onchange="submit_form();" required>                                                    
+							</div>                        
+							<?php } ?>
+							<?php if($value['field_type'] == 'radio'){?>
+							<div class="form-group">
+								<label><?=($value['field_key'])?$value['field_key']:''?></label>
+								<div class="form-radio-option col-md-12">
+									<?php foreach(explode(',',$value['field_value']) as $key => $res) { ?>
+									<div class="option1">
+									 <input type="radio" id="<?=$res?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" value="<?=$res?>" <?=($key==0)?'checked':''?> <?php echo ($this->session->userdata('service_cart')['Service_Method'][0] ==  $res) ? 'checked' : ''; ?> onclick="submit_form();">
+										<label for="<?=$res?>"><i class="<?php echo explode(',',$value['field_icon'])[$key]; ?>"></i> <span><?=$res?></span></label>                                               
+									</div>
+									<?php } ?>
+								</div>
+							</div>                        
+							<?php } ?>
+							<input id="servicetype" type="hidden" value="1">
+							<?php }else{ ?>
+							
+							<?php if(count($row) == 2) { $col = 4; }?>
+							<?php if(count($row) == 3) { $col = 3; }?>
+							<?php if($value['list_name']) {   $l = implode('_',explode(' ',$value['list_name'])); }else{ $l = '_'; }?>
+							<?php if($value['field_type'] == 'label'){?>
+							<div class="<?php echo ($value['list_name']) ? 'panel_cover' : 'panel_down'; ?>">
+                                <?php if($value['list_name']) { ?>
+								<div class="panel_heading">
+									<h4><?php echo $value['list_name'];?></h4>
+									<span class="p_icon"><i class="fas fa-plus"></i></span>
+								</div>
                                 <?php } ?>
-                                
-                            <?php } ?>
-                        <?php } ?>
-                    	                        
-                        
-                        
+								<!-- panel content end -->
+								<div class="<?php echo ($value['list_name']) ? 'panel_content' : ''; ?>">									
+									<div class="row">
+										<div class="col-md-<?=$col?>">
+											<div class="service_col">
+                                                <input type="hidden" id="keylabel" value="<?=($value['field_key'])?$value['field_key']:''?>">
+												<label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>                                                
+												<?php $mm = count(explode(',',$value['field_value'])); ?>
+												<?php foreach(explode(',',$value['field_value']) as $k=>$res) { ?>
+												<div class="form-group">
+													<div class="serv_type_name"><?=$res?></div>
+													<input id="label<?=$k.$l?>" type="hidden" value="<?=$res?>">
+												</div>    
+												<?php  } ?>                                                
+											</div>
+										</div>
+										<?php } ?>
+										<?php if($value['field_type'] == 'select-box'){?>										
+										<div class="col-md-<?=$col?>">
+                                            <input type="hidden" id="keyselect"  value="<?=($value['field_key'])?$value['field_key']:''?>">
+											<div class="service_col">
+											<label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
+											<?php for($i=0;$i<$mm;$i++){?>
+												<div class="form-group">                         
+													<select class="form-control" id="select<?=$i.$l?>" >
+														<?php foreach(explode(',',$value['field_value']) as $res) { ?>                
+															<option><?=$res?></option>
+														<?php } ?>
+													  </select>
+												</div>
+											<?php } ?>    
+											</div>
+										</div>
+										<?php } ?>
+										<?php if($value['field_type'] == 'qty'){?>										
+										<div class="col-md-<?=$col?>">
+                                            <input type="hidden" id="keyqty"  value="<?=($value['field_key'])?$value['field_key']:''?>">
+											<div class="service_col">
+											<label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
+											<?php for($i=0;$i<$mm;$i++){?>
+												<div class="form-group">                        
+													<div class="number_counter">
+													<input type="text" id="qty<?=$i.$l?>" class="show_number" value="3">
+												 </div>
+												</div>
+												
+											<?php } ?>    
+											</div>
+										</div>
+										<?php } ?>
+										<?php if($value['field_type'] == 'qty'){?>
+										<div class="col-md-<?=$col?>">
+											<div class="service_col">
+											<label><small>&nbsp;<?php($value['field_key'])?$value['field_key']:''?></small></label>
+											<?php for($i=0;$i<$mm;$i++){?>
+												<div class="form-group">                    
+													<span class="srvc_add_btn" onclick="submit_form1(<?=$i?>,'<?=$l?>');"><?=($value['field_value'])?$value['field_value']:''?></span>                                             
+												</div>
+											<?php } ?>    
+											</div>
+										</div>
+									</div>
+								</div>
+							<!-- panel content end -->
+							</div>
+							<?php } ?>
+							<input id="servicetype1" type="hidden" value="1">
+							<?php } ?>
+							
+								<?php } ?>
+							<?php } ?>
                     </form>
-                    <div class="col-md-12 form-group">
+                    <div class="service_text_bottom">
                     <p>We will send a trusted courier to collect your device from your location (home or office) and take it to be repaired in-store. We will bring the fixed device back to your location_This is your lowest cost option. </p>
                     </div>
                 </div>
@@ -176,7 +194,7 @@
                                             if($value['list'] != '_'){
                                                 if(!in_array($value['list'],$listt)){
                                                     $listt[] = $value['list'];
-                                                    $html .= '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                                                    $html .= '<p><div class="need_item_title"><h4>'.implode(' ',explode('_',$value['list'])).'</h4></div></p>';
                                                 }            
                                             }
                                             
@@ -184,7 +202,7 @@
                                                 if($keyy != 'list'){
                                                     if($keyy == 'label'){
                                                         $var = $value['id'];                        
-                                                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right" onclick="delete_service(\''.$var.'\')"><u>remove</u></span></p>';
+                                                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right del_srvc_btn" onclick="delete_service(\''.$var.'\')"><i class="fas fa-times"></i></span></p>';
                                                     }
                                                     if($keyy == 'select'){                        
                                                         $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
@@ -203,7 +221,7 @@
                                         if($this->session->userdata('service_cart')){
                                             foreach($this->session->userdata('service_cart') as $key=>$value){
                                                 if($value){
-                                                    $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+                                                    $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.implode(', ',$value).'</p>';
                                                 }
                                                 if($key == 'Service_Method'){
                                                     $servicemethod = $value;
@@ -217,6 +235,7 @@
                                             echo 'Your Cart is Empty! Add Service Now';
                                         }                                                                                
                                     ?>
+                                                            
                                 </div>
                                 
                                 <div id="location_cart">
@@ -252,7 +271,7 @@
                             </div>
                            </div>-->
                             <div class="continue_div">
-                                <button class="red_button text-uppercase" id="continue" style="display: none;" onclick="load_next_tab();">Continue <i class="fas fa-long-arrow-alt-right"></i></button>
+                                <button class="red_button text-uppercase" id="continue" style="<?php echo (($html != '' && $html != '<hr>')) ? '' : 'display: none;' ?>" onclick="load_next_tab();">Continue <i class="fas fa-long-arrow-alt-right"></i></button>
                             </div>
                             <span class="error alert-danger" style="display: none">Please Select atleast one service</span>
                             <span class="error1 alert-danger" style="display: none">Please save your location</span>
@@ -318,13 +337,13 @@
         var keyqty = $('#keyqty').val();
         var list = lab;
         //alert(id+lab);
-        console.log({'id':id,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty});
+        //console.log({'id':id+lab,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty});
         var select = $('#select'+id+lab).val();
         var qty = $('#qty'+id+lab).val();
         $.ajax({
             type: 'post',
             url: '<?php echo site_url('welcome/add_services1');?>',
-            data: {'id':id,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty},
+            data: {'id':id+lab,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty},
             success: function (response) {
               //alert('form was submitted');
               var obj = JSON.parse(response);
@@ -353,7 +372,7 @@
             data: $('#locationform').serialize(),
             success: function (response) {
               console.log(response);
-              $('#location_cart').html('<hr>'+response);              
+              $('#location_cart').html('<div class="border_line"></div>'+response);              
             }
           });
     }
@@ -365,7 +384,7 @@
             data: $('#scheduleform').serialize(),
             success: function (response) {
               console.log(response);
-              $('#schedule_cart').html('<hr>'+response);
+              $('#schedule_cart').html('<div class="border_line"></div>'+response);
             }
           });
     }
@@ -378,7 +397,7 @@
             data: $('#providerform').serialize(),
             success: function (response) {
               console.log(response);
-              $('#provider_cart').html('<hr>'+response);
+              $('#provider_cart').html('<div class="border_line"></div>'+response);
             }
           });
     }
@@ -497,6 +516,10 @@
     function your_need(){
         location.reload();
     }
+    
+    
 </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCCQzJ9DJLTRjrxLkRk6jaSrvcc5BfDtWM" type="text/javascript"></script>
 
 <?php $this->load->view('footer'); ?>

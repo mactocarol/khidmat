@@ -67,10 +67,10 @@
                         <ul class="">
                             <li><a href="<?php echo site_url('catalog/1');?>">Services </a></li>
                             <li><a href="#">Help </a></li>
-                            <li><a href="#">blog</a></li>
+                            <li><a href="<?php echo site_url('blog');?>">blog</a></li>
                             <!--<li><a href="#">become a professional</a></li>-->
                             <!--<li><a href="#"><i class="fa fa-map-marker"></i> select location</a></li>-->
-                            <?php if($this->session->userdata('user_id')){ ?>
+                            <?php if($this->session->userdata('user_id') && ($this->session->userdata('user_group_id') != 3)){ ?>
                                 <li><a href="<?php echo site_url('user/dashboard');?>">My Listing</a></li>
                                 <li><a href="<?php echo site_url('user/profile');?>">My Account</a></li>
                                 <li class="login-btn"><a href="<?php echo site_url('user/logout');?>">logout</a></li>

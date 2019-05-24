@@ -60,7 +60,7 @@
                             <div class="col-md-3 col-sm-6 col-xs-12 cat_list <?='cat'.$categories[$i]['id']?>" style="display:none;">
                                 <div class="cat_check_list">
                                     <label>
-                                        <input type="checkbox" name="subcategory[]" value="<?=$row['id']?>">
+                                        <input class="checkbox<?php echo $categories[$i]['id']; ?>" type="checkbox" name="subcategory[]" value="<?=$row['id']?>">
                                         <span class="c_circle">
                                             <i class="fas fa-check"></i>
                                         </span>
@@ -81,28 +81,33 @@
             </div>
         </div>
     </div>
+    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         var arr = [];
         function show_subcat(cls,id){
             
-            if(jQuery.inArray(id, arr) !== -1){                
+            if(jQuery.inArray(id, arr) !== -1){   
+                $(".checkbox"+id).prop("checked", false);             
                 arr.splice($.inArray(id, arr),1);
-                $('.'+cls).hide();
+                $("#checkbox").prop("checked", false);
+                $('.'+cls).hide(200);
             }else{                
                 arr.push(id);
-                $('.'+cls).show();    
+                $('.'+cls).show(500);    
             }            
         }
         
         function submit_form(){
-            
-                if($("input[type='checkbox'][name='category[]']:checked").length === 0){
-                    return false;
-                }
-                if($("input[type='checkbox'][name='subcategory[]']:checked").length === 0){
-                    return false;
-                }
-                $('#form').submit();
+            if($("input[type='checkbox'][name='category[]']:checked").length === 0){
+                swal('Please Select Category');
+                return false;
+            }
+            if($("input[type='checkbox'][name='subcategory[]']:checked").length === 0){
+                swal('Please Select Sub Category');
+                return false;
+            }
+            $('#form').submit();
         }
     </script>
 <?php $this->load->view('footer');?>    

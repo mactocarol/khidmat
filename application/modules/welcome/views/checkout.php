@@ -30,7 +30,7 @@
                 <?php $service = ($this->session->userdata('service_cart')) ? $this->session->userdata('service_cart') : $this->session->userdata('service_cart1'); ?>
                 <?php if($this->session->userdata('service_cart')){
                         foreach($this->session->userdata('service_cart') as $key => $value){ ?>
-                            <strong><?=$key?> : </strong><?=$value?><br>
+                            <strong><?=$key?> : </strong><?=implode(', ',$value)?><br>
                 <?php } } ?>
                 <?php
                 if($this->session->userdata('service_cart1')){
@@ -61,8 +61,9 @@
                 </div>
                 <hr>
                 <div class="location">
-                <p><strong>Location : </strong><?php echo ($this->session->userdata('location_cart')) ? ($this->session->userdata('location_cart')['location']) : '--'; ?></p>
-                <p><strong>City : </strong><?php echo ($this->session->userdata('location_cart')) ? ($this->session->userdata('location_cart')['city']) : '--'; ?></p>
+                <?php foreach($this->session->userdata('location_cart') as $keyyy => $row){ ?>
+                <p><strong><?=$keyyy?> : </strong><?php echo $row; ?></p>
+                <?php } ?>                                
                 </div>
                 
                 <?php if($schedule = $this->session->userdata('schedule_cart')) {?>

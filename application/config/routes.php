@@ -56,3 +56,6 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['catalog/(:num)'] = 'welcome/catalog/$1';
 $route['catalog/(:num)/(:num)'] = 'welcome/catalog/$1/$2';
+
+$route['blog/(:num)'] = 'userblog/readmore/$1';
+$route['blog'] = 'userblog';

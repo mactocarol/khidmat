@@ -6,7 +6,7 @@ class Services extends MY_Controller
         public function __construct(){
             parent::__construct();
             $this->load->model('services_model');
-            if( $this->session->userdata('user_group_id') != 1){
+            if( $this->session->userdata('user_group_id') != 3){
                 redirect('admin');
             }            
         }

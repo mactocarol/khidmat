@@ -86,8 +86,13 @@
                 <div class="another-login text-center col-md-12">
                 	<div class="row">
                     	
-                    	<div class="col-md-6 facebook"><div class="social-login"><a href="#"><i class="fa fa-facebook"></i> Facebook </a></div></div>
-                        <div class="col-md-6 google"><div class="social-login"><a href="#"><i class="fa fa-google-plus"></i> Google </a></div></div>
+                    	<div class="col-md-6 facebook">
+                            <div id="loginBtn" class="social-login"><a href="javascript:void(0)"><i class="fab fa-facebook-f"></i> Facebook </a></div>
+                        </div>
+                        <div class="col-md-6 google">
+                            <div id="customBtn" class="social-login"><a href="javascript:void(0)"><i class="fab fa-google"></i> Google </a></div>
+                        </div>
+
                     </div>
                 </div>
             	
@@ -95,15 +100,7 @@
         </div>
     </div>
 </section>
-        	
-        
-          
-           
-  
-   
-   
-    
-           
+ 
 <section class="quality_outer">
     <div class="container">
         <div class="row">
@@ -154,254 +151,14 @@
     </div>
 </section>
 
-<!--<section class="footer_links">
-	
-    	<div id="parentHorizontalTab">
-            <ul class="resp-tabs-list hor_1">
-               
-                <li>Beauty Services</li>
-                 <li>Recent launches </li>
-                <li>Appliances Services</li>
-                <li>Trending Services </li>
-                <li>Home Cleaning</li>
-                <li>Pest Control</li>
-                <li>Home Needs</li>
-                 <li>Home Needs</li>
-            </ul>
-            <div class="resp-tabs-container hor_1 container">
-                <div>
-                	<div class="row">
-                    	<ul>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Winter Moisture Infusion </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Monthly Premium Package </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Facials & Clean-Ups </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Style My Hair </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> L'Oréal Anti Dandruff Hair Spa </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Waxing - Detan Liposoluble </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Seasoul Body Polish </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Massages </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Pre Bridal Magic Package </a></li> 
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Pre Bridal Supreme Package </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Friend's Wedding Look </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Stunning Bridal Look </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> All in one Dhamaka Package </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Festive Economy Package </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Pedicure </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Threading </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Detanning  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Manicure </a></li>
-                    </ul>
-                     
-					</div>
-                </div>
-                <div>
-                  <div class="row">
-                    <ul>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Men's Grooming & Massages </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Renovation & Refurbishment </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Construction </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Interior Design </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> HomeSpection </a></li>
-                    </ul>
-					</div>
-                </div>
-                <div>
-                  <div class="row">
-                    <ul>
-                      <li><a href="#"> <i class="fa fa-long-arrow-right"></i>     Washing Machine  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Refrigerator  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Geyser  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Water Purifier  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> TV  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Microwave Oven  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Chimney and Hob  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> Wet Servicing  </a></li>
-                        <li><a href="#"> <i class="fa fa-long-arrow-right"></i> AC  </a></li>
-                    </ul>
-					</div>
-                </div>
-                 <div>
-                	<div class="row">
-                    <div class="col-md-4">
-        <ul>
-            <li><a href="#"> Winter Moisture Infusion </a></li>
-            <li><a href="#"> Monthly Premium Package </a></li>
-            <li><a href="#">  Facials & Clean-Ups </a></li>
-            <li><a href="#"> Style My Hair </a></li>
-            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
-            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
-        </ul>
- </div>
-<div class="col-md-4">
-        <ul>
-            <li><a href="#"> Pre Bridal Magic Package </a></li>
-             <li><a href="#">Pre Bridal Supreme Package </a></li>
-             <li><a href="#">Friend's Wedding Look </a></li>
-             <li><a href="#">Stunning Bridal Look </a></li>
-             <li><a href="#">All in one Dhamaka Package</a></li>
-            <li><a href="#">Seasoul Body Polish</a></li>
-        </ul>
-    </div>
-<div class="col-md-4">
-    <ul>
-        <li><a href="#">Massages </a></li>
-        <li><a href="#">Festive Economy Package </a></li>
-        <li><a href="#"> Pedicure</a></li>
-        <li><a href="#">Threading</a></li> 
-        <li><a href="#"> Detanning </a></li>
-        <li><a href="#">Manicure </a></li>
 
-    </ul>
-</div>
-					</div>
-                </div>
-                <div>
-                    <div class="row">
-                    <div class="col-md-4">
-        <ul>
-            <li><a href="#"> Winter Moisture Infusion </a></li>
-            <li><a href="#"> Monthly Premium Package </a></li>
-            <li><a href="#">  Facials & Clean-Ups </a></li>
-            <li><a href="#"> Style My Hair </a></li>
-            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
-            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
-        </ul>
- </div>
-<div class="col-md-4">
-        <ul>
-            <li><a href="#"> Pre Bridal Magic Package </a></li>
-             <li><a href="#">Pre Bridal Supreme Package </a></li>
-             <li><a href="#">Friend's Wedding Look </a></li>
-             <li><a href="#">Stunning Bridal Look </a></li>
-             <li><a href="#">All in one Dhamaka Package</a></li>
-            <li><a href="#">Seasoul Body Polish</a></li>
-        </ul>
-    </div>
-<div class="col-md-4">
-    <ul>
-        <li><a href="#">Massages </a></li>
-        <li><a href="#">Festive Economy Package </a></li>
-        <li><a href="#"> Pedicure</a></li>
-        <li><a href="#">Threading</a></li> 
-        <li><a href="#"> Detanning </a></li>
-        <li><a href="#">Manicure </a></li>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="611631231591-lh1g9i6u5jlnfuv02fmfhl7ls4thuo6h.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script src="<?php echo base_url('js/social_login.js'); ?>"></script>
 
-    </ul>
-</div>
-					</div>
-                </div>
-                <div>
-                   <div class="row">
-                    <div class="col-md-4">
-        <ul>
-            <li><a href="#"> Winter Moisture Infusion </a></li>
-            <li><a href="#"> Monthly Premium Package </a></li>
-            <li><a href="#">  Facials & Clean-Ups </a></li>
-            <li><a href="#"> Style My Hair </a></li>
-            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
-            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
-        </ul>
- </div>
-<div class="col-md-4">
-        <ul>
-            <li><a href="#"> Pre Bridal Magic Package </a></li>
-             <li><a href="#">Pre Bridal Supreme Package </a></li>
-             <li><a href="#">Friend's Wedding Look </a></li>
-             <li><a href="#">Stunning Bridal Look </a></li>
-             <li><a href="#">All in one Dhamaka Package</a></li>
-            <li><a href="#">Seasoul Body Polish</a></li>
-        </ul>
-    </div>
-<div class="col-md-4">
-    <ul>
-        <li><a href="#">Massages </a></li>
-        <li><a href="#">Festive Economy Package </a></li>
-        <li><a href="#"> Pedicure</a></li>
-        <li><a href="#">Threading</a></li> 
-        <li><a href="#"> Detanning </a></li>
-        <li><a href="#">Manicure </a></li>
 
-    </ul>
-</div>
-					</div>
-                </div>
-                 <div>
-                	<div class="row">
-                    <div class="col-md-4">
-        <ul>
-            <li><a href="#"> Winter Moisture Infusion </a></li>
-            <li><a href="#"> Monthly Premium Package </a></li>
-            <li><a href="#">  Facials & Clean-Ups </a></li>
-            <li><a href="#"> Style My Hair </a></li>
-            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
-            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
-        </ul>
- </div>
-<div class="col-md-4">
-        <ul>
-            <li><a href="#"> Pre Bridal Magic Package </a></li>
-             <li><a href="#">Pre Bridal Supreme Package </a></li>
-             <li><a href="#">Friend's Wedding Look </a></li>
-             <li><a href="#">Stunning Bridal Look </a></li>
-             <li><a href="#">All in one Dhamaka Package</a></li>
-            <li><a href="#">Seasoul Body Polish</a></li>
-        </ul>
-    </div>
-<div class="col-md-4">
-    <ul>
-        <li><a href="#">Massages </a></li>
-        <li><a href="#">Festive Economy Package </a></li>
-        <li><a href="#"> Pedicure</a></li>
-        <li><a href="#">Threading</a></li> 
-        <li><a href="#"> Detanning </a></li>
-        <li><a href="#">Manicure </a></li>
-
-    </ul>
-</div>
-					</div>
-                </div>
-                <div>
-                    <div class="row">
-                    <div class="col-md-4">
-        <ul>
-            <li><a href="#"> Winter Moisture Infusion </a></li>
-            <li><a href="#"> Monthly Premium Package </a></li>
-            <li><a href="#">  Facials & Clean-Ups </a></li>
-            <li><a href="#"> Style My Hair </a></li>
-            <li><a href="#">  L'Oréal Anti Dandruff Hair Spa </a></li>
-            <li><a href="#">  Waxing - Detan Liposoluble </a></li>
-        </ul>
- </div>
-<div class="col-md-4">
-        <ul>
-            <li><a href="#"> Pre Bridal Magic Package </a></li>
-             <li><a href="#">Pre Bridal Supreme Package </a></li>
-             <li><a href="#">Friend's Wedding Look </a></li>
-             <li><a href="#">Stunning Bridal Look </a></li>
-             <li><a href="#">All in one Dhamaka Package</a></li>
-            <li><a href="#">Seasoul Body Polish</a></li>
-        </ul>
-    </div>
-<div class="col-md-4">
-    <ul>
-        <li><a href="#">Massages </a></li>
-        <li><a href="#">Festive Economy Package </a></li>
-        <li><a href="#"> Pedicure</a></li>
-        <li><a href="#">Threading</a></li> 
-        <li><a href="#"> Detanning </a></li>
-        <li><a href="#">Manicure </a></li>
-
-    </ul>
-</div>
-					</div>
-                </div>
-                
-            </div>
-        </div>
-</section>-->
-<!---->
 <script src="<?php echo base_url('front/js');?>/bootstrapValidator.min.js"></script>
-
 <script>
     $(document).ready(function() {
 	//alert('http://localhost/caroldata.com/hmvc_hotel_booking/registration/register_email_exists');

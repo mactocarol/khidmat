@@ -117,7 +117,7 @@ class Welcome extends MY_Controller {
                 if($value['list'] != '_'){
                     if(!in_array($value['list'],$listt)){
                         $listt[] = $value['list'];
-                        $html .= '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                        $html .= '<p><div class="need_item_title"><h4>'.implode(' ',explode('_',$value['list'])).'</h4></div></p>';
                     }            
                 }
                 
@@ -125,7 +125,7 @@ class Welcome extends MY_Controller {
                     if($keyy != 'list'){
                         if($keyy == 'label'){
                             $var = $value['id'];                        
-                            $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right" onclick="delete_service(\''.$var.'\')"><u>remove</u></span></p>';
+                            $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right del_srvc_btn" onclick="delete_service(\''.$var.'\')"><i class="fas fa-times"></i></span></p>';
                         }
                         if($keyy == 'select'){                        
                             $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
@@ -144,7 +144,7 @@ class Welcome extends MY_Controller {
             if($this->session->userdata('service_cart')){
                 foreach($this->session->userdata('service_cart') as $key=>$value){
                     if($value){
-                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.implode(', ',$value).'</p>';
                     }
                     if($key == 'Service_Method'){
                         $servicemethod = $value;
@@ -156,8 +156,10 @@ class Welcome extends MY_Controller {
     
     public function services($serviceid=Null)
 	{
+        $data=new stdClass();
+        $data->showcontinue = 0;
         if($this->session->userdata('serviceid') == $serviceid){
-            
+            $data->showcontinue = 1;
         }else{
             $this->session->unset_userdata('service_cart');
             $this->session->unset_userdata('service_cart1');
@@ -167,9 +169,9 @@ class Welcome extends MY_Controller {
             $this->session->unset_userdata('billing_cart');
         }
         $this->session->set_userdata('serviceid',$serviceid);
-        
+        //print_r($data); die;
         //echo "<pre>"; print_r($this->session->userdata('service_cart')); die;
-        $data=new stdClass();
+        
         if($this->session->flashdata('item')) {
             $items = $this->session->flashdata('item');
             if($items->success){
@@ -215,7 +217,7 @@ class Welcome extends MY_Controller {
             if($value['list'] != '_'){
                 if(!in_array($value['list'],$listt)){
                     $listt[] = $value['list'];
-                    $html .= '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                    $html .= '<p><div class="need_item_title"><h4>'.implode(' ',explode('_',$value['list'])).'</h4></div></p>';
                 }            
             }
             
@@ -223,7 +225,7 @@ class Welcome extends MY_Controller {
                 if($keyy != 'list'){
                     if($keyy == 'label'){
                         $var = $value['id']; 
-                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right" onclick="delete_service(\''.$var.'\')"><u>remove</u></span></p>';
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right del_srvc_btn" onclick="delete_service(\''.$var.'\')"><i class="fas fa-times"></i></span></p>';
                     }
                     if($keyy == 'select'){                        
                         $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
@@ -241,7 +243,7 @@ class Welcome extends MY_Controller {
         $html .= '<hr>'; 
         foreach($_POST as $key=>$value){
             if($value){
-            $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+            $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.implode(', ',$value).'</p>';
             }
             if($key == 'Service_Method'){
                 $servicemethod = $value;
@@ -287,7 +289,7 @@ class Welcome extends MY_Controller {
             if($value['list'] != '_'){
                 if(!in_array($value['list'],$listt)){
                     $listt[] = $value['list'];
-                    $html .= '<p><h4>'.implode(' ',explode('_',$value['list'])).'</h4></p>';
+                    $html .= '<p><div class="need_item_title"><h4>'.implode(' ',explode('_',$value['list'])).'</h4></div></p>';
                 }            
             }
             
@@ -295,7 +297,7 @@ class Welcome extends MY_Controller {
                 if($keyy != 'list'){
                     if($keyy == 'label'){
                         $var = $value['id'];                        
-                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right" onclick="delete_service(\''.$var.'\')"><u>remove</u></span></p>';
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right del_srvc_btn" onclick="delete_service(\''.$var.'\')"><i class="fas fa-times"></i></span></p>';
                     }
                     if($keyy == 'select'){                        
                         $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
@@ -314,7 +316,7 @@ class Welcome extends MY_Controller {
         if($this->session->userdata('service_cart')){
             foreach($this->session->userdata('service_cart') as $key=>$value){
                 if($value){
-                    $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+                    $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.implode(', ',$value).'</p>';
                 }
                 if($key == 'Service_Method'){
                     $servicemethod = $value;
@@ -391,6 +393,11 @@ class Welcome extends MY_Controller {
                         //print_r($_SESSION); die;
                             $servicemethod = '';
                             foreach($this->session->userdata('service_cart') as $key=>$value){
+                                //print_r($this->session->userdata('service_cart')); die;
+                                if (!array_key_exists("Issues",$this->session->userdata('service_cart'))){
+                                    echo 0;
+                                    return false;
+                                }
                                 if(!$value){
                                     echo 0;
                                     return false;
@@ -411,7 +418,13 @@ class Welcome extends MY_Controller {
         
         if($_POST['nextpage'] == 'schedule'){
             $this->session->unset_userdata('schedule_cart');
-            if(($this->session->userdata('location_cart')) ){                    
+            if(($this->session->userdata('location_cart')) ){
+                    foreach($this->session->userdata('location_cart') as $key=>$value){
+                        if(!$value){
+                            echo 0;
+                            return false;
+                        }                        
+                    } 
                     $this->load->view('schedule_tab.php',$data);
             }else{
                 echo 0;
@@ -469,7 +482,9 @@ class Welcome extends MY_Controller {
         $this->session->set_userdata('schedule_cart',1);
         //print_r($_POST);
         foreach($_POST as $key=>$value){
-            echo '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.$value.'</p>';
+            if($value){
+                 echo '<div class="location_dv"><p><strong><i class="fas fa-map-marker-alt"></i>'.ucwords(implode(' ',explode('_',$key))).'</strong> '.$value.'</p></div>';
+            }
         }
 	}
     
@@ -478,8 +493,8 @@ class Welcome extends MY_Controller {
 	{
        
         $this->session->set_userdata('schedule_cart',$_POST);
-        //print_r($_POST);        
-            echo '<p><strong>Scheduled Time</strong> : '.$_POST['dateslots'].' '.$_POST['timeslots'].'</p>';        
+        //print_r($_POST);                    
+        echo '<div class="location_dv"><p><strong><i class="fas fa-calendar-alt"></i>Scheduled Time</strong>'.$_POST['dateslots'].' '.$_POST['timeslots'].'</p></div>';        
 	}
     
     public function select_provider()

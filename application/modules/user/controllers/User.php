@@ -8,6 +8,9 @@ class User extends MY_Controller
             $this->load->model('user_model');
             $this->load->helper('my_helper');
             $page = '';
+            if( $this->session->userdata('user_group_id') == 3){
+                redirect('user');
+            }
         }
         public function index(){
             if($this->session->userdata('logged_in')){
@@ -103,7 +106,8 @@ class User extends MY_Controller
         }
         
         
-        public function service_register($id=Null){	    
+        public function service_register($id=Null){
+        //print_r($id);   
 	    //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
             
             $data=new stdClass();
@@ -245,13 +249,13 @@ class User extends MY_Controller
                             
                 
             if(!empty($_POST)){                
-                //print_r($_POST);die;                                                                               			
+                //print_r(base64_decode($this->input->post('sellerid')));die;                                                                               			
                     $udata=array(                                            
                          'image'=>$_FILES['fileupload']['name']                                                                                                
                      );                                    
                          $this->user_model->UpdateRecord('users',$udata,array("id"=>base64_decode($this->input->post('sellerid'))));
                                                                                                 
-                    $result1 = $this->user_model->SelectSingleRecord('users','*',array("id"=>base64_decode($id)),'id desc');    
+                    $result1 = $this->user_model->SelectSingleRecord('users','*',array("id"=>base64_decode($this->input->post('sellerid'))),'id desc');    
                         $sess_array = array(
                         'user_id' => $result1->id,
                         'email' => $result1->username,
@@ -458,7 +462,13 @@ class User extends MY_Controller
             $udata = array("id"=>$this->session->userdata('user_id'));                
             $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());
             
-            $data->orders = $this->user_model->joindatapagination('o.order_no','od.order_id',array('o.user_id'=>$this->session->userdata('user_id')),'o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc',10,0);
+            if($this->session->userdata('user_group_id') == 1){                
+                $where = array('o.user_id'=>$this->session->userdata('user_id'));
+            }else{
+                $where = array('o.user_id'=>$this->session->userdata('user_id'));
+            }
+            //echo $this->session->userdata('user_id'); die;
+            $data->orders = $this->user_model->joindatapagination('o.order_no','od.order_id',$where,'o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc',10,0);
             
             //print_r($data->orders); die;
                       
@@ -507,6 +517,7 @@ class User extends MY_Controller
         }
         
         public function profile(){
+            //print_r($this->session->userdata());die();
             if(!$this->session->userdata('logged_in')){
                 redirect('user');
             }
@@ -517,6 +528,8 @@ class User extends MY_Controller
             
 			$udata = array("id"=>$this->session->userdata('user_id'));                
             $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());
+            
+            //print_r($data);die();
             
 			if($_POST){                                                
                 
@@ -698,5 +711,150 @@ class User extends MY_Controller
             redirect(site_url().''.$url->url);
 			
 		}
+
+        function vendor_services(){
+            $where = array("vendor_id"=>$this->session->userdata('user_id'));                
+            $data = $this->user_model->SelectSingleRecord('vendor_services','*',$where,$orderby=array());
+            $services = json_decode($data->services);
+            $servicesArr = array();
+
+            //echo "<pre>";
+            //print_r($data);die();
+
+            foreach ($services as $key => $value) {
+                $where = array("id"=>$value);     
+                $oneArr = $this->user_model->SelectSingleRecord('category','*',$where,$orderby=array());
+
+                $where1['userId'] = $this->session->userdata('user_id');
+                $where1['userServicesId'] = $value;
+                $data = $this->user_model->SelectSingleRecord('vendor_services_price','*',$where1,$orderby=array());
+                if(isset($data) && !empty($data)){
+                    $oneArr->price = $data->price;
+                }else{
+                    $oneArr->price = '';
+                }
+                
+                $servicesArr['servicesArr'][] = $oneArr;
+            }
+            //echo '<pre>';
+            //print_r($servicesArr);die();
+            $this->load->view('vendor_services',$servicesArr);  
+        }
+
+        function add_price(){
+            $postData = $this->input->post();
+            if($postData['price'] != 0){
+                $where['userId'] = $this->session->userdata('user_id');
+                $where['userServicesId'] = $postData['id'];
+                $data = $this->user_model->SelectSingleRecord('vendor_services_price','*',$where,$orderby=array());
+                if(empty($data)){
+                    $insert = $where;
+                    $insert['price'] = $postData['price'];
+                    $this->user_model->InsertRecord('vendor_services_price',$insert);
+                }else{
+                    $insert = $where;
+                    $insert['price'] = $postData['price'];
+                    $this->user_model->UpdateRecord('vendor_services_price',$insert,$where);
+                }
+            }
+        }
+
+        function add_vendor_services(){
+            $categories = $this->user_model->SelectRecord('category','*',array("level"=>0,"status"=>'1',"is_deleted"=>"0"),'id asc');
+            $where = array("vendor_id"=>$this->session->userdata('user_id'));                
+            $data = $this->user_model->SelectSingleRecord('vendor_services','*',$where,$orderby=array());
+            $services = json_decode($data->services);
+            foreach($categories as $key => $value){
+                $subcategories = $this->user_model->SelectRecord('category','*',array("parent_id"=>$value['id'],"status"=>'1',"is_deleted"=>"0"),'id asc');
+                $isAdded = 0;
+
+                if (in_array($value['id'], $services)){ 
+                    $isAdded = 1;
+                }
+
+
+                foreach ($subcategories as $key1 => $value) {
+                    $subcategories[$key1]['isAdded'] = 0;
+                    if (in_array($value['id'], $services)){ 
+                        $subcategories[$key1]['isAdded'] = 1;
+                        $isAdded = 1;
+                    } 
+                }
+                $categories[$key]['isAdded'] = $isAdded;
+                $categories[$key]['subcategories'] = $subcategories;
+            }
+            //echo '<pre>';
+            //print_r($categories);
+            $this->load->view('add_vendor_services',array('categories' => $categories));
+        }
+
+        function update_vendor_services(){
+
+            $category = $this->input->post('category');
+            $subcategory = $this->input->post('subcategory');
+            $where = array("vendor_id"=>$this->session->userdata('user_id'));
+            $update = array(
+               'services' =>  json_encode(array_merge($category,$subcategory))
+            );
+            $this->user_model->UpdateRecord('vendor_services',$update,$where);         
+            redirect('user/vendor_services');
+        }
+
+        function social_login(){
+            $postData = $this->input->post();
+            $where = array(
+                'social_id' => $postData['socialId'],
+                'social_type' => $postData['socialType'],
+            );
+
+            $data = $this->user_model->SelectSingleRecord('users','*',$where,$orderby=array());
+
+            if(empty($data)){
+                $insert = array(                                            
+                    'f_name' => $postData['firstName'],
+                    'l_name' => $postData['lastName'],
+                    'email' => $postData['email'],
+                    'username' => $postData['fullName'],
+                    'password' => md5(rand()),
+                    'image' => $postData['image'],
+                    'user_type' => '1',
+                    'is_verified' => '1',
+                    'social_id' => $postData['socialId'],
+                    'social_type' => $postData['socialType'],
+                );
+
+                $new_id = $this->user_model->new_user($insert);
+
+                $sess_array = array(
+                    'user_id' => $new_id,
+                    'email' => $postData['email'],
+                    'image' => $postData['image'],
+                    'user_group_id' => 1,
+                    'logged_in' => TRUE
+                );
+                        
+                $this->session->set_userdata($sess_array);
+                $data->error=0;
+                $data->success=1;
+                $data->message='Login Successful';
+                redirect('user/dashboard'); 
+
+            }else{
+                $sess_array = array(
+                    'user_id' => $data['id'],
+                    'email' => $data['email'],
+                    'image' => $data['image'],
+                    'user_group_id' => 1,
+                    'logged_in' => TRUE
+                );
+                        
+                $this->session->set_userdata($sess_array);
+                $data->error=0;
+                $data->success=1;
+                $data->message='Login Successful';
+                redirect('user/dashboard');
+            }
+
+        }
 }
 ?>
