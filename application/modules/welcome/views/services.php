@@ -157,7 +157,7 @@
 										<?php if($value['field_type'] == 'qty'){?>
 										<div class="col-md-<?=$col?>">
 											<div class="service_col">
-											<label><small>&nbsp;<?php($value['field_key'])?$value['field_key']:''?></small></label>
+											<label><small>&nbsp;<?php ($value['field_key'])?$value['field_key']:''?></small></label>
 											<?php for($i=0;$i<$mm;$i++){?>
 												<div class="form-group">                    
 													<span class="srvc_add_btn" onclick="submit_form1(<?=$i?>,'<?=$l?>');"><?=($value['field_value'])?$value['field_value']:''?></span>                                             
