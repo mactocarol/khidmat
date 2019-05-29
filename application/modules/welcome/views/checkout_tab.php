@@ -10,7 +10,7 @@
                                         <input type="radio" class="form-control" name="payment_method" value="cash" checked>
                                         <span class="r_check"></span>
                                         <div class="r_texts">
-                                            <span><i class="fas fa-user"></i> Cash </span>
+                                            <span><i class="fas fa-money-bill-alt"></i> Cash </span>
                                             <p>You pay after service completion</p>
                                         </div>
                                     </label>
@@ -18,7 +18,7 @@
                                         <input type="radio" class="form-control" name="payment_method" value="paypal">
                                         <span class="r_check"></span>
                                         <div class="r_texts">
-                                            <span><i class="fas fa-user"></i>Paypal</span>
+                                            <span><i class="fab fa-cc-paypal"></i>Paypal</span>
                                             <p>Your payment will transferred to vendor once you satisfied.</p>
                                         </div>
                                     </label>
