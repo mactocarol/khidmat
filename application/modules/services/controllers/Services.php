@@ -345,6 +345,7 @@ class Services extends MY_Controller
                $udata['field_value'] = $this->input->post('field_value');
                $udata['field_icon'] = $this->input->post('field_icon');
                $udata['is_required'] = $this->input->post('is_required');
+               $udata['is_multiple'] = $this->input->post('is_multiple');
                $udata['status'] = $this->input->post('status');                                  
                    
                    if($this->input->post('list_name')){                    
@@ -457,6 +458,7 @@ class Services extends MY_Controller
                $udata['field_value'] = $this->input->post('field_value');
                $udata['field_icon'] = $this->input->post('field_icon');
                $udata['is_required'] = $this->input->post('is_required');
+               $udata['is_multiple'] = $this->input->post('is_multiple');
                $udata['status'] = $this->input->post('status');                                  
                    
                    if($this->input->post('list_name')){                    

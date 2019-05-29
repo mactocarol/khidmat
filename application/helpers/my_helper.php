@@ -50,13 +50,13 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
             $reslt = $query->row();
             
             //print_r($reslt->parent_id); die;
-            $html .= ';<u><a href="'.site_url('catalog/'.$reslt->parent_id.'/'.$reslt->id).'">'.$reslt->title.'</a></u>';
+            $html .= ';<li class="breadcrumb-item"><a href="'.site_url('catalog/'.$reslt->parent_id.'/'.$reslt->id).'">'.$reslt->title.'</a></li>';
             
             if($reslt->parent_id != 0){                
                 get_parent($reslt->parent_id,$html);
             }else{
-               $html = implode(' - ',array_reverse(explode(';',$html)));
-                echo rtrim($html,' - ');    
+               $html = implode(' ',array_reverse(explode(';',$html)));
+                echo rtrim($html,' ');    
             }
             
     }
@@ -659,5 +659,15 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 		    return false;   
 		}
 	}
+    
+    if (!function_exists('truncate')) {
+      function truncate($text, $length) {
+         $length = abs((int)$length);
+         if(strlen($text) > $length) {
+            $text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1...', $text);
+         }
+         return($text);
+      }
+    }
         
 ?>

@@ -166,7 +166,7 @@ class Welcome extends MY_Controller {
             $this->session->unset_userdata('location_cart');
             $this->session->unset_userdata('schedule_cart');
             $this->session->unset_userdata('provider_cart');
-            $this->session->unset_userdata('billing_cart');
+            $this->session->unset_userdata('payment_method');
         }
         $this->session->set_userdata('serviceid',$serviceid);
         //print_r($data); die;
@@ -327,8 +327,11 @@ class Welcome extends MY_Controller {
 	}
     
     
-    public function checkout(){
-        $this->session->set_userdata('billing_cart',$_POST);
+    public function checkout(){        
+        if($_POST){
+            $this->session->set_userdata('payment_method',$_POST);    
+        }
+        
         //print_r($_POST); die;
         $data = new stdClass();
         if(!$this->session->userdata('user_id')){
@@ -360,7 +363,7 @@ class Welcome extends MY_Controller {
                                     return false;
                                 }
                                 if($key == 'Service_Method'){
-                                    $servicemethod = $value;
+                                    $servicemethod = implode('',$value);
                                 }
                             }                                                            
                                                                 
@@ -377,7 +380,7 @@ class Welcome extends MY_Controller {
                             $servicemethod = '';
                             foreach($this->session->userdata('service_cart') as $key=>$value){                                
                                 if($key == 'Service_Method'){
-                                    $servicemethod = $value;
+                                    $servicemethod = implode('',$value);
                                 }
                             }                                                            
                                                                 
@@ -394,19 +397,20 @@ class Welcome extends MY_Controller {
                             $servicemethod = '';
                             foreach($this->session->userdata('service_cart') as $key=>$value){
                                 //print_r($this->session->userdata('service_cart')); die;
+                                //console.log($value);
                                 if (!array_key_exists("Issues",$this->session->userdata('service_cart'))){
-                                    echo 0;
-                                    return false;
+                                    //echo 0;
+                                    //return false;
                                 }
                                 if(!$value){
                                     echo 0;
                                     return false;
                                 }
                                 if($key == 'Service_Method'){
-                                    $servicemethod = $value;
+                                    $servicemethod = implode('',$value);
                                 }
                             }                                                            
-                                                                
+                            //print_r($servicemethod);die;                                    
                             $data->servicemethod = $servicemethod;
                             $this->load->view('location_tab.php',$data);                    
                     }else{
@@ -434,6 +438,12 @@ class Welcome extends MY_Controller {
         if($_POST['nextpage'] == 'provider'){
             
             if(($this->session->userdata('schedule_cart')) ){
+                    foreach($this->session->userdata('location_cart') as $key=>$value){
+                        if(!$value){
+                            echo 0;
+                            return false;
+                        }                        
+                    }
                     $vendors = $this->welcome_model->joindataResult('v.vendor_id','u.id',array(),'u.*,v.charges','vendor_services as v','users as u',$orderby=Null);
                     //print_r($vendors); die;
                     $data->vendors = $vendors;
@@ -472,6 +482,45 @@ class Welcome extends MY_Controller {
             }else{
                 echo 0;
             }            
+        }
+    }
+    
+    public function load_location_tab(){
+        $data = new stdClass();   
+        $servicemethod = '';
+        foreach($this->session->userdata('service_cart') as $key=>$value){                                
+            if($key == 'Service_Method'){
+                $servicemethod = implode('',$value);
+            }
+        }                                                            
+        
+        if(($this->session->userdata('service_cart')) || ($this->session->userdata('service_cart1'))){                                    
+            $data->servicemethod = $servicemethod;
+            $this->load->view('location_tab.php',$data);
+        }else{
+            echo 0;
+        }
+    }
+    
+    public function load_schedule_tab(){
+        $data = new stdClass();                                                                   
+        
+        if((($this->session->userdata('service_cart')) || ($this->session->userdata('service_cart1'))) && ($this->session->userdata('location_cart'))){                                            
+            $this->load->view('schedule_tab.php',$data);
+        }else{
+            echo 0;
+        }
+    }
+    
+    public function load_provider_tab(){
+        $data = new stdClass();   
+        
+        if((($this->session->userdata('service_cart')) || ($this->session->userdata('service_cart1'))) && ($this->session->userdata('location_cart')) && ($this->session->userdata('schedule_cart'))){
+            $vendors = $this->welcome_model->joindataResult('v.vendor_id','u.id',array(),'u.*,v.charges','vendor_services as v','users as u',$orderby=Null);            
+            $data->vendors = $vendors;
+            $this->load->view('provider_tab.php',$data);
+        }else{
+            echo 0;
         }
     }
     

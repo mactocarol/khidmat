@@ -87,6 +87,14 @@
                              </div>
                              
                              <div class="form-group">
+                                <label>Is Multiple ( if you select select-box then please mention it, otherwise leave it)?</label>
+                                <select class="form-control" name="is_multiple">                                        
+                                        <option value="0">no</option>
+                                        <option value="1">yes</option>
+                                </select>    
+                             </div>
+                             
+                             <div class="form-group">
                                 <label>Is that option is showing in List ? Then Please enter list name otherwise left blank </label>
                                 <input type="text" class="form-control" name="list_name" placeholder="for eg. ( Hair Service , Nail, Men Articles etc.)" value="">
                              </div>
@@ -99,7 +107,7 @@
                              <div class="form-group">
                                 <label>Field icon </label>
                                 <input type="text" class="form-control" name="field_icon" placeholder="for eg. (far fa-handshake, fas fa-truck)">
-                             </div>
+                             </div>                                                          
                              
                              <div class="form-group">
                                 <label>Is Required ?</label>

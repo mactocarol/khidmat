@@ -40,7 +40,8 @@
                             <tr>
                                 <th>Order No.</th>
                                 <th>Service Requested</th>
-                                <th>Scheduled Date and Time</th>
+                                <th>Scheduled Date</th>
+                                <th>Scheduled Time</th>
                                 <th>Request type</th>
                                 <th>Status</th>
                                 <th>Cost</th>
@@ -51,20 +52,25 @@
                         <tbody>
                             <?php if(!empty($orders)){?>
                             <?php foreach($orders as $row){?>
+                            <?php //echo '<pre>'; print_r($row);die(); ?>
                             <tr>
                                 <td><?=($row['order_id'])?($row['order_id']):''?></td>
                                 <td><?php echo ($row['servicename'])?json_decode($row['servicename']):''?></td>
-                                <td><?=($row['created_at'])?date('d M Y h:i:s',strtotime($row['created_at'])):''?></td>
+                                <td><?=($row['created_at'])?date('d M, Y',strtotime($row['created_at'])):''?></td>
+                                <td><?=($row['created_at'])?date('h:i a',strtotime($row['created_at'])):''?></td>
                                 <td>On-site</td>
                                 <td>
-                                    <?php if($row['payment_status'] == 1){?>
-                                    <a href="#" type="button" class="btn btn_warning">Pending</a>
+                                    <?php if($row['order_status'] == 1){?>
+                                    <a href="#" type="button" class="btn btn_pending">Pending</a>
                                     <?php } ?>
-                                    <?php if($row['payment_status'] == 2){?>
-                                    <a href="#" type="button" class="btn btn_accepted"> Accepted</a>
+                                    <?php if($row['order_status'] == 2){?>
+                                    <a href="#" type="button" class="btn btn_accepted">Accepted</a>
+                                    <?php } ?>
+                                    <?php if($row['order_status'] == 3){?>
+                                    <a href="#" type="button" class="btn btn_cancel">Cancle</a>
                                     <?php } ?>
                                 </td>
-                                <td><?=($row['amount'])?($row['amount']):''?></td>
+                                <td><?=($row['amount'])?($row['amount']):'NA'?></td>
                                 <td><a href="<?php echo site_url('user/orderDetail/'.base64_encode($row['order_id'])); ?>" type="button" class="btn btn_view"> view</a></td>
                             </tr>
                             <?php } } else { ?>

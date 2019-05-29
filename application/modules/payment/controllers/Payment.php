@@ -161,7 +161,28 @@ class Payment extends MY_Controller
                             
                         }
                     }
+            }else if($this->input->post('payment_method') == 'cashOnDelivery'){ 
+
+                 $udata['transaction_id'] = rand();
+                 $udata['payment_status'] = 1;
+
+                if($lastid = $this->payment_model->InsertRecord('order',$udata)){
+                    $odata['servicename'] = json_encode($this->session->userdata('services')->title);
+                    $odata['services'] = ($this->session->userdata('service_cart')) ? json_encode($this->session->userdata('service_cart')) : json_encode($this->session->userdata('service_cart1'));
+                    $odata['location'] = json_encode($this->session->userdata('location_cart'));
+                    $odata['schedule'] = json_encode($this->session->userdata('schedule_cart'));
+                    $odata['vendor_id'] = $vendorid;
+                    $odata['billing'] = json_encode($this->session->userdata('billing_cart'));
+                    
+                    $odata['order_id'] = $order_no;
+                    $odata['amount'] = $amt;
+                    $odata['qty'] = 1;
                         
+                    $this->payment_model->InsertRecord('order_detail',$odata);
+
+                    redirect('user/dashboard');
+
+                }     
             }
             
         }

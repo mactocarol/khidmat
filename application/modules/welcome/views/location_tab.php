@@ -1,25 +1,41 @@
-
+    <div class="servicebox">
     <form id="locationform" method="post" action="#">
         <div class="form_group">
             <div class="form_input">
-                <input type="text" id="location" name="location" placeholder="Enter your address" class="form-control" required>
+                <input type="text" id="location" name="location" placeholder="Enter your address" class="form-control" value="<?php echo ($this->session->userdata('location_cart')) ? $this->session->userdata('location_cart')['location'] : ''?>" required>
+                <div class="danger" id="location_error" role="alert" style="display: none; color:red">
+                    This field is required.
+                </div>
             </div>
         </div>
-        <br>
-        <div class="form_group">            
-                <div class="form_input">
-                    <input type="text" id="street" name="street" placeholder="Enter your street name" class="form-control" required>
-                </div>            
-            
-                <div class="form_input">
-                    <input type="text" id="house" name="house" placeholder="Enter your House number" class="form-control" required>
+        
+        <div class="form_group">
+            <div class="row">
+                <div class="col-md-6">
+                     <div class="form_input">
+                        <input type="text" id="street" name="street" placeholder="Enter your street name" class="form-control" value="<?php echo ($this->session->userdata('location_cart')) ? $this->session->userdata('location_cart')['street'] : ''?>" required>
+                        <div class="danger" id="street_error" role="alert" style="display: none; color:red">
+                            This field is required.
+                        </div>
+                    </div> 
                 </div>
-            
+                <div class="col-md-6">
+                     <div class="form_input">
+                        <input type="text" id="house" name="house" placeholder="Enter your House number" class="form-control" value="<?php echo ($this->session->userdata('location_cart')) ? $this->session->userdata('location_cart')['house'] : ''?>" required>
+                        <div class="danger" id="house_error" role="alert" style="display: none; color:red">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <br>
         <div class="form_group">
             <div class="form_input">
-                <input type="text" id="landmark" name="landmark" placeholder="Enter Landmark (optional)" class="form-control" >
+                <input type="text" id="landmark" name="landmark" placeholder="Enter Landmark" class="form-control" value="<?php echo ($this->session->userdata('location_cart')) ? $this->session->userdata('location_cart')['landmark'] : ''?>">
+                <div class="danger" id="landmark_error" role="alert" style="display: none; color:red">
+                    This field is required.
+                </div>
             </div>
         </div>
         <br>
@@ -30,14 +46,15 @@
             </div>
         </div>
         
-       <?php if($servicemethod == ' On Site'){ ?>
+       <?php if(trim($servicemethod) == 'On Site'){ ?>
            <input type="hidden" value="schedule" id="next_tab">
        <?php }else{ ?>
            <input type="hidden" value="provider" id="next_tab">
        <?php } ?>
        <span class="btn btn-primary" onclick="save_location();">Save</span>
     </form>
-    
+    </div>
+    <div id="loader" style="display:none;"><img src="https://media.theaustralian.com.au/fe/sop/wait.gif"></div>
     
 <script>    
      var options = {        

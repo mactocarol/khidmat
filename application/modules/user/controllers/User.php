@@ -8,7 +8,7 @@ class User extends MY_Controller
             $this->load->model('user_model');
             $this->load->helper('my_helper');
             $page = '';
-            if( $this->session->userdata('user_group_id') == 3){
+            if($this->session->userdata('user_group_id') == 3){
                 redirect('user');
             }
         }
@@ -462,10 +462,14 @@ class User extends MY_Controller
             $udata = array("id"=>$this->session->userdata('user_id'));                
             $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());
             
-            if($this->session->userdata('user_group_id') == 1){                
+            /*echo "<pre>";
+            print_r($data->result->user_type);die();*/
+
+            if($data->result->user_type == 1){
                 $where = array('o.user_id'=>$this->session->userdata('user_id'));
             }else{
-                $where = array('o.user_id'=>$this->session->userdata('user_id'));
+                //$where = array('o.user_id'=>$this->session->userdata('user_id'));
+                $where = array('od.vendor_id'=>$this->session->userdata('user_id'));
             }
             //echo $this->session->userdata('user_id'); die;
             $data->orders = $this->user_model->joindatapagination('o.order_no','od.order_id',$where,'o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc',10,0);
@@ -505,7 +509,14 @@ class User extends MY_Controller
             $udata = array("id"=>$this->session->userdata('user_id'));                
             $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());
             
-            $data->order = $this->user_model->joindata('o.order_no','od.order_id',array('o.order_no'=>$id,'o.user_id'=>$this->session->userdata('user_id')),'o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc');
+            if($data->result->user_type == 1){
+                $where = array('o.order_no'=>$id,'o.user_id'=>$this->session->userdata('user_id'));
+            }else{
+                //$where = array('o.user_id'=>$this->session->userdata('user_id'));
+                $where = array('o.order_no'=>$id,'od.vendor_id'=>$this->session->userdata('user_id'));
+            }
+
+            $data->order = $this->user_model->joindata('o.order_no','od.order_id',$where,'o.user_id,o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc');
             
             //print_r($data->orders); die;
                       
@@ -514,6 +525,14 @@ class User extends MY_Controller
             $data->page = 'dashboard';
             
             $this->load->view('order_detail_view',$data);            
+        }
+
+        function changeOrderStatus(){
+            $status = $this->input->post('status');
+            $id = $this->input->post('id');
+            $udata['order_status'] = $status;
+            $this->user_model->UpdateRecord('order_detail',$udata,array("id"=>$id));
+            echo 1;
         }
         
         public function profile(){
@@ -534,6 +553,10 @@ class User extends MY_Controller
 			if($_POST){                                                
                 
                 $udata=array(                                            
+                        'placeName'=>$this->input->post('placeName'),
+                        'placeLat'=>$this->input->post('placeLat'),
+                        'placeLong'=>$this->input->post('placeLong'),
+                        
                         'email'=>$this->input->post('email'),
                         'phone'=>$this->input->post('contact'),
                         'f_name'=>$this->input->post('f_name'),
@@ -546,6 +569,10 @@ class User extends MY_Controller
                     
                     if($this->input->post('password') != ''){
                         $udata=array(                                            
+                        'placeName'=>$this->input->post('placeName'),
+                        'placeLat'=>$this->input->post('placeLat'),
+                        'placeLong'=>$this->input->post('placeLong'),
+                        
                         'email'=>$this->input->post('email'),                        
                         'phone'=>$this->input->post('contact'),                        
                         'f_name'=>$this->input->post('f_name'),
@@ -798,6 +825,15 @@ class User extends MY_Controller
             );
             $this->user_model->UpdateRecord('vendor_services',$update,$where);         
             redirect('user/vendor_services');
+
+            /*$data = $this->user_model->SelectSingleRecord('vendor_services','*',$where,$orderby=array());
+            if(!empty($data)){
+                $this->user_model->UpdateRecord('vendor_services',$update,$where); 
+            }else{
+                $this->user_model->UpdateRecord('vendor_services',$update,$where);
+                $this->user_model->InsertRecord('vendor_services',$udata);
+            }*/
+            
         }
 
         function social_login(){

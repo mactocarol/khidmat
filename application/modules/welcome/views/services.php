@@ -4,15 +4,16 @@
     <section class="breadcrumb_outer breadcrumb_outer_new">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <h4 class="text-capitalize"><?php
-                    $parent = get_parent($services->category_id);
-                    print_r($parent);
-                    ?> <br><br> <?=($services)?$services->title:''?></h4>
+                    //$parent = get_parent($services->category_id);
+                    //print_r($parent);
+                    ?> <?=($services)?$services->title:''?></h4>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                      <ol class="breadcrumb pull-right">
-                        <li class="breadcrumb-item"><a href="<?=site_url();?>">Home</a></li>                        
+                        <li class="breadcrumb-item"><a href="<?=site_url();?>">Home</a></li>
+                        <?php $parent = get_parent($services->category_id);print_r($parent); ?>
                         <li class="breadcrumb-item active" aria-current="page"><?=($services)?$services->title:''?></li>
                       </ol>
                 </div>
@@ -29,15 +30,15 @@
                             <span class="icon"><i class="fas fa-shopping-bag"></i></span>
                             <span class="icon_text">Your Need</span>
                         </a>
-                        <a href="javascript:void(0)" class="prog_box location">
+                        <a href="javascript:void(0)" onclick="your_location();" class="prog_box location">
                             <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
                             <span class="icon_text">Your Location</span>
                         </a>
-                        <a href="javascript:void(0)" class="prog_box schedule" style="display: none;">
+                        <a href="javascript:void(0)" onclick="your_schedule();" class="prog_box schedule" style="display: none;">
                             <span class="icon"><i class="far fa-calendar-alt"></i></span>
                             <span class="icon_text">Schedule</span>
                         </a>
-                        <a href="javascript:void(0)" class="prog_box provider">
+                        <a href="javascript:void(0)" onclick="your_provider();" class="prog_box provider">
                             <span class="icon"><i class="fas fa-user"></i></span>
                             <span class="icon_text">select provider</span>
                         </a>
@@ -53,9 +54,10 @@
     <!-- Service section Start -->
     <div class="service_need_wrapper">
         <div class="container">
-        	<div class="row">
-            	<div class="col-md-7 tab">
+        	<div class="row">                
+            	<div class="col-md-7 tab">                    
                 	<h1><?=($services)?$services->description:''?></h1>
+                    <div class="servicebox">
                     <form id="form" method="post">
                         <?php foreach($options as $row) { ?>
 							<?php //print_r(count($row)); ?>    
@@ -88,7 +90,13 @@
 									</div>
 									<?php } ?>
 								</div>
-							</div>                        
+							</div>
+                            <div class="service_text_bottom" id="service_text_bottom" >
+                            <p>We will send a trusted courier to collect your device from your location (home or office) and take it to be repaired in-store. We will bring the fixed device back to your location_This is your lowest cost option. </p>
+                            </div>
+                            <div class="service_text_bottom" id="service_text_bottom1" style="display: none;">
+                            <p>Your hired handpicked professional will arrive at your location (home or office) on-time and with all the necessary parts and equipment they need to complete the service. This is your fastest option. </p>
+                            </div>
 							<?php } ?>
 							<input id="servicetype" type="hidden" value="1">
 							<?php }else{ ?>
@@ -175,10 +183,10 @@
 							
 								<?php } ?>
 							<?php } ?>
-                    </form>
-                    <div class="service_text_bottom">
-                    <p>We will send a trusted courier to collect your device from your location (home or office) and take it to be repaired in-store. We will bring the fixed device back to your location_This is your lowest cost option. </p>
+                    </form>                    
+                    
                     </div>
+                    <div id="loader" style="display:none;"><img src="https://media.theaustralian.com.au/fe/sop/wait.gif"></div>
                 </div>
                 <div class="col-md-5">
                 	
@@ -273,11 +281,12 @@
                             <div class="continue_div">
                                 <button class="red_button text-uppercase" id="continue" style="<?php echo (($html != '' && $html != '<hr>')) ? '' : 'display: none;' ?>" onclick="load_next_tab();">Continue <i class="fas fa-long-arrow-alt-right"></i></button>
                             </div>
-                            <span class="error alert-danger" style="display: none">Please Select atleast one service</span>
-                            <span class="error1 alert-danger" style="display: none">Please save your location</span>
-                            <span class="error11 alert-danger" style="display: none">Please set your scheduled time</span>
-                            <span class="error2 alert-danger" style="display: none">Please select any provider</span>
-                            <span class="error3 alert-danger" style="display: none">Please save billing or shipping address</span>
+                            <br>
+                            <span class="error alert-danger" role="alert" style="display: none"><strong>Error : </strong> Please Select atleast one service</span>
+                            <span class="error1 alert-danger" style="display: none"><strong>Error : </strong> Please save your location</span>
+                            <span class="error11 alert-danger" style="display: none"><strong>Error : </strong> Please set your scheduled time</span>
+                            <span class="error2 alert-danger" style="display: none"><strong>Error : </strong> Please select any provider</span>
+                            <span class="error3 alert-danger" style="display: none"><strong>Error : </strong> Please save billing or shipping address</span>
                             <input type="hidden" id="errorflag">
                         </div>
                     </div>
@@ -320,9 +329,13 @@
               var obj = JSON.parse(response);
               $('#cart').html(obj.html);
                 if(obj.servicemethod == ' On Site'){
-                  $('.schedule').show();  
+                  $('.schedule').show();                  
+                  $('#service_text_bottom1').show(500);
+                  $('#service_text_bottom').hide(500);
                 }else{
                   $('.schedule').hide();
+                  $('#service_text_bottom').show(500);
+                  $('#service_text_bottom1').hide(500);
                 }
               
             }
@@ -365,6 +378,31 @@
     }
     
     function save_location(){
+        if($('#location').val() === ''){
+            $('#location_error').show();
+            return true;
+        }
+        $('#location_error').hide();
+        
+        if($('#street').val() === ''){
+            $('#street_error').show();
+            return true;
+        }
+        $('#street_error').hide();
+        
+        if($('#house').val() === ''){
+            $('#house_error').show();
+            return true;
+        }
+        $('#house_error').hide();
+        
+        if($('#landmark').val() === ''){
+            $('#landmark_error').show();
+            return true;
+        }
+        $('#landmark_error').hide();
+        $('.error1').hide();
+        
         
         $.ajax({
             type: 'post',
@@ -385,6 +423,7 @@
             success: function (response) {
               console.log(response);
               $('#schedule_cart').html('<div class="border_line"></div>'+response);
+              $('.error11').hide();
             }
           });
     }
@@ -398,8 +437,10 @@
             success: function (response) {
               console.log(response);
               $('#provider_cart').html('<div class="border_line"></div>'+response);
+              $('.error2').hide();
             }
           });
+        
     }
     
     function save_billing(){
@@ -417,12 +458,11 @@
     
     
     function load_next_tab(){
-        
+        //alert(nextlink);
         var nextpage = 'location';
         if($('#next_tab').val()){
           nextpage = $('#next_tab').val();  
-        }
-        
+        }        
         if(nextpage == 'location'){
             submit_form();
             if($("#servicetype").val()){
@@ -447,67 +487,83 @@
             type: 'post',
             url: url,
             data: {'nextpage':nextpage,'check':check},
+            beforeSend: function() {
+                // show loader
+                $('#loader').show();
+                $('.servicebox').hide();                
+            },
             success: function (response) {
               console.log(response);
-              if(response == 0){                
-                if(nextpage == 'location'){
-                    $('.error').show();
-                }
-                if(nextpage == 'schedule'){
-                    $('.error1').show();
-                    $('#errorflag').val(1);
-                }
-                if(nextpage == 'provider'){                    
-                    if($('#errorflag').val() === '1') {
-                        //alert($('#errorflag').val());
-                        $('.error11').show();
-                    }else{
-                        $('.error1').show();
-                    }
-                }
-                if(nextpage == 'checkout'){
-                    $('.error2').show();
-                }
-                if(nextpage == 'finish'){
-                    $('.error3').show();
-                }
-              }else{
+              //alert(nextpage);
+                if(response == 0){
+                  $('#loader').hide();
+                  $('.servicebox').show();   
+                  if(nextpage == 'location'){
+                      $('.error').show();
+                  }
+                  if(nextpage == 'schedule'){
+                      $('.error1').show();
+                      $('#errorflag').val(1);
+                  }
+                  if(nextpage == 'provider'){                    
+                      if($('#errorflag').val() === '1') {
+                          //alert($('#errorflag').val());
+                          $('.error11').show();
+                      }else{
+                          $('.error1').show();
+                      }
+                  }
+                  if(nextpage == 'checkout'){
+                      $('.error2').show();
+                  }
+                  if(nextpage == 'finish'){
+                      $('.error3').show();
+                  }                    
+                }else{
+                  if(nextpage == 'schedule'){                   
+                      $('#errorflag').val(1);
+                  }  
+                  setTimeout(function() {
+                      if(nextpage == 'location'){
+                          $('.tab').html(response);
+                          $('.error').hide();
+                          $('.needs').removeClass('active');
+                          $('.location').addClass('active');
+                      }
+                      if(nextpage == 'schedule'){                        
+                          $('.tab').html(response);
+                          $('.error').hide();
+                          $('.error1').hide();                        
+                          $('.location').removeClass('active');
+                          $('.schedule').addClass('active');
+                      }
+                      if(nextpage == 'provider'){
+                          $('.tab').html(response);
+                          $('.error').hide();
+                          $('.error1').hide();
+                          $('.error11').hide();
+                          $('.location').removeClass('active');
+                          $('.schedule').removeClass('active');
+                          $('.provider').addClass('active');
+                      }
+                      if(nextpage == 'checkout'){
+                          $('.tab').html(response);
+                          $('.error1').hide();
+                          $('.error11').hide();
+                          $('.error2').hide();
+                          $('.provider').removeClass('active');
+                          $('.checkout').addClass('active');
+                          $('#continue').hide();
+                      }
+                      if(nextpage == 'finished'){
+                          window.location = "<?php echo site_url('welcome/checkout'); ?>";
+                      }
                 
-                    if(nextpage == 'location'){
-                        $('.tab').html(response);
-                        $('.error').hide();
-                        $('.needs').removeClass('active');
-                        $('.location').addClass('active');
-                    }
-                    if(nextpage == 'schedule'){                        
-                        $('.tab').html(response);
-                        $('.error').hide();
-                        $('.error1').hide();                        
-                        $('.location').removeClass('active');
-                        $('.schedule').addClass('active');
-                    }
-                    if(nextpage == 'provider'){
-                        $('.tab').html(response);
-                        $('.error').hide();
-                        $('.error1').hide();
-                        $('.error11').hide();
-                        $('.location').removeClass('active');
-                        $('.schedule').removeClass('active');
-                        $('.provider').addClass('active');
-                    }
-                    if(nextpage == 'checkout'){
-                        $('.tab').html(response);
-                        $('.error1').hide();
-                        $('.error11').hide();
-                        $('.error2').hide();
-                        $('.provider').removeClass('active');
-                        $('.checkout').addClass('active');
-                        $('#continue').hide();
-                    }
-                    if(nextpage == 'finished'){
-                        window.location = "<?php echo site_url('welcome/checkout'); ?>";
-                    }
-              }
+                    }, 500);
+                }
+            },
+            complete: function() {
+               
             }
           });
     }
@@ -517,7 +573,91 @@
         location.reload();
     }
     
+    function your_location(){
+        
+          $.ajax({
+            type: 'post',
+            url: '<?php echo site_url('welcome/load_location_tab');?>',
+            beforeSend: function() {
+                // show loader
+                $('#loader').show();
+                $('.servicebox').hide();                
+            },
+            success: function (response) {
+              //console.log(response);
+              setTimeout(function() {
+                    if(response != 0){
+                        $('.tab').html(response);
+                        $('.error').hide();
+                        $('.needs').removeClass('active');
+                        $('.schedule').removeClass('active');
+                        $('.provider').removeClass('active');
+                        $('.checkout').removeClass('active');
+                        $('.location').addClass('active');
+                        $('#continue').show();
+                    }
+              }, 500); 
+            }
+          });
+        
+    }
     
+    function your_schedule(){
+        
+          $.ajax({
+            type: 'post',
+            url: '<?php echo site_url('welcome/load_schedule_tab');?>',
+            beforeSend: function() {
+                // show loader
+                $('#loader').show();
+                $('.servicebox').hide();                
+            },
+            success: function (response) {
+              //console.log(response);
+              setTimeout(function() {
+                if(response != 0){
+                    $('.tab').html(response);                    
+                    $('.error').hide();
+                    $('.error1').hide();                        
+                    $('.location').removeClass('active');
+                    $('.provider').removeClass('active');
+                    $('.checkout').removeClass('active');
+                    $('.schedule').addClass('active');
+                    $('#continue').show();
+                }
+              }, 500); 
+            }
+          });    
+    }
+    
+    function your_provider(){
+        
+          $.ajax({
+            type: 'post',
+            url: '<?php echo site_url('welcome/load_provider_tab');?>',
+            beforeSend: function() {
+                // show loader
+                $('#loader').show();
+                $('.servicebox').hide();                
+            },
+            success: function (response) {
+              //console.log(response);
+              setTimeout(function() {
+                if(response != 0){
+                    $('.tab').html(response);
+                    $('.error').hide();
+                    $('.error1').hide();
+                    $('.error11').hide();
+                    $('.location').removeClass('active');
+                    $('.schedule').removeClass('active');
+                    $('.checkout').removeClass('active');
+                    $('.provider').addClass('active');
+                    $('#continue').show();
+                }
+              }, 500);   
+            }
+          });    
+    }
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCCQzJ9DJLTRjrxLkRk6jaSrvcc5BfDtWM" type="text/javascript"></script>

@@ -80,19 +80,16 @@
                 </div>
                 <hr>
                 <div class="Billing">
-                <?php $billing = ($this->session->userdata('billing_cart')) ? $this->session->userdata('billing_cart') : ''; ?>
-                <?php // print_r($_SESSION); ?>
-                <?php if(!empty($billing)){ foreach($billing as $key => $value){ ?>
-                    <strong><?=$key?> : </strong><?=$value?><br>
-                <?php } }  ?>
-                <?php ?>
+                
+                    <strong>Payment Method : </strong><?php print_r($this->session->userdata('payment_method')['payment_method'])?><br>
+                
                 </div>
                 <hr>
             </div>
             <div class="col-md-12">
                 <form method="post" action="<?php echo site_url('payment');?>">
-                <input type="hidden" name="payment_method" value="paypal">
-                <button class="btn btn-primary">Pay</button>
+                <input type="hidden" name="payment_method" value="<?php print_r($this->session->userdata('payment_method')['payment_method'])?>">
+                <button class="btn btn-primary">Submit Order</button>
                 </form>
             </div>
         </div>        
