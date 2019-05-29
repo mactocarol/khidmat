@@ -601,7 +601,7 @@ h2.resp-accordion:first-child {
     left: 0;
     min-width: 200px;
     background: #ffffff;
-    z-index: 1;
+    z-index: 99;
 	transition: all ease-in-out 0.3s;
 	-webkit-transition: all ease-in-out 0.3s;
 	-moz-transition: all ease-in-out 0.3s;
@@ -611,7 +611,7 @@ h2.resp-accordion:first-child {
 .navigation_menu > ul > li > ul:before {
     position: absolute;
     content: "";
-    right: 40px;
+    left: 10px;
     top: -20px;
     border-top: 10px solid transparent;
     border-bottom: 10px solid #ffffff;
@@ -1904,28 +1904,24 @@ li.wt-instagram a {
     display: inline-block;
     width: 100%;
     background-color: #ffffff;
-    /*box-shadow: 4px 6px 13px rgba(0, 0, 0, 0.14);
-    -webkit-box-shadow: 4px 6px 13px rgba(0, 0, 0, 0.14);
-    -moz-box-shadow: 4px 6px 13px rgba(0, 0, 0, 0.14);*/
     padding: 20px 0;
+    text-align: center;
+    position: relative;
 }
 .progress_steps::before {
     position: absolute;
     content: "";
     background: #f7f7f7;
-    width: 90%;
+    width: 100%;
     height: 5px;
     top: 40px;
-    left: 30px;
+    left: 0px;
 }
 .prog_box {
     display: inline-block;
     position: relative;
     text-align: center;
-  margin: 0 0 0 155px;
-}
-.prog_box:first-child {
-    margin: 0;
+    margin: 0 50px;
 }
 .prog_box .icon {
     width: 44px;
@@ -2364,6 +2360,10 @@ li.wt-instagram a {
     font-size: 14px;
     color: #223645;
 }
+#provider_cart p {
+    font-size: 14px;
+    color: #223645;
+}
 .location_dv strong {
     display: block;
     font-size: 17px;
@@ -2459,6 +2459,9 @@ li.wt-instagram a {
 .service_row{
     display: inline-block;
     width: 100%;
+}
+.service_row > [class*=col-] {
+    padding: 0 5px;
 }
 .service_col .serv_type_name {
     font-size: 15px;
@@ -2659,533 +2662,767 @@ border-color: #ccc;}
     border: none;
     margin: 15px 0;
 }
- /*==== calendar css start ====*/
- .schedule_calendar .ui-datepicker {
-        width: 100%;
-    }
-	.ui-datepicker .ui-datepicker-header {
-		position: relative;
-		padding: 25px 0 10px;
-		background: #ed1b24;
-		color: #dfdfdf;
-		font-size: 23px;
-		font-weight: 500;
-		border-radius: 0;
-		border-bottom: none;
-	}
-	.schedule_calendar .ui-widget-header .ui-corner-all {
-		background: #fff;
-		border-radius: 0;
-	}
-	.schedule_calendar .ui-datepicker-calendar tr th {
-		background: #ed1b24;
-		font-size: 16px;
-		font-weight: 500;
-		color: #dfdfdf;
-		border-top: none;
-	}
-  .schedule_calendar .ui-datepicker td span, .schedule_calendar .ui-datepicker td a {
-		padding: 20px 8px;
-		text-align: center;
-		background: #f1f1f1;
-		color: #444;
-		font-size: 17px;
-		font-weight: 600;
-		border: none;
-	}
-   .schedule_calendar .ui-datepicker td.ui-datepicker-current-day a, 
-   .schedule_calendar .ui-datepicker td .ui-state-hover{
-		background:#ed1b24;
-		color:#ffffff;
-	}
-    .time_slots_wrapper {
-		float: left;
-		width: 100%;
-		background: #f5f5f5;
-		padding: 35px 20px;
-		text-align: center;
-		display: none;
-	}
-    .show_schedule_date input {
-		text-align: center;
-		border: none;
-		background: none;
-		color: #233645;
-		font-size: 18px;
-		margin-bottom: 20px;
-		font-weight: 500;
-	}
-    .time_slots_wrapper .radio_box label {
-        display: inline-block;
-        margin-bottom: 5px;
-        margin-right: 5px;
-    }
-    .time_slots_wrapper .radio_box label input[type="radio"] {
-        display: none;
-    }
-	.time_slots_wrapper .radio_box label span {
-		display: inline-block;
-		background: #ffffff;
-		border: 1px solid #233645;
-		color: #233645;
-		padding: 8px 15px;
-		font-size: 16px;
-		cursor: pointer;
-		border-radius: 5px;
-	}
-	.time_slots_wrapper .radio_box label input[type="radio"]:checked + .r_text {
-		background: #233645;
-		color: #fff;
-	}
- /*==== calendar css End ====*/
-    .joblist_label input[type="radio"]{
-        display: none;
-    }
-    .joblist_label input[type="radio"]:checked + .job-list {
-        border: 1px solid #ed1b24;
-    }
-    /*==== Dashboard content part ===*/
-    .dashboard_cotent_part{
-        display: inline-block;
-        width: 100%;
-        padding-top: 60px;
-    }
-    .message_box_cover{
-        display: inline-block;
-        width: 100%;
-    }
-    .message_box {
-        float: left;
-        width: 100%;
-        background: #f5f7f9;
-        margin-bottom: 50px;
-    }
-    .message_box .msg_head {
-        display: inline-block;
-        width: 100%;
-        background-color: #ed1b24;
-        color: #ffffff;
-        padding: 19px 20px;
-    }
-    .msg_head h4 {
-        font-size: 18px;
-        color: #f2f5f7;
-        margin: 0;
-        display: inline-block;
-        margin-top: 3px;
-        text-transform: capitalize;
-    }
-    .msg_head .msg_icon {
-        float: right;
-        font-size: 24px;
-        line-height: 24px;
-    }
-    .msg_body {
-        padding: 20px 15px 15px;
-    }
-    .msg_body .counter_msg{
-        display:inline-block;
-        width: 100%;
-    }
-   .counter_msg span {
-        font-size: 29px;
-        font-weight: 600;
-        color: #223645;
-        font-family: 'Montserrat', sans-serif;
-        margin-right: 13px;
-    }
-    .counter_msg p {
-        color: #666666;
-        font-size: 14px;
-    }
-    .counter_msg span, .counter_msg p{
-        display: inline-block;
-        vertical-align: middle;
-    }
-    .msg_footer {
-        border-top: 1px solid #e7e3e3;
-        padding: 20px 5px 5px;
-        margin-top: 14px;
-    }
-    .msg_footer .view_link {
-        display: block;
-        color: #666666;
-        font-size: 14px;
-        text-transform: capitalize;
-    }
-    .msg_footer .view_link i{
-        float: right;
-    }
-    .msg_footer .view_link:hover{
-        color: #ed1b24;
-    }
-    .activity_box {
-        border: 1px solid #eeeded;
-        display: inline-block;
-        width: 100%;
-        margin-bottom: 50px;
-    }
-    .activity_box_head {
-        background: #f2f5f7;
-        padding: 25px 20px;
-    }
-    .activity_box_head h4 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        text-transform: capitalize;
-        color: #666666;
-    }
-    .activity_box_body{
-        padding: 15px;
-    }
-    .activity_lists {
-        display: inline-block;
-        width: 100%;
-    }
-   .activity_lists > li {
-        float: left;
-        width: 100%;
-        margin-bottom: 14px;
-    }
-    .activity_lists > li .left_sch_date {
-        float: left;
-        width: 100px;
-        font-size: 15px;
-        margin-right: 10px;
-        font-weight: 500;
-    }
-    .activity_lists > li .schedule_text {
-        display: block;
-        margin-left: 110px;
-        padding-left: 30px;
-        position: relative;
-    }
-    .activity_lists > li .schedule_text p {
-        font-size: 14px;
-        font-weight: 500;
-    }
-    .schedule_text p span {
-        color: #ed1b24;
-    }
-    .activity_lists > li .schedule_text:before {
-        position: absolute;
-        content: "";
-        left: 0;
-        top: 5px;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        border: 1px solid #ed1b24;
-    }
-  .activity_lists > li .schedule_text:after {
-        position: absolute;
-        content: "";
-        left: 6px;
-        width: 2px;
-        height: 100%;
-        background: #eeeeee;
-        top: 19px;
-    }
-    /*==== Dashboard content part ===*/
+/*==== calendar css start ====*/
+.schedule_calendar .ui-datepicker {
+    width: 100%;
+}
+.ui-datepicker .ui-datepicker-header {
+	position: relative;
+	padding: 25px 0 10px;
+	background: #ed1b24;
+	color: #dfdfdf;
+	font-size: 23px;
+	font-weight: 500;
+	border-radius: 0;
+	border-bottom: none;
+}
+.schedule_calendar .ui-widget-header .ui-corner-all {
+	background: #fff;
+	border-radius: 0;
+}
+.schedule_calendar .ui-datepicker-calendar tr th {
+	background: #ed1b24;
+	font-size: 16px;
+	font-weight: 500;
+	color: #dfdfdf;
+	border-top: none;
+}
+.schedule_calendar .ui-datepicker td span, .schedule_calendar .ui-datepicker td a {
+	padding: 20px 8px;
+	text-align: center;
+	background: #f1f1f1;
+	color: #444;
+	font-size: 17px;
+	font-weight: 600;
+	border: none;
+}
+.schedule_calendar .ui-datepicker td.ui-datepicker-current-day a, 
+.schedule_calendar .ui-datepicker td .ui-state-hover{
+	background:#ed1b24;
+	color:#ffffff;
+}
+.time_slots_wrapper {
+	float: left;
+	width: 100%;
+	background: #f5f5f5;
+	padding: 35px 20px;
+	text-align: center;
+	display: none;
+}
+.show_schedule_date input {
+	text-align: center;
+	border: none;
+	background: none;
+	color: #233645;
+	font-size: 18px;
+	margin-bottom: 20px;
+	font-weight: 500;
+}
+.time_slots_wrapper .radio_box label {
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+.time_slots_wrapper .radio_box label input[type="radio"] {
+    display: none;
+}
+.time_slots_wrapper .radio_box label span {
+	display: inline-block;
+	background: #ffffff;
+	border: 1px solid #233645;
+	color: #233645;
+	padding: 8px 15px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.time_slots_wrapper .radio_box label input[type="radio"]:checked + .r_text {
+	background: #233645;
+	color: #fff;
+}
+/*==== calendar css End ====*/
+.joblist_label input[type="radio"]{
+    display: none;
+}
+.joblist_label input[type="radio"]:checked + .job-list {
+    border: 1px solid #ed1b24;
+}
+/*==== Dashboard content part ===*/
+.dashboard_cotent_part{
+    display: inline-block;
+    width: 100%;
+    padding-top: 60px;
+}
+.message_box_cover{
+    display: inline-block;
+    width: 100%;
+}
+.message_box {
+    float: left;
+    width: 100%;
+    background: #f5f7f9;
+    margin-bottom: 50px;
+}
+.message_box .msg_head {
+    display: inline-block;
+    width: 100%;
+    background-color: #ed1b24;
+    color: #ffffff;
+    padding: 19px 20px;
+}
+.msg_head h4 {
+    font-size: 18px;
+    color: #f2f5f7;
+    margin: 0;
+    display: inline-block;
+    margin-top: 3px;
+    text-transform: capitalize;
+}
+.msg_head .msg_icon {
+    float: right;
+    font-size: 24px;
+    line-height: 24px;
+}
+.msg_body {
+    padding: 20px 15px 15px;
+}
+.msg_body .counter_msg{
+    display:inline-block;
+    width: 100%;
+}
+.counter_msg span {
+    font-size: 29px;
+    font-weight: 600;
+    color: #223645;
+    font-family: 'Montserrat', sans-serif;
+    margin-right: 13px;
+}
+.counter_msg p {
+    color: #666666;
+    font-size: 14px;
+}
+.counter_msg span, .counter_msg p{
+    display: inline-block;
+    vertical-align: middle;
+}
+.msg_footer {
+    border-top: 1px solid #e7e3e3;
+    padding: 20px 5px 5px;
+    margin-top: 14px;
+}
+.msg_footer .view_link {
+    display: block;
+    color: #666666;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+.msg_footer .view_link i{
+    float: right;
+}
+.msg_footer .view_link:hover{
+    color: #ed1b24;
+}
+.activity_box {
+    border: 1px solid #eeeded;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 50px;
+}
+.activity_box_head {
+    background: #f2f5f7;
+    padding: 25px 20px;
+}
+.activity_box_head h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: #666666;
+}
+.activity_box_body{
+    padding: 15px;
+}
+.activity_lists {
+    display: inline-block;
+    width: 100%;
+}
+.activity_lists > li {
+    float: left;
+    width: 100%;
+    margin-bottom: 14px;
+}
+.activity_lists > li .left_sch_date {
+    float: left;
+    width: 100px;
+    font-size: 15px;
+    margin-right: 10px;
+    font-weight: 500;
+}
+.activity_lists > li .schedule_text {
+    display: block;
+    margin-left: 110px;
+    padding-left: 30px;
+    position: relative;
+}
+.activity_lists > li .schedule_text p {
+    font-size: 14px;
+    font-weight: 500;
+}
+.schedule_text p span {
+    color: #ed1b24;
+}
+.activity_lists > li .schedule_text:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid #ed1b24;
+}
+.activity_lists > li .schedule_text:after {
+    position: absolute;
+    content: "";
+    left: 6px;
+    width: 2px;
+    height: 100%;
+    background: #eeeeee;
+    top: 19px;
+}
+/*==== Dashboard content part ===*/
 
-    /*==== Message inbox css ===*/
-    .inbox_message_wrapper .pad_0 {
+/*==== Message inbox css ===*/
+.inbox_message_wrapper .pad_0 {
     padding: 0;
 }
-    .inbox_message_wrapper{
-        display: inline-block;
-        width: 100%;
-    }
-   .inbox_list_cover {
-        display: inline-block;
-        width: 100%;
-        border-left: 1px solid #dedede;
-        border-right: 1px solid #dedede;
-    }
-    .inbox_heading{
-        display: inline-block;
-        width: 100%;
-        padding: 18px 20px;
-        border-bottom: 1px solid #dedede;
-    }
-   .inbox_heading h4 {
-        font-size: 20px;
-        color: #223645;
-        font-weight: 500;
-        display: inline-block;
-        margin: 8px 0 0;
-    }
-    .inbox_heading .msg_button {
-        float: right;
-        color: #fff;
-        border: none;
-        background: #ed1b24;
-        height: 35px;
-        padding: 0 20px;
-        font-size: 16px;
-        font-weight: 500;
-        border-radius: 4px;
-        font-family: 'Montserrat', sans-serif;
-    }
-    .inbox_lists {
-        float: left;
-        width: 100%;
-    }
-   .inbox_lists .check_box {
-        float: left;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        margin-top: -10px;
-    }
-    .inbox_lists .check_box .ck_box {
-        border: 1px solid #d8d8d8;
-    }
-    .check_box input:checked ~ .ck_box{
-        border-color:#ed1b24;
-    }
-    .inbox_lists > li {
-        float: left;
-        width: 100%;
-        border-bottom: 1px solid #dedede;
-        padding: 15px 10px;
-        position: relative;
-        border-left: 3px solid transparent;
-    }
-    .inbox_lists > li > a {
-        display: block;
-        text-decoration: none;
-        position: relative;
-    }
-   .inbox_lists .inbox_text_cover {
-        display: block;
-        padding-left: 30px;
-    }
-    .inbox_text_cover .thumb {
-        float: left;
-        width: 42px;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-    }
-    .inbox_text_cover .thumb img {
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        object-fit: cover;
-    }
-    .inbox_text_cover .inbox_text {
-        padding-left: 52px;
-    }
-    .inbox_text .text_title{
-        padding-bottom: 4px;
-    }
-    .inbox_text .text_title i {
-        font-size: 14px;
-        color: #ed1b24;
-        margin-right: 5px;
-    }
-    .text_title h4 {
-        font-size: 15px;
-        display: inline-block;
-        margin: 0;
-        font-weight: 600;
-        color: #ed1b24;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 148px;
-        vertical-align: top;
-        white-space: nowrap;
-    }
-    .text_title .times {
-        float: right;
-        font-size: 14px;
-        color: #223645;
-        font-weight: 600;
-    }
-    .inbox_text p {
-        color: #666666;
-        font-size: 13px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 500;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 250px;
-        white-space: nowrap;
-        margin: 0;
-    }
-    .inbox_lists > li:hover{
-        border-left-color: #ed1b24;
-        background-color: #f2f4f6;
-     }
-     .inbox_lists > li:hover .text_title h4, .inbox_lists > li:hover .text_title i {
-        color: #223645;
-    }
-    /*==== Message inbox css ===*/
+.inbox_message_wrapper{
+    display: inline-block;
+    width: 100%;
+}
+.inbox_list_cover {
+    display: inline-block;
+    width: 100%;
+    border-left: 1px solid #dedede;
+    border-right: 1px solid #dedede;
+}
+.inbox_heading{
+    display: inline-block;
+    width: 100%;
+    padding: 18px 20px;
+    border-bottom: 1px solid #dedede;
+}
+.inbox_heading h4 {
+    font-size: 20px;
+    color: #223645;
+    font-weight: 500;
+    display: inline-block;
+    margin: 8px 0 0;
+}
+.inbox_heading .msg_button {
+    float: right;
+    color: #fff;
+    border: none;
+    background: #ed1b24;
+    height: 35px;
+    padding: 0 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+}
+.inbox_lists {
+    float: left;
+    width: 100%;
+}
+.inbox_lists .check_box {
+    float: left;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -10px;
+}
+.inbox_lists .check_box .ck_box {
+    border: 1px solid #d8d8d8;
+}
+.check_box input:checked ~ .ck_box{
+    border-color:#ed1b24;
+}
+.inbox_lists > li {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #dedede;
+    padding: 15px 10px;
+    position: relative;
+    border-left: 3px solid transparent;
+}
+.inbox_lists > li > a {
+    display: block;
+    text-decoration: none;
+    position: relative;
+}
+.inbox_lists .inbox_text_cover {
+    display: block;
+    padding-left: 30px;
+}
+.inbox_text_cover .thumb {
+    float: left;
+    width: 42px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+}
+.inbox_text_cover .thumb img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+.inbox_text_cover .inbox_text {
+    padding-left: 52px;
+}
+.inbox_text .text_title{
+    padding-bottom: 4px;
+}
+.inbox_text .text_title i {
+    font-size: 14px;
+    color: #ed1b24;
+    margin-right: 5px;
+}
+.text_title h4 {
+    font-size: 15px;
+    display: inline-block;
+    margin: 0;
+    font-weight: 600;
+    color: #ed1b24;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 148px;
+    vertical-align: top;
+    white-space: nowrap;
+}
+.text_title .times {
+    float: right;
+    font-size: 14px;
+    color: #223645;
+    font-weight: 600;
+}
+.inbox_text p {
+    color: #666666;
+    font-size: 13px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+    white-space: nowrap;
+    margin: 0;
+}
+.inbox_lists > li:hover{
+    border-left-color: #ed1b24;
+    background-color: #f2f4f6;
+ }
+ .inbox_lists > li:hover .text_title h4, .inbox_lists > li:hover .text_title i {
+    color: #223645;
+}
+/*==== Message inbox css ===*/
 
-    /*==== Right Message css ===*/
-    .inbox_message_right{
-        display: inline-block;
-        width: 100%;
-    }
-    .inbox_msg_heading_tp {
-        display: inline-block;
-        width: 100%;
-        padding: 0 20px;
-    }
-    .inbox_msg_heading_tp h3 {
-        margin: 24px 0;
-        font-size: 20px;
-        display: inline-block;
-    }
-    .pull_right{
-        float: right;
-    }
-    .inbox_msg_heading_tp .msg_time {
-        font-size: 14px;
-        font-weight: 500;
-        font-family: 'Montserrat', sans-serif;
-        color: #666666;
-        padding: 25px 0 0;
-    }
-    .inbox_msg_heading_tp .msg_time i {
-        margin-right: 3px;
-        font-size: 15px;
-    }
-   .inbox_msg_heading {
-        display: inline-block;
-        width: 100%;
-        padding: 12px 20px;
-        background: #e9ecef;
-    }
-    .inbox_msg_heading h4 {
-        font-size: 15px;
-        display: inline-block;
-        color: #000000;
-        margin: 10px 0;
-    }
-    .heading_btns .msg_btns {
-        display: inline-block;
-        background-color: transparent;
-        color: #223645;
-        border: 1px solid #223645;
-        border-radius: 4px;
-        font-size: 14px;
-        font-weight: 500;
-        text-transform: capitalize;
-        height: 30px;
-        line-height: 30px;
-        padding: 0 15px;
-        margin: 2px;
-        font-family: 'Montserrat', sans-serif;
-    }
-	.heading_btns .msg_btns:hover {
-		border-color: #ed1b24;
-		color: #ed1b24;
-	}
-   .inbox_msg_body {
-        display: inline-block;
-        width: 100%;
-        padding: 30px 20px 30px;
-    }
-   .inbox_msg_text .sendername {
-        font-size: 15px;
-        color: #223645;
-        font-weight: 600;
-        margin-top: 0;
-        margin-bottom: 10px;
-    }
-    .inbox_msg_text p {
-        line-height: 30px;
-        font-size: 14px;
-        color: #666666;
-    }
-    .inbox_msg_attachment{
-        display: inline-block;
-        width: 100%;
-        margin-top: 14px;
-    }
-    .inbox_msg_attachment h4 {
-        font-size: 14px;
-        color: #666666;
-    }
-    .inbox_msg_attachment h4 i {
-        margin-right: 5px;
-        font-size: 17px;
-    }
-    .attachment_files{
-        display: inline-block;
-        width: 100%;
-    }
-    .attachment_files .attach_dv {
-        float: left;
-        width: 60px;
-        position: relative;
-        margin-right: 14px;
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    .attachment_files .attach_dv img{
-        border-radius: 5px;
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-    }
-    .attach_overlay {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        text-align: center;
-        background: rgba(237, 27, 36, 0.40);
-        border-radius: 5px;
-        visibility: hidden;
-        opacity: 0;
-        transition: all ease-in 0.3s;
-        -webkit-transition: all ease-in 0.3s;
-        -moz-transition: all ease-in 0.3s;
-    }
-    .attach_overlay .attach_icon {
-        color: #fff;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        font-size: 20px;
-        line-height: 20px;
-        transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        -o-transform: translate(-50%, -50%);
-    }
-    .attach_dv:hover .attach_overlay{
-        visibility: visible;
-        opacity: 1;
-    }
-    /*==== Right Message css ===*/
-	.servicebox .form_group {
-        margin-bottom: 15px;
-    }
-	/*====== service Payment radio =====*/
-	.checkout_panel .radio_box label {
-		margin: 0 0 20px 0;
-		display: block;
-	}
-	.checkout_panel .radio_box label .r_check{
-		vertical-align: top;
-	}
-	.checkout_panel .radio_box .r_texts{
-		vertical-align: top;
-	}
-	.checkout_panel .radio_box .r_texts span {
-		font-size: 17px;
-		margin-bottom: 6px;
-		display: inline-block;
-	}
-	.checkout_panel .radio_box .r_texts p {
-		font-size: 13px;
-		color: #555;
-		line-height: 22px;
-	}
-	/*====== service Payment radio =====*/
+/*==== Right Message css ===*/
+.inbox_message_right{
+    display: inline-block;
+    width: 100%;
+}
+.inbox_msg_heading_tp {
+    display: inline-block;
+    width: 100%;
+    padding: 0 20px;
+}
+.inbox_msg_heading_tp h3 {
+    margin: 24px 0;
+    font-size: 20px;
+    display: inline-block;
+}
+.pull_right{
+    float: right;
+}
+.inbox_msg_heading_tp .msg_time {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    color: #666666;
+    padding: 25px 0 0;
+}
+.inbox_msg_heading_tp .msg_time i {
+    margin-right: 3px;
+    font-size: 15px;
+}
+.inbox_msg_heading {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 20px;
+    background: #e9ecef;
+}
+.inbox_msg_heading h4 {
+    font-size: 15px;
+    display: inline-block;
+    color: #000000;
+    margin: 10px 0;
+}
+.heading_btns .msg_btns {
+    display: inline-block;
+    background-color: transparent;
+    color: #223645;
+    border: 1px solid #223645;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: capitalize;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    margin: 2px;
+    font-family: 'Montserrat', sans-serif;
+}
+.heading_btns .msg_btns:hover {
+	border-color: #ed1b24;
+	color: #ed1b24;
+}
+.inbox_msg_body {
+    display: inline-block;
+    width: 100%;
+    padding: 30px 20px 30px;
+}
+.inbox_msg_text .sendername {
+    font-size: 15px;
+    color: #223645;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.inbox_msg_text p {
+    line-height: 30px;
+    font-size: 14px;
+    color: #666666;
+}
+.inbox_msg_attachment{
+    display: inline-block;
+    width: 100%;
+    margin-top: 14px;
+}
+.inbox_msg_attachment h4 {
+    font-size: 14px;
+    color: #666666;
+}
+.inbox_msg_attachment h4 i {
+    margin-right: 5px;
+    font-size: 17px;
+}
+.attachment_files{
+    display: inline-block;
+    width: 100%;
+}
+.attachment_files .attach_dv {
+    float: left;
+    width: 60px;
+    position: relative;
+    margin-right: 14px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.attachment_files .attach_dv img{
+    border-radius: 5px;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+.attach_overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    background: rgba(237, 27, 36, 0.40);
+    border-radius: 5px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all ease-in 0.3s;
+    -webkit-transition: all ease-in 0.3s;
+    -moz-transition: all ease-in 0.3s;
+}
+.attach_overlay .attach_icon {
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 20px;
+    line-height: 20px;
+    transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+.attach_dv:hover .attach_overlay{
+    visibility: visible;
+    opacity: 1;
+}
+/*==== Right Message css ===*/
+.servicebox .form_group {
+    margin-bottom: 15px;
+}
+/*====== service Payment radio =====*/
+.checkout_panel .radio_box label {
+	margin: 0 0 20px 0;
+	display: block;
+}
+.checkout_panel .radio_box label .r_check{
+	vertical-align: top;
+}
+.checkout_panel .radio_box .r_texts{
+	vertical-align: top;
+}
+.checkout_panel .radio_box .r_texts span {
+	font-size: 17px;
+	margin-bottom: 6px;
+	display: inline-block;
+}
+.checkout_panel .radio_box .r_texts p {
+	font-size: 13px;
+	color: #555;
+	line-height: 22px;
+}
+/*====== service Payment radio =====*/
+/*=========== chat page css start =========== */
+.user_chat_wrapper {
+    display: inline-block;
+    width: 100%;
+    padding: 53px 0 50px;
+    background: #fafafa;
+}
+.chat_box_frame {
+    float: left;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 1px 11px 12px rgba(0, 0, 0, 0.2);
+}
+.chat_contact_head{
+    width: 100%;
+    display:inline-block;
+    background: #ed1b24;
+}
+.contact_profile {
+   float:left;
+    width: 100%;
+    padding: 10px;
+}
+.contact_profile .thumb {
+    width: 45px;
+    display: table-cell;
+    vertical-align: middle;
+}
+.contact_profile .thumb img {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+}
+.contact_profile .profile_dtl {
+    padding-left: 10px;
+    display: table-cell;
+    vertical-align: middle;
+}
+.profile_dtl h5 {
+    font-size: 16px;
+    color: #fff;
+    margin: 0;
+    text-transform:capitalize;
+}
+/*chat window css*/
+
+.chat_window {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+    min-height: 320px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.chat_window ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    width: 100%;
+}
+.chat_window ul li {
+    float: left;
+    width: 100%;
+    margin: 14px 0;
+}
+.chat_usr_list {
+    display: inline-block;
+    width: 100%;
+}
+.chat_usr_thumb {
+    width: 70px;
+    display: inline-block;
+}
+.chat_usr_thumb img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.chat_usr_left .chat_usr_thumb {
+    float: left;
+}
+.chat_usr_left .chat_usr_msg_wrap {
+  
+}
+.chat_usr_right .chat_usr_thumb {
+    float: right;
+}
+.chat_usr_right .chat_usr_msg_wrap {
+    text-align: right;
+}
+.chat_usr_msg {
+    display: inline-block;
+}
+.chat_usr_box p {
+    margin-bottom: 0;
+    color: #000;
+    font-size: 14px;
+}
+.chat_usr_left .chat_usr_box {
+    min-width: 100px;
+    padding: 7px 18px;
+    background-color: #f0f0f0;
+    color: #000;
+    border-radius: 0em 2em 2em 2em;
+}
+.chat_usr_right .chat_usr_box {
+    min-width: 100px;
+    padding: 7px 18px;
+    background-color: #ed1b24;
+    color: #fff;
+    border-radius: 2em 0em 2em 2em;
+}
+.chat_usr_right .chat_usr_box p {
+    color: #ffffff;
+}
+.chat_date_time {
+    margin-bottom: 9px;
+}
+.chat_date_time span {
+    display: inline-block;
+    font-size: 14px;
+    color: #636363;
+    margin-right: 5px;
+}
+.chat_date_time .chat_usr_name {
+    font-size: 15px;
+    color: #000;
+    text-transform: capitalize;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+}
+/*chat window css*/
+.chat_footer {
+    display: inline-block;
+    width: 100%;
+    padding: 0 20px 20px;
+}
+.chat_ftr_form{
+    position:relative;
+}
+.chat_ftr_form .chat_input {
+    width: 100%;
+    height: 60px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 5px;
+    padding: 0 60px;
+    color: #333;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+.chat_ftr_form .chat_button {
+    display: inline-block;
+    margin-bottom: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #ed1b24;
+    border: 1px solid #ed1b24;
+    background: transparent;
+    font-size: 17px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+}
+.chat_ftr_form .chat_button:hover {
+    background: #ed1b24;
+    color: #ffffff;
+}
+.chat_attach_btn input{
+    display:none;
+}
+
+.chat_ftr_form .chat_attach_btn {
+    left: 10px;
+}
+
+.chat_ftr_form .chat_send {
+    right: 10px;
+}
+/*=========== chat page css End =========== */
+/*=========== service checkout css End =========== */
+.service_checkout {
+    width: 100%;
+    display: -webkit-box;
+    padding: 50px 0;
+}
+.service_check_list{
+    display: inline-block;
+    width: 100%;
+}
+.service_check_list .service_list {
+    float: left;
+    width: 100%;
+}
+.service_list .s_list {
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e2e2;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #555555;
+    font-weight: 500;
+}
+.service_list .s_list span {
+    display: table-cell;
+    word-break: break-word;
+}
+.service_list .s_list .s_label {
+    width: 180px;
+    color: #000000;
+}
+.service_list .s_list .s_text {
+    padding-left: 10px;
+}
+.ck_payment_btns {
+    background: #ed1b24;
+    border: none;
+    color: #ffffff;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 45px;
+    font-size: 17px;
+    text-transform: uppercase;
+    margin-top: 25px;
+}
+.ck_payment_btns:hover {
+    background: #2C3B5A;
+}
+/*=========== service checkout css End =========== */
