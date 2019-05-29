@@ -60,7 +60,7 @@
                     <ul class="s_tab_menu tab_menu">
                         <?php foreach($services as $key=>$value){?>
                             <li data-show="<?=($value['title'])?implode('-',explode(' ',$value['title'])):''?>" class="<?=($value['id']==$id)?'active':''?>">
-                                <?=$value['icon']?><span class="tab_text"><?=($value['title'])?$value['title']:''?></span>
+                                <i class="<?=$value['icon']?>"></i><span class="tab_text"><?=($value['title'])?$value['title']:''?></span>
                             </li>
                         <?php } ?>
                         <!--<li data-show="cleaning">
@@ -103,7 +103,7 @@
                      <div class="tab_content_list">
                         <?php foreach($value['subcategory'] as $keyy=>$valuee){?>
                             <a href="<?php echo site_url('catalog/'.$value['id'].'/'.$valuee['id']);?>" class="cont_list_wrap hover">
-                                <span class="icon"><?=$valuee['icon']?></span>
+                                <span class="icon"><i class="<?=$valuee['icon']?>"></i></span>
                                 <div class="list_content">
                                     <span><?=($valuee['title'])?$valuee['title']:''?></span>
                                 </div>
