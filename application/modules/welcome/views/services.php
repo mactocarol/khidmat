@@ -75,8 +75,8 @@
 							<?php } ?>
 							<?php if($value['field_type'] == 'input'){?>
 							<div class="form-group col-md-12">
-								<label><?=($value['field_name'])?$value['field_name']:''?></label>
-								<input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_key'])?$value['field_key']:''?>[]" value="<?php echo $this->session->userdata('service_cart')[implode('_',explode(' ',$value['field_name']))][0]; ?>" onchange="submit_form();" required>                                                    
+								<label><?=($value['field_key'])?$value['field_key']:''?></label>                                
+								<input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" value="<?php echo $this->session->userdata('service_cart')[implode('_',explode(' ',$value['field_name']))][0]; ?>" onchange="submit_form();" required>                                                    
 							</div>                        
 							<?php } ?>
 							<?php if($value['field_type'] == 'radio'){?>
