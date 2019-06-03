@@ -220,7 +220,7 @@ class Welcome extends MY_Controller {
                     $html .= '<p><div class="need_item_title"><h4>'.implode(' ',explode('_',$value['list'])).'</h4></div></p>';
                 }            
             }
-            
+            $flag3 = 0;
             foreach($value as $keyy=>$row){
                 if($keyy != 'list'){
                     if($keyy == 'label'){
@@ -233,21 +233,25 @@ class Welcome extends MY_Controller {
                     if($keyy == 'qty'){                        
                         $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p>';
                     }
+                    if(!$row){
+                        $flag3 += 1;
+                    }
                 }
                 if($keyy == 'Service_Method'){
                     $servicemethod = $row;
-                }
+                }                
             }
         }
-        
+        if($flag3){ $this->session->unset_userdata('service_cart1');}
+        //print_r($_POST); die;
         $html .= '<hr>'; 
         foreach($_POST as $key=>$value){
-            if($value){
+            if($value && substr($key,0, 12) != 'selectvalues'){
             $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.implode(', ',$value).'</p>';
             }
             if($key == 'Service_Method'){
                 $servicemethod = $value;
-            }
+            }            
         }
         
         print_r(json_encode((array("html"=>$html,"servicemethod"=>$servicemethod))));
@@ -292,7 +296,7 @@ class Welcome extends MY_Controller {
                     $html .= '<p><div class="need_item_title"><h4>'.implode(' ',explode('_',$value['list'])).'</h4></div></p>';
                 }            
             }
-            
+            $flag3 = 0;
             foreach($value as $keyy=>$row){
                 if($keyy != 'list'){
                     if($keyy == 'label'){
@@ -300,10 +304,13 @@ class Welcome extends MY_Controller {
                         $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keylabel']))).'</strong> : '.$row.'<span class="pull-right del_srvc_btn" onclick="delete_service(\''.$var.'\')"><i class="fas fa-times"></i></span></p>';
                     }
                     if($keyy == 'select'){                        
-                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.$row.'</p>';
+                        $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyselect']))).'</strong> : '.implode(',',$row).'</p>';
                     }
                     if($keyy == 'qty'){                        
                         $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$value['keyqty']))).'</strong> : '.$row.'</p><br>';
+                    }
+                    if(!$row){
+                        $flag3 += 1;
                     }
                 }
                 if($keyy == 'Service_Method'){
@@ -312,10 +319,12 @@ class Welcome extends MY_Controller {
             }
         }
         
+        if($flag3){ $this->session->unset_userdata('service_cart1');}
+        
         $html .= '<hr>';
         if($this->session->userdata('service_cart')){
             foreach($this->session->userdata('service_cart') as $key=>$value){
-                if($value){
+                if($value && substr($key,0, 12) != 'selectvalues'){
                     $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.implode(', ',$value).'</p>';
                 }
                 if($key == 'Service_Method'){
@@ -398,10 +407,7 @@ class Welcome extends MY_Controller {
                             foreach($this->session->userdata('service_cart') as $key=>$value){
                                 //print_r($this->session->userdata('service_cart')); die;
                                 //console.log($value);
-                                if (!array_key_exists("Issues",$this->session->userdata('service_cart'))){
-                                    //echo 0;
-                                    //return false;
-                                }
+                                
                                 if(!$value){
                                     echo 0;
                                     return false;

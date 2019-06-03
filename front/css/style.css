@@ -261,10 +261,14 @@ img {max-width:100%}
 .trending_services {
     display: block;
     background: #fff;
+    color: #a9a9a9;
     width: 80px;
+    height: 80px;
+    line-height: 56px;
     margin: 0 auto;
     padding: 14px 10px;
     border-radius: 50%;
+    font-size: 39px;
 }
 .service_box:hover{ background:#ed1b24; border-radius:4px;}
 .service_box:hover h3{ color:#fff}

@@ -348,11 +348,20 @@ class Services extends MY_Controller
                $udata['is_multiple'] = $this->input->post('is_multiple');
                $udata['status'] = $this->input->post('status');                                  
                    
-                   if($this->input->post('list_name')){                    
-                        $is_listname_exist = $this->services_model->SelectSingleRecord('options','*',array("list_name"=>$this->input->post('list_name'),"service_id"=>$this->input->post('service_id'),"status"=>"1","is_deleted"=>"0"),'id desc');                    
-                        if($is_listname_exist){                             
+                   $udata['field_position'] = 0;
+                   if($this->input->post('list_name')){
+                        $is_service_option_exist = $this->services_model->SelectSingleRecord('options','*',array("service_id"=>$this->input->post('service_id'),"status"=>"1","is_deleted"=>"0"),'id desc');
+                        if($is_service_option_exist){
+                            $is_listname_exist = $this->services_model->SelectSingleRecord('options','*',array("list_name"=>$this->input->post('list_name'),"service_id"=>$this->input->post('service_id'),"status"=>"1","is_deleted"=>"0"),'id desc');                    
+                            if($is_listname_exist){                             
+                                $udata['field_position'] = $is_listname_exist->field_position;
+                            }else{
+                                $udata['field_position'] = $is_service_option_exist->field_position + 1;
+                            } 
+                           
+                        }else{
                              $udata['field_position'] = 0;
-                        }
+                        }                        
                    }else{
                         $is_service_option_exist = $this->services_model->SelectSingleRecord('options','*',array("service_id"=>$this->input->post('service_id'),"status"=>"1","is_deleted"=>"0"),'id desc');                   
                         if($is_service_option_exist){                    

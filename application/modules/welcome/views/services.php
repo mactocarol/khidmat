@@ -66,11 +66,14 @@
 							<?php if($value['field_type'] == 'select-box'){?>
 							<div class="form-group col-md-12">
 								<label><?=($value['field_key'])?$value['field_key']:''?></label>
-								<select class="<?=($value['is_multiple'])?'selectpicker':''?> form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" <?=($value['is_multiple'])?'multiple':''?> onchange="submit_form();" required>
-									<?php foreach(explode(',',$value['field_value']) as $res) { ?>                
-										<option <?php echo (in_array(trim($res),$this->session->userdata('service_cart')[$value['field_name']])) ? 'selected' : ''; ?>><?=$res?></option>
+								<select class="<?=($value['is_multiple'])?'selectpicker':''?> form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" <?=($value['is_multiple'])?'multiple':''?> onchange="submit_form('<?=($value['field_name'])?$value['field_name']:''?>');" required>
+									<?php foreach(explode(',',$value['field_value']) as $k => $res) { ?>                
+										<option <?php if($this->session->userdata('service_cart')) { echo (in_array(trim($res),$this->session->userdata('service_cart')[$value['field_name']])) ? 'selected' : ''; }else{ echo ($k == 0) ? '' : '';  } ?>><?=$res?></option>
 									<?php } ?>
 								  </select>
+                                  <?php if($value['is_multiple']) {?>
+                                  <input name="selectvalues<?=($value['field_name'])?$value['field_name']:''?>" id="selectvalues<?=($value['field_name'])?$value['field_name']:''?>" type="hidden">
+                                  <?php } ?>
 							</div>                        
 							<?php } ?>
 							<?php if($value['field_type'] == 'input'){?>
@@ -80,7 +83,8 @@
 							</div>                        
 							<?php } ?>
 							<?php if($value['field_type'] == 'radio'){?>
-							<div class="form-group">
+							<?php if(count(explode(',',$value['field_value'])) >= 2){ ?>
+                            <div class="form-group">
 								<label><?=($value['field_key'])?$value['field_key']:''?></label>
 								<div class="form-radio-option col-md-12">
 									<?php foreach(explode(',',$value['field_value']) as $key => $res) { ?>
@@ -91,6 +95,9 @@
 									<?php } ?>
 								</div>
 							</div>
+                            <?php }else{ ?>
+                            <input type="hidden" id="<?=$res?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" value="<?=explode(',',$value['field_value'])[0]?>">
+                            <?php } ?>
                             <div class="service_text_bottom" id="service_text_bottom" >
                             <p>We will send a trusted courier to collect your device from your location (home or office) and take it to be repaired in-store. We will bring the fixed device back to your location_This is your lowest cost option. </p>
                             </div>
@@ -136,12 +143,12 @@
 											<label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
 											<?php for($i=0;$i<$mm;$i++){?>
 												<div class="form-group">                         
-													<select class="form-control" id="select<?=$i.$l?>" >
+													<select class="<?=($value['is_multiple'])?'selectpicker':''?> form-control" id="select<?=$i.$l?>"  <?=($value['is_multiple'])?'multiple':''?>>
 														<?php foreach(explode(',',$value['field_value']) as $res) { ?>                
 															<option><?=$res?></option>
 														<?php } ?>
 													  </select>
-												</div>
+												</div>                                                
 											<?php } ?>    
 											</div>
 										</div>
@@ -317,7 +324,12 @@
 </script>
 
 <script>
-    function submit_form(){
+    function submit_form(fieldname = null){                
+        if(fieldname !== null){
+          $('#selectvalues'+fieldname).val($('#'+fieldname).val());  
+        }
+        
+        
         $('#continue').show();
         $.ajax({
             type: 'post',
@@ -326,9 +338,10 @@
             success: function (response) {
               //alert('form was submitted');
               console.log(response);
-              var obj = JSON.parse(response);
+              var obj = JSON.parse(response);              
               $('#cart').html(obj.html);
-                if(obj.servicemethod == ' On Site'){
+              console.log(obj.servicemethod);
+                if(obj.servicemethod == 'On Site' || obj.servicemethod == ' On Site'){
                   $('.schedule').show();                  
                   $('#service_text_bottom1').show(500);
                   $('#service_text_bottom').hide(500);

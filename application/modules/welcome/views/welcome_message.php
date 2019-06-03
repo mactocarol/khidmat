@@ -5,7 +5,7 @@
                 <h1 class="text-center text-capitalize">Ready to Live Smarter?</h1>
                 <h3 class="text-center text-capitalize">Get instant access to reliable and affordable services</h3>
                 <div class="form_outer">
-                    <form class="row">
+                    <!--<form class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div class="location_search">
@@ -23,9 +23,9 @@
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
-                    </form>
+                    </form>-->
                 </div>
-                <h4 class="text-capitalize text-center">E.g. Salon at Home, Plumber, Wedding Photographer</h4>
+                <!--<h4 class="text-capitalize text-center">E.g. Salon at Home, Plumber, Wedding Photographer</h4>-->
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
                 <?php foreach($services as $row){?>
                     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
                         <a href="<?php echo site_url('catalog/'.$row['id']);?>" class="service_box">
-                            <span class="trending_services"><img src="<?php echo base_url('front');?>/images/icons/4.png"></span>
+                            <span class="trending_services"><i class="<?=$row['icon']?>"></i></span>
                             <h3><?=($row['title'])?$row['title']:''?></h3>
                         </a>
                     </div>
@@ -314,9 +314,9 @@
         </div>
     </section>
     
-    <div id="location" class="modal fade" role="dialog">
+   <!-- <div id="location" class="modal fade" role="dialog">
         <div class="modal-dialog">
-            <!-- Modal content-->
+            <!-- Modal content--
             <div class="modal-content">
 
                 <div class="modal-body text-center">
@@ -336,5 +336,5 @@
             </div>
 
         </div>
-    </div>
+    </div>-->
     <?php $this->load->view('footer'); ?>

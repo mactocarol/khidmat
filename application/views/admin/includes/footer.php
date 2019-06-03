@@ -570,7 +570,7 @@
     });
   } );
 </script>
-<script src="<?php echo base_url('front');?>/js/bootstrap-multiselect.min.js"></script>
+<!--<script src="<?php echo base_url('front');?>/js/bootstrap-multiselect.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#boot-multiselect-demo').multiselect({
@@ -579,6 +579,6 @@ $(document).ready(function() {
         enableFiltering: true
         });
     });
-</script>
+</script>-->
 </body>
 </html>
