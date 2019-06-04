@@ -108,21 +108,21 @@
 							<input id="servicetype" type="hidden" value="1">
 							<?php }else{ ?>
 							
-							<?php if(count($row) == 2) { $col = 4; }?>
-							<?php if(count($row) == 3) { $col = 3; }?>
+							<?php if(count($row) == 2) { $col1 = 3; $col = 5; $col3 = 4; }?>
+							<?php if(count($row) == 3) { $col1 = ($options[0][2]['is_required']) ? '2': '3'; $col = ($options[0][2]['is_required']) ? '4': '6'; $col3 = ($options[0][2]['is_required']) ? '2': '3'; }?>
 							<?php if($value['list_name']) {   $l = implode('_',explode(' ',$value['list_name'])); }else{ $l = '_'; }?>
 							<?php if($value['field_type'] == 'label'){?>
 							<div class="<?php echo ($value['list_name']) ? 'panel_cover' : 'panel_down'; ?>">
-                                <?php if($value['list_name']) { ?>
+                                <?php if($value['list_name'] && ($value['is_open'] == 0)) { ?>
 								<div class="panel_heading">
 									<h4><?php echo $value['list_name'];?></h4>
 									<span class="p_icon"><i class="fas fa-plus"></i></span>
 								</div>
                                 <?php } ?>
 								<!-- panel content end -->
-								<div class="<?php echo ($value['list_name']) ? 'panel_content' : ''; ?>">									
+								<div class="<?php echo ($value['list_name'] && ($value['is_open'] == 0)) ? 'panel_content' : ''; ?>">									
 									<div class="row">
-										<div class="col-md-<?=$col?>">
+										<div class="col-md-<?=$col1?>">
 											<div class="service_col">
                                                 <input type="hidden" id="keylabel" value="<?=($value['field_key'])?$value['field_key']:''?>">
 												<label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>                                                
@@ -138,7 +138,7 @@
 										<?php } ?>
 										<?php if($value['field_type'] == 'select-box'){?>										
 										<div class="col-md-<?=$col?>">
-                                            <input type="hidden" id="keyselect"  value="<?=($value['field_key'])?$value['field_key']:''?>">
+                                            <input type="hidden" id="keyselect"  value="<?=($value['field_key'])?$value['field_key']:''?>">                                            
 											<div class="service_col">
 											<label><small><?=($value['field_key'])?$value['field_key']:''?></small></label>
 											<?php for($i=0;$i<$mm;$i++){?>
@@ -153,7 +153,8 @@
 											</div>
 										</div>
 										<?php } ?>
-										<?php if($value['field_type'] == 'qty'){?>										
+										<?php if($value['field_type'] == 'qty'){?>
+                                        <?php if($value['is_required'] == 1){?>										
 										<div class="col-md-<?=$col?>">
                                             <input type="hidden" id="keyqty"  value="<?=($value['field_key'])?$value['field_key']:''?>">
 											<div class="service_col">
@@ -161,16 +162,23 @@
 											<?php for($i=0;$i<$mm;$i++){?>
 												<div class="form-group">                        
 													<div class="number_counter">
-													<input type="text" id="qty<?=$i.$l?>" class="show_number" value="3">
+													<input type="text" id="qty<?=$i.$l?>" class="show_number" value="1">
 												 </div>
 												</div>
 												
 											<?php } ?>    
 											</div>
 										</div>
-										<?php } ?>
+                                        <?php  }else{ ?>
+                                        <input type="hidden" id="keyqty"  value="<?=($value['field_key'])?$value['field_key']:''?>">
+                                            <?php for($i=0;$i<$mm;$i++){?>                                            
+                                                <input type="hidden" id="qty<?=$i.$l?>" class="show_number" value="1">
+                                            <?php } ?>
+                                        <?php  } ?>
+										<?php  } ?>
 										<?php if($value['field_type'] == 'qty'){?>
-										<div class="col-md-<?=$col?>">
+										<div class="col-md-<?=$col3?>">
+                                            <input type="hidden" id="isradio"  value="<?=($value['is_radio'])?$value['is_radio']:''?>">
 											<div class="service_col">
 											<label><small>&nbsp;<?php ($value['field_key'])?$value['field_key']:''?></small></label>
 											<?php for($i=0;$i<$mm;$i++){?>
@@ -185,7 +193,7 @@
 							<!-- panel content end -->
 							</div>
 							<?php } ?>
-							<input id="servicetype1" type="hidden" value="1">
+							<input id="servicetype1" type="hidden" value="1">                            
 							<?php } ?>
 							
 								<?php } ?>
@@ -362,6 +370,7 @@
         var keyselect = $('#keyselect').val();
         var keyqty = $('#keyqty').val();
         var list = lab;
+        var isradio = $('#isradio').val();
         //alert(id+lab);
         //console.log({'id':id+lab,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty});
         var select = $('#select'+id+lab).val();
@@ -369,7 +378,7 @@
         $.ajax({
             type: 'post',
             url: '<?php echo site_url('welcome/add_services1');?>',
-            data: {'id':id+lab,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty},
+            data: {'id':id+lab,'label':label,'select':select,'qty':qty,'list':lab,'keylabel':keylabel,'keyselect':keyselect,'keyqty':keyqty,'isradio':isradio},
             success: function (response) {
               //alert('form was submitted');
               var obj = JSON.parse(response);
