@@ -40,7 +40,8 @@
                             <tr>
                                 <th>Order No.</th>
                                 <th>Service Requested</th>
-                                <th>Scheduled Date</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                                 <th>Scheduled Time</th>
                                 <th>Request type</th>
                                 <th>Status</th>
@@ -56,8 +57,9 @@
                             <tr>
                                 <td><?=($row['order_id'])?($row['order_id']):''?></td>
                                 <td><?php echo ($row['servicename'])?json_decode($row['servicename']):''?></td>
-                                <td><?=($row['created_at'])?date('d M, Y',strtotime($row['created_at'])):''?></td>
-                                <td><?=($row['created_at'])?date('h:i a',strtotime($row['created_at'])):''?></td>
+                                <td><?=($row['startDate'])?date('d M, Y',strtotime($row['startDate'])):''?></td>
+                                <td><?=($row['endDate'])?date('d M, Y',strtotime($row['endDate'])):''?></td>
+                                <td><?=($row['time'])?date('h:i a',strtotime($row['time'])):''?></td>
                                 <td>On-site</td>
                                 <td>
                                     <?php if($row['order_status'] == 1){?>

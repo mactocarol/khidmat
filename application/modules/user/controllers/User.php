@@ -2,7 +2,7 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class User extends MY_Controller 
 {
-	//private $connection;
+    //private $connection;
         public function __construct(){            
             parent::__construct();
             $this->load->model('user_model');
@@ -15,6 +15,12 @@ class User extends MY_Controller
         public function index(){
             if($this->session->userdata('logged_in')){
                 redirect('user/dashboard');
+
+
+            //       echo"true";
+            // }
+            // else{ echo"false"; }
+
             }
             
             $data=new stdClass();
@@ -33,13 +39,13 @@ class User extends MY_Controller
             }
             $data->return_url = isset($_GET['return']) ? $_GET['return'] : '' ;
             $data->title = "Login | Khidmat";
-            $this->load->view('login_view',$data);			
+            $this->load->view('login_view',$data);          
         }
         
         public function register(){
 //        $this->load->library('email');    
-	    //$this->email("mss.parvezkhan@gmail.com","My subject",'$msg');
-	    
+        //$this->email("mss.parvezkhan@gmail.com","My subject",'$msg');
+        
             $data=new stdClass();
             if($this->session->flashdata('item')) {
                 $items = $this->session->flashdata('item');
@@ -71,8 +77,8 @@ class User extends MY_Controller
                         //sending conformation mail to signup user
                         
                         $to = $this->input->post('email');
-                        $sub = "Confirm Your Account";                                                					
-			
+                        $sub = "Confirm Your Account";                                                                  
+            
 
                                $udata=array(                                            
                                     'email'=>$this->input->post('email'),
@@ -80,13 +86,14 @@ class User extends MY_Controller
                                     'password'=>md5($this->input->post('password')),
                                     'user_type'=> ($this->input->post('user') == 'buyer') ? '1' : '2',
                                     'key'=> $key,
-                                    'is_verified' => '0'
+                                    //'is_verified' => '0'
+                                    'is_verified' => ($this->input->post('user') == 'buyer') ? '0' : '1',
                                 );
                                     $new_id = $this->user_model->new_user($udata);
                                     
-                                    $body['to'] = get_user($new_id)->f_name;						
-                                    $body['title'] = 'Thank You Registration';			
-                                    $message = "<a href='".base_url()."user/register_user/$key'>Click here</a>"." to confirm your account";								
+                                    $body['to'] = get_user($new_id)->f_name;                        
+                                    $body['title'] = 'Thank You Registration';          
+                                    $message = "<a href='".base_url()."user/register_user/$key'>Click here</a>"." to confirm your account";                             
                                     $this->email($to,$sub,$message);
                                 if($this->input->post('user') == 'seller'){
                                     redirect('user/service_register/'.base64_encode($new_id));
@@ -108,7 +115,7 @@ class User extends MY_Controller
         
         public function service_register($id=Null){
         //print_r($id);   
-	    //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
+        //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
             
             $data=new stdClass();
             $data->sellerid = ($id);
@@ -131,11 +138,13 @@ class User extends MY_Controller
                 //print_r($_POST);die;                               
                         $key=md5 (uniqid());
                         //sending conformation mail to signup user
-                                                			
-                               $udata=array(                                            
-                                    'vendor_id'=>base64_decode($this->input->post('sellerid')),
-                                    'services'=>json_encode(array_merge($this->input->post('category'),$this->input->post('subcategory')))                                                                        
-                                );                                    
+                                                            
+                                    $udata=array(                                            
+                                        'vendor_id'=>base64_decode($this->input->post('sellerid')),
+                                        'services'=>json_encode(array_merge($this->input->post('category'),$this->input->post('subcategory'))),
+                                        'services_search' => implode(",",array_merge($this->input->post('category'),$this->input->post('subcategory')))
+                                    );  
+                                    
                                     $this->user_model->InsertRecord('vendor_services',$udata);
                                                                                                             
                                     redirect('user/service_register_two/'.($this->input->post('sellerid')));                                   
@@ -153,8 +162,8 @@ class User extends MY_Controller
         }
         
         
-        public function service_register_two($id=Null){	    
-	    //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
+        public function service_register_two($id=Null){     
+        //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
             
             $data=new stdClass();
             $data->sellerid = ($id);
@@ -176,8 +185,10 @@ class User extends MY_Controller
             if(!empty($_POST)){                
                 
                     $udata=array(                                            
-                         'country'=>$this->input->post('location'),
-                         'city'=>$this->input->post('city')                                                                        
+                          'address'=>$this->input->post('location'),
+                          'placeName'=>$this->input->post('placeName'),
+                          'placeLat'=>$this->input->post('placeLat'),
+                          'placeLong'=>$this->input->post('placeLong'),
                      );                                    
                          $this->user_model->UpdateRecord('users',$udata,array("id"=>base64_decode($this->input->post('sellerid'))));
                                                                                                 
@@ -190,8 +201,8 @@ class User extends MY_Controller
                 
         }
         
-        public function service_register_three($id=Null){	    
-	    //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
+        public function service_register_three($id=Null){       
+        //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
             
             $data=new stdClass();
             $data->sellerid = ($id);
@@ -211,7 +222,7 @@ class User extends MY_Controller
                             
                 
             if(!empty($_POST)){                
-                //print_r($_POST);die;                                                                               			
+                //print_r($_POST);die;                                                                                          
                     $udata=array(                                            
                          'f_name'=>$this->input->post('fname'),
                          'l_name'=>$this->input->post('lname'),
@@ -228,8 +239,8 @@ class User extends MY_Controller
                 
         }
         
-        public function service_register_fourth($id=Null){	    
-	    //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
+        public function service_register_fourth($id=Null){      
+        //$this->sendemail("parvezkhan03@gmail.com","My subject",'$msg');
             
             $data=new stdClass();
             $data->sellerid = ($id);
@@ -249,9 +260,9 @@ class User extends MY_Controller
                             
                 
             if(!empty($_POST)){                
-                //print_r(base64_decode($this->input->post('sellerid')));die;                                                                               			
+                //print_r(base64_decode($this->input->post('sellerid')));die;                                                                                           
                     $udata=array(                                            
-                         'image'=>$_FILES['fileupload']['name']                                                                                                
+                         'license'=>$_FILES['fileupload']['name']                                                                                                
                      );                                    
                          $this->user_model->UpdateRecord('users',$udata,array("id"=>base64_decode($this->input->post('sellerid'))));
                                                                                                 
@@ -271,8 +282,8 @@ class User extends MY_Controller
                         $data->success=1;
                         $data->message='Login Successful';
                         //print_r($this->session->userdata('email')); die;
-                        if($this->input->post('return_url')){ redirect(($this->input->post('return_url')));	}
-                        redirect('user/dashboard');	                                
+                        if($this->input->post('return_url')){ redirect(($this->input->post('return_url'))); }
+                        redirect('user/dashboard');                                 
                 }                                              
                $data->users = $this->user_model->SelectSingleRecord('users','*',array("id"=>base64_decode($id)),'id desc');
                
@@ -422,8 +433,8 @@ class User extends MY_Controller
                         $data->success=1;
                         $data->message='Login Successful';
                         //print_r($this->session->userdata('email')); die;
-                        if($this->input->post('return_url')){ redirect(($this->input->post('return_url')));	}
-                        redirect('user/dashboard');	
+                        if($this->input->post('return_url')){ redirect(($this->input->post('return_url'))); }
+                        redirect('user/dashboard'); 
                     
                 }
                 else
@@ -443,7 +454,12 @@ class User extends MY_Controller
         {            
             if(!$this->session->userdata('logged_in')){
                 redirect('user');
-            }
+
+            //       echo"false";
+            // }
+            // else{ echo"true"; } 
+
+            } 
             $data=new stdClass();
             if($this->session->flashdata('item')) {
                 
@@ -479,26 +495,34 @@ class User extends MY_Controller
             $data->title = 'Dashboard';
             $data->field = 'Dashboard';
             $data->page = 'dashboard';
-            
+           
             $this->load->view('dashboard_view',$data);            
         }
         
         
         public function orderDetail($id)
         {
+
+            $data=new stdClass();
+            $data->pageId = $id;
             $id = base64_decode($id);
             
             if(!$this->session->userdata('logged_in')){
                 redirect('user');
+
+            //           echo"false";
+            // }
+            // else{ echo"true"; } 
+
             }
-            $data=new stdClass();
+            
             if($this->session->flashdata('item')) {
                 
                 $items = $this->session->flashdata('item');
                 if($items->success){
                     $data->error=0;
                     $data->success=1;
-                    $data->msg=$items->message;
+                    $data->message=$items->message;
                 }else{
                     $data->error=1;
                     $data->success=0;
@@ -516,9 +540,16 @@ class User extends MY_Controller
                 $where = array('o.order_no'=>$id,'od.vendor_id'=>$this->session->userdata('user_id'));
             }
 
+
+            
+            
+            $udata1['is_read'] = '1';
+            $user_id = $this->session->userdata('user_id');
+            $this->user_model->UpdateRecord('notification',$udata1,array("notification_connection_id"=>$id,'user_id' => $user_id));
+
             $data->order = $this->user_model->joindata('o.order_no','od.order_id',$where,'o.user_id,o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc');
             
-            //print_r($data->orders); die;
+            //print_r($data->order); die;
                       
             $data->title = 'Dashboard';
             $data->field = 'Dashboard';
@@ -545,12 +576,12 @@ class User extends MY_Controller
             }
             $data=new stdClass();
             
-			$udata = array("id"=>$this->session->userdata('user_id'));                
+            $udata = array("id"=>$this->session->userdata('user_id'));                
             $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());
             
-            //print_r($data);die();
+           
             
-			if($_POST){                                                
+            if($_POST){                                                
                 
                 $udata=array(                                            
                         'placeName'=>$this->input->post('placeName'),
@@ -584,14 +615,15 @@ class User extends MY_Controller
                         'password'=>md5($this->input->post('password'))
                         );
                     }
+                    //echo '<pre>';
                     //print_r($udata); die;
-				if ($this->user_model->UpdateRecord('users',$udata,array("id"=>$this->session->userdata('user_id'))))
-				{
+                if ($this->user_model->UpdateRecord('users',$udata,array("id"=>$this->session->userdata('user_id'))))
+                {
                     $data->error=0;
                     $data->success=1;
                     $data->message='Profile Update Sucessfully.';
-                     					
-				}else{
+                                        
+                }else{
                     $data->error=1;
                     $data->success=0;
                     $data->message='Network Error!';                    
@@ -599,14 +631,14 @@ class User extends MY_Controller
                 //print_r($this->db->last_query()); die;
             $this->session->set_flashdata('item',$data);
             //redirect('user/profile');
-			//print_r($this->session->flashdata('item')); die;	
-			}                        
+            //print_r($this->session->flashdata('item')); die;  
+            }                        
             $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());                                    
             $data->title = 'User Profile';
             $data->field = 'User Profile';
-            $data->page = 'profile';            	
+            $data->page = 'profile';                
             $this->load->view('profile_view',$data);            
-		}
+        }
         
         
         public function upload_image(){
@@ -633,8 +665,8 @@ class User extends MY_Controller
             
             if($_FILES){
                 
-                $config=[	'upload_path'	=>'./upload/profile_image/',
-                        'allowed_types'	=>'jpg|gif|png|jpeg',
+                $config=[   'upload_path'   =>'./upload/profile_image/',
+                        'allowed_types' =>'jpg|gif|png|jpeg',
                         'file_name' => strtotime(date('y-m-d h:i:s')).$_FILES["profile_pic"]['name']
                     ];
                 //print_r($_FILES); die;
@@ -664,7 +696,7 @@ class User extends MY_Controller
                     $data->success=1;
                     $data->message='Uploaded Successfully'; 
                     $this->session->set_flashdata('item', $data);
-                    redirect('user/profile');	
+                    redirect('user/profile');   
                 }
                 else
                 {
@@ -673,16 +705,16 @@ class User extends MY_Controller
                     $data->success=0;
                     $data->message='Only jpeg/png/gif/jpg allowed!'; 
                     $this->session->set_flashdata('item', $data);
-                    //redirect('user/profile');	
+                    //redirect('user/profile'); 
                 }
             }
             $data->result = $this->user_model->SelectSingleRecord('users','*',$udata,$orderby=array());                                    
             $data->title = 'User Profile';
             $data->field = 'User Profile';
-            $data->page = 'profile';            	
+            $data->page = 'profile';                
             $this->load->view('profile_view',$data);
 
-		}
+        }
         
         public function cover_image(){
             
@@ -707,7 +739,7 @@ class User extends MY_Controller
             
             echo 'done';            
 
-		}
+        }
         
         public function logout()
         {
@@ -722,22 +754,22 @@ class User extends MY_Controller
             $this->session->set_flashdata('item',$data);            
             redirect('user');
         }
-			
+            
         public function update_notification($id){
             if($this->session->userdata('user_group_id') != 2){
                 redirect('user');
             }
             $data=new stdClass();
-			    $udata = array("id"=>$id);                
+                $udata = array("id"=>$id);                
                 $url = $this->user_model->SelectSingleRecord('notifications','*',$udata,$orderby=array());        
-				if ($this->user_model->UpdateRecord('notifications',array("status"=>1),array("id"=>$id)))
-				{                                         					
-				}else{
+                if ($this->user_model->UpdateRecord('notifications',array("status"=>1),array("id"=>$id)))
+                {                                                           
+                }else{
                     
                 }
             redirect(site_url().''.$url->url);
-			
-		}
+            
+        }
 
         function vendor_services(){
             $where = array("vendor_id"=>$this->session->userdata('user_id'));                
@@ -757,8 +789,14 @@ class User extends MY_Controller
                 $data = $this->user_model->SelectSingleRecord('vendor_services_price','*',$where1,$orderby=array());
                 if(isset($data) && !empty($data)){
                     $oneArr->price = $data->price;
+                    $oneArr->weekPrice = $data->weekPrice;
+                    $oneArr->monthPrice = $data->monthPrice;
+                    $oneArr->yearPrice = $data->yearPrice;
                 }else{
                     $oneArr->price = '';
+                    $oneArr->weekPrice = '';
+                    $oneArr->monthPrice = '';
+                    $oneArr->yearPrice = '';
                 }
                 
                 $servicesArr['servicesArr'][] = $oneArr;
@@ -820,9 +858,23 @@ class User extends MY_Controller
             $category = $this->input->post('category');
             $subcategory = $this->input->post('subcategory');
             $where = array("vendor_id"=>$this->session->userdata('user_id'));
+            
             $update = array(
-               'services' =>  json_encode(array_merge($category,$subcategory))
+               'services' =>  json_encode(array_merge($category,$subcategory)),
+               'services_search' => implode(",",array_merge($category,$subcategory))
             );
+            
+            // [vendor_id] => 16 [services] => ["electronics","fashionservices","Beauty"] [services_search]
+            
+            $d = $this->db->get_where('vendor_services',array())->result_array();
+            //print_r($d);die();
+            foreach($d as $f){
+                $this->db->where(array('vendor_id' => $f['vendor_id']));
+                $this->db->update('vendor_services',array('services_search' => implode(",",json_decode($f['services'])) ));
+            }
+            
+            //print_r($this->db->last_query());die();
+            
             $this->user_model->UpdateRecord('vendor_services',$update,$where);         
             redirect('user/vendor_services');
 
@@ -876,10 +928,11 @@ class User extends MY_Controller
                 redirect('user/dashboard'); 
 
             }else{
+                //print_r($data);
                 $sess_array = array(
-                    'user_id' => $data['id'],
-                    'email' => $data['email'],
-                    'image' => $data['image'],
+                    'user_id' => $data->id,
+                    'email' => $data->email,
+                    'image' => $data->image,
                     'user_group_id' => 1,
                     'logged_in' => TRUE
                 );
@@ -892,5 +945,175 @@ class User extends MY_Controller
             }
 
         }
+
+    function reviewRating(){
+        $postData = $this->input->post();
+        
+
+        $review = trim($this->input->post('review_text'));
+        $rating = trim($this->input->post('rating'));
+        $orderId = $redirectId = trim($this->input->post('orderId'));
+
+        if($review == '' || $review == '' || $review == ''){
+            $data->error=1;
+            $data->success=0;
+            $data->message='Please Fill Review Rating.'; 
+            $this->session->set_flashdata('item', $data);
+            redirect('user/orderDetail/'.$redirectId);
+        }else{
+            $orderId = base64_decode($orderId);
+            $data = $this->user_model->SelectSingleRecord('order_detail','*',array('order_id' => $orderId),$orderby=array());
+            $inserData = array(
+                'senderId' => $this->session->userdata('user_id'),
+                'receiverId' => $data->vendor_id,
+                'orderId' => $orderId,
+                'review' => $review,
+                'rating' => $rating,
+            );
+
+            $this->user_model->InsertRecord('review',$inserData);
+            $this->user_model->UpdateRecord('order_detail',array('review_status' => 'sent'),array('order_id' => $orderId));
+
+            $data->error=0;
+            $data->success=1;
+            $data->message='Rating Successfully Done.'; 
+            $this->session->set_flashdata('item', $data);
+            redirect('user/orderDetail/'.$redirectId);
+        }
+
+    }
+
+    function updatePrice($id){
+        $id = base64_decode($id);
+        $where = array(
+            "userId" => $this->session->userdata('user_id'),
+            "userServicesId" => $id
+        );
+        $data=new stdClass();
+        if(isset($_POST) && !empty($_POST)){
+            $price = $this->input->post('price');
+            $weekPrice = $this->input->post('weekPrice');
+            $monthPrice = $this->input->post('monthPrice');
+            $yearPrice = $this->input->post('yearPrice');
+            if(!empty($price) || !empty($weekPrice) || !empty($monthPrice) || !empty($yearPrice)){
+                
+                $check = $this->user_model->SelectSingleRecord('vendor_services_price','*',$where,$orderby=array());
+                if(isset($check) && !empty($check)){
+                    $this->user_model->UpdateRecord('vendor_services_price',$_POST,$where);
+                }else{
+                    $this->user_model->InsertRecord('vendor_services_price',$where);
+                    $this->user_model->UpdateRecord('vendor_services_price',$_POST,$where);
+                }
+                
+                $data->error = 0;
+                $data->success = 1;
+                $data->message ='price add / update successfully.';
+            }else{
+                $data->error = 1;
+                $data->success = 0;
+                $data->message ='Something going wrong';
+            }
+        }
+
+        $data->newId = $id;
+
+        $data->data = $this->user_model->SelectSingleRecord('vendor_services_price','*',$where,$orderby=array());
+        $this->load->view('updatePrice',$data);
+    }
+
+    function forgotPassword(){
+        $data = new stdClass();
+
+        if($this->session->flashdata('item')) {
+            $items = $this->session->flashdata('item');
+            if($items->success){
+                $data->error = 0;
+                $data->success = 1;
+                $data->message = $items->message;
+            }else{
+                $data->error = 1;
+                $data->success = 0;
+                $data->message = $items->message;
+            }
+        }
+
+        if(isset($_POST) && !empty($_POST)){
+            $data = $this->user_model->SelectSingleRecord('users','*',array('email' => $_POST['email']),$orderby=array());
+            if(!empty($data)){
+                
+                $key = md5 (uniqid().rand());
+                
+                $this->user_model->UpdateRecord('users',array('key'=>$key),array('email'=>$_POST['email']));
+                
+                $htmlContent = '<h1>Forgot Password</h1>';
+                $htmlContent .= "<a href='".base_url()."user/updatePassword/$key'>Click here</a>"." to update your password";
+                $this->email($_POST['email'],"FORGOT PASSWORD",$htmlContent);
+                
+                $data->error = 0;
+                $data->success = 1;
+                $data->message ='Your mail has been sent successfuly !';
+            }else{
+                $data->error = 1;
+                $data->success = 0;
+                $data->message ='Invalid Email Account';
+            }
+        }
+
+        $this->load->view('forgotPassword',$data);
+    }
+    
+    function updatePassword($key){
+        $data = new stdClass();
+
+        if(isset($_POST) && !empty($_POST)){
+            $this->user_model->UpdateRecord('users',array('password'=>md5($_POST['nPassword'])),array('id'=>$_POST['id']));
+            $data->error=0;
+            $data->success=1;
+            $data->message='Please login with your new password';
+            $this->session->set_flashdata('item',$data);
+            redirect('user/');
+        }
+
+        $data->userDetail = $this->user_model->SelectSingleRecord('users','*',array('key'=>$key),$orderby=array());
+        if(!isset($data->userDetail) && empty($data->userDetail)){
+            $data->error=1;
+            $data->success=0;
+            $data->message='The password reset link is no longer valid. Please request another password reset email';
+            $this->session->set_flashdata('item',$data);
+            redirect('user/forgotPassword');
+        }
+
+        $this->user_model->UpdateRecord('users',array('key'=>md5(rand())),array('key'=>$key));
+        $this->load->view('updatePassword',$data);
+
+    }
+
+    function changePaymentStatus(){
+        $postData = $this->input->post();
+        $requestId = $postData['id'];
+        
+        $data = $this->user_model->SelectSingleRecord('order','*',array('id'=>$requestId),$orderby=array());
+
+        $cardAccount['cardToken'] = 'NA';
+        $cardAccount['cardType'] = 'NA';
+        $cardAccount['custId'] = 'NA';
+        $cardAccount['custEmail'] = 'NA';
+        $cardAccount['refundedId'] = 'NA';
+        $cardAccount['transactionId'] = 'NA';
+
+
+        $cardAccount['requestId'] = $data->order_no;
+        $cardAccount['mainPrice'] = $data->amount*100;
+        $cardAccount['discountPresent'] = 0;
+        $cardAccount['price'] = $data->amount*100;
+        $cardAccount['userId'] = $this->session->userdata('user_id');
+
+        $this->db->insert('payment',$cardAccount);
+
+        $this->db->where(array('order_id' => $data->order_no));
+        $this->db->update('order_detail',array('payment_status' => 'paid'));
+
+    }
+
 }
 ?>

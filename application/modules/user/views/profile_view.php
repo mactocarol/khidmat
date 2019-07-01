@@ -174,7 +174,7 @@
             </div>
             <div class="profile_map_section">
               
-              <div id="map_canvas" style="width: 800px; height:200PX"></div>
+              <div id="map" style="width: 800px; height:200PX"></div>
 
               <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d6633805.364206802!2d-87.88941902534398!3d35.722215099780996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1skingsland+!5e0!3m2!1sen!2sin!4v1555570498807!5m2!1sen!2sin" frameborder="0" style="border:0" allowfullscreen></iframe> -->
 
@@ -209,7 +209,7 @@ $(function() {
     });
 });
 
-function initialize() {
+function initializez() {
     var input = document.getElementById('address');
     var autocomplete = new google.maps.places.Autocomplete(input);
     google.maps.event.addListener(autocomplete, 'place_changed', function () {
@@ -219,47 +219,48 @@ function initialize() {
         document.getElementById('placeLong').value = place.geometry.location.lng();
     });
 }
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
 
 $(document).ready(function() {
+    
     var address = $('#address').val();
     var placeName = $('#placeName').val();
     var placeLat = $('#placeLat').val();
     var placeLong = $('#placeLong').val();
-
-    var options = {
-      zoom: 10,
-      center: new google.maps.LatLng(placeLat,placeLong), // centered US
-      mapTypeId: google.maps.MapTypeId.TERRAIN,
-      mapTypeControl: false
-    };
-    var map = new google.maps.Map(document.getElementById('map_canvas'), options);
-
-    var i = 1;
-    var icon = {
-        url: "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-marker-128.png", // url
-        scaledSize: new google.maps.Size(30, 30), // scaled size
-        origin: new google.maps.Point(0,0), // origin
-        anchor: new google.maps.Point(0, 0) // anchor
-    };
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(placeLat,placeLong),
-        map: map,
-        title: placeName,
-        icon: icon,
-        //draggable: true,
-        animation: google.maps.Animation.DROP,
-    });
-
-    (function(marker, i) {
-        google.maps.event.addListener(marker, 'click', function() {
-            infowindow = new google.maps.InfoWindow({
-                content: address
-            });
-            infowindow.open(map, marker);
-        });
-    })(marker, i);
+    initialize(placeLat, placeLong);   
+    //var options = {
+    //  zoom: 10,
+    //  center: new google.maps.LatLng(placeLat,placeLong), // centered US
+    //  mapTypeId: google.maps.MapTypeId.TERRAIN,
+    //  mapTypeControl: false
+    //};
+    //var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+    //
+    //var i = 1;
+    //var icon = {
+    //    url: "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-marker-128.png", // url
+    //    scaledSize: new google.maps.Size(30, 30), // scaled size
+    //    origin: new google.maps.Point(0,0), // origin
+    //    anchor: new google.maps.Point(0, 0) // anchor
+    //};
+    //
+    //var marker = new google.maps.Marker({
+    //    position: new google.maps.LatLng(placeLat,placeLong),
+    //    map: map,
+    //    title: placeName,
+    //    icon: icon,
+    //    //draggable: true,
+    //    animation: google.maps.Animation.DROP,
+    //});
+    //
+    //(function(marker, i) {
+    //    google.maps.event.addListener(marker, 'click', function() {
+    //        infowindow = new google.maps.InfoWindow({
+    //            content: address
+    //        });
+    //        infowindow.open(map, marker);
+    //    });
+    //})(marker, i);
 
     $('#updateuserform').bootstrapValidator({
         feedbackIcons: {
@@ -311,4 +312,80 @@ $(document).ready(function() {
 });
 </script>
 
-<?php echo $this->load->view('footer'); ?>
+
+<?php $this->load->view('footer');?>    
+<script>    
+     var options = {        
+        types: ['geocode'] //this should work !        
+      };
+	var input = document.getElementById('address');
+	
+    
+      var componentForm = {
+        street_number: 'short_name',
+        route: 'long_name',
+        premise: 'long_name',
+        locality: 'long_name',
+        administrative_area_level_1: 'short_name',
+        sublocality_level_1:'short_name',
+        country: 'long_name',
+        postal_code: 'short_name'
+      };
+      var autocomplete = new google.maps.places.Autocomplete(input,options);
+        var place = autocomplete.getPlace();        
+     // autocomplete.addListener('place_changed', function() {
+     google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place = autocomplete.getPlace();
+            //console.log(place);           
+            document.getElementById('placeName').value = place.name;
+            document.getElementById('placeLat').value = place.geometry.location.lat();
+            document.getElementById('placeLong').value = place.geometry.location.lng();
+            //code for remove other locality
+            var addr = '';
+            for (var i = 0; i < place.address_components.length; i++) {
+              var addressType = place.address_components[i].types[0];
+              //console.log(addressType);
+              if (componentForm[addressType]) {
+                
+                var val = place.address_components[i][componentForm[addressType]];
+                                
+                if(addressType == 'premise'){
+                    //console.log(val);
+                    addr += val+' ';
+                }
+                if(addressType == 'route'){
+                    //console.log(val);
+                    addr += val+' ';
+                }
+                if(addressType == 'sublocality_level_1'){
+                    //console.log(val);
+                    addr += val+' ';
+                }            
+              }
+            }            
+            var geo = place.geometry.location;            
+            //console.log(geo.lat());
+            initialize(geo.lat(), geo.lng());
+            $('#address_hidden').val(addr);
+            //code for remove other locality
+    });
+</script>
+
+<script type="text/javascript">
+ 
+function initialize(lat, long) {    
+    var latlng = new google.maps.LatLng(lat,long);
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: latlng,
+      zoom: 10,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+	
+	var marker = new google.maps.Marker({
+        position: latlng,
+        map: map        
+      });    
+	  
+}
+
+</script>

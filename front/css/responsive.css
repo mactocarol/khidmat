@@ -1,14 +1,42 @@
+@media (max-width:1236px){
+    .owl-theme .owl-nav [class*=owl-]{
+      margin:0;
+    }
+    .owl-prev {
+      left: 0;
+    }
+    .owl-next{
+      right:0;
+    }
+}
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .navigation_menu > ul > li > a {
         padding: 15px 13px;
+    }
+}
+@media only screen and (max-width: 1199px) {
+    .prog_box {
+        margin: 0 35px;
+    }
+    .mobile_app_text {
+        padding: 20px 0 0 0px;
     }
 }
 @media only screen and (min-width: 992px) {
     .navbar_toggle{
         display: none;
     }
+    .hide_in_desktop{
+        display: none;
+    }
 }
 @media (max-width: 991px) {
+    .hide_in_mobile{
+        display: none;
+    }
+    .quality_text_box {
+        text-align: center;
+    }
      .navigation_wrap {
         position: absolute;
         left: 0;
@@ -22,6 +50,10 @@
         background-color: #fff;
         border-bottom: 3px solid #ed1b24
     }
+    .navigation_menu ul {
+        float: left;
+        width: 100%;
+    }
    .navigation_menu > ul > li {
         float: left;
         width: 100%;
@@ -32,13 +64,51 @@
     }
     .navigation_menu > ul > li.login-btn {
         margin-top: 10px;
-        margin-left: 20px;
+    }
+    .navigation_menu .login-btn > a {
+        background: transparent;
+        color: #666666;
+        padding: 0;
+    }
+    .navigation_menu .login-btn > a:hover {
+        background: transparent;
+        color: #ed1b24;
     }
     .navigation_menu > ul > li >a {
         padding: 10px 20px;
     }
     .service_tabs, .service_tab_content {
         width: 100%;
+    }
+}
+@media (max-width: 991px) {
+ .prog_box {
+    margin: 0 20px;
+    }
+    .prog_box .icon_text {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .pop_category_box {
+        display: inline-block;
+        width: auto;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .prog_box {
+        margin: 0 15px;
+    }
+     .prog_box .icon_text {
+        display: none;
+    }
+    .mobileapp_section_wrapper {
+        text-align: center;
+    }
+    .mobile_app_img img {
+        max-height: 300px;
+    }
+    .pop_category_col{
+        text-align: center;
     }
 }
 @media only screen and (max-width: 768px) {
@@ -81,6 +151,27 @@
     .service_list .s_list {
         padding: 11px 0;
         font-size: 13px;
+    }
+    .prog_box {
+        margin: 0 8px;
+    }
+    .prog_box .icon {
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        font-size: 16px;
+    }
+    .prog_box .icon:before {
+        width: 42px;
+        height: 42px;
+    }
+    .s_tab_menu > li {
+        cursor: pointer;
+        padding: 14px 15px;
+    }
+    .s_tab_menu > li .tab_text {
+        font-size: 14px;
+        padding-left: 14px;
     }
 }
 @media(max-width: 320px){

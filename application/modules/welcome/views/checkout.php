@@ -32,17 +32,21 @@
                               </span>
                             </div>
                         </div>
-                        <?php //print_r($this->session->userdata('service_cart1'));?>
+                        <?php //echo "<pre>"; print_r($_SESSION);  ?>
                         <div class="service_list service">
                         <?php $service = ($this->session->userdata('service_cart')) ? $this->session->userdata('service_cart') : $this->session->userdata('service_cart1'); ?>
                         <?php if($this->session->userdata('service_cart')){
-                                foreach($this->session->userdata('service_cart') as $key => $value){ ?>
-                                <?php if($value && substr($key,0, 12) != 'selectvalues'){ ?>
+                                foreach($this->session->userdata('service_cart') as $key => $value){ //print_r($value); ?>
+                                    <?php if(is_array($value)){ ?>
                                     <div class="s_list">
                                       <span class="s_label"><?=$key?></span>
-                                      <span class="s_text"><?php print_r(implode(',',$value));?></span>
+
+                                        <?php foreach($value as $one){ ?>
+                                            <span class="s_text"><?=$one?></span>
+                                        <?php  } ?>
                                     </div>
                         <?php } } } ?>
+                        
                         <?php
                         if($this->session->userdata('service_cart1')){
                         foreach($this->session->userdata('service_cart1') as $key=>$value){            
@@ -69,28 +73,54 @@
                         }
                         }
                         ?>
+
                         </div>
                         <div class="service_list location">
                             <div class="s_list">
                                <span class="s_label">Location</span>
                                <span class="s_text">
-                                 <?php //echo ($this->session->userdata('location_cart')) ? ($this->session->userdata('location_cart')['location']) : '--'; ?>
-                                 <?php foreach($this->session->userdata('location_cart') as $key=>$value){?>
-                                        <?php echo '<strong>'.$key.': </strong>'.$value;?>
-                                 <?php } ?>
+                                 <?php echo ($this->session->userdata('location_cart')) ? ($this->session->userdata('location_cart')['location']) : '--'; ?>
                                </span>
                             </div>
-                        <!--<div class="s_list">
-                          <span class="s_label">City</span>
-                          <span class="s_text"> <?php echo ($this->session->userdata('location_cart')) ? ($this->session->userdata('location_cart')['city']) : '--'; ?></span>
-                        </div>-->
+                        <div class="s_list">
+                          <span class="s_label">Landmark</span>
+                          <span class="s_text"> <?php echo ($this->session->userdata('location_cart')) ? ($this->session->userdata('location_cart')['landmark']) : '--'; ?></span>
+                        </div>
                         </div>
                         
-                        <?php if($schedule = $this->session->userdata('schedule_cart')) {?>
+                        <?php if($schedule = $this->session->userdata('payment_method')) {?>
+
+                            <?php 
+
+                            $payment_type = $this->session->userdata('payment_method')['payment_type'];
+                            $endDate = $startData = strtotime($this->session->userdata('payment_method')['date']);
+                            $time = strtotime($this->session->userdata('payment_method')['time']);
+                            if($payment_type == 'week'){
+                                $endDate = strtotime("+7 day", $startData);
+                            }else if($payment_type == 'month'){
+                                $endDate = strtotime("+1 months", $startData);
+                            }else if($payment_type == 'year'){
+                                $endDate = strtotime("+1 years", $startData);
+                            }
+                            ?>
+
+
                         <div class="service_list schedule">
                             <div class="s_list">
                               <span class="s_label">Schedule Time</span>
-                              <span class="s_text"><?php echo ($schedule) ? $schedule['dateslots'].' '.$schedule['timeslots'] : '--'; ?></span>
+                              <span class="s_text"><?php echo ($schedule) ? date('h:m:s', $time) : '--'; ?></span>
+                            </div>        
+                        </div>
+
+                        <div class="service_list schedule">
+                            <div class="s_list">
+                                <?php if($payment_type == 'day'){ ?>
+                                    <span class="s_label">Date</span>
+                                    <span class="s_text"><?php echo ($schedule) ? date('Y-m-d', $startData) : '--'; ?></span>
+                                <?php }else{ ?>
+                                    <span class="s_label">Schedule Date</span>
+                                    <span class="s_text"><?php echo ($schedule) ? date('Y-m-d', $startData).' To '.date('Y-m-d', $endDate) : '--'; ?></span>
+                                <?php } ?>
                             </div>        
                         </div>
                         <?php } ?>
@@ -101,33 +131,55 @@
                             </div>
                             <div class="s_list">
                               <span class="s_label">Charge</span>
-                              <span class="s_text"><?php echo ($vendor_services) ? ($vendor_services->charges).' AED' : '--'; ?></span>
+                              <?php if($payment_type == 'day'){
+                                $price = $vendor_services_price->price;
+                              } else if($payment_type == 'week') {
+                                $price = $vendor_services_price->weekPrice;
+                              } else if($payment_type == 'month') {
+                                $price = $vendor_services_price->monthPrice;
+                              } else if($payment_type == 'year') {
+                                $price = $vendor_services_price->yearPrice;
+                              }?>
+                              <span class="s_text"><?php echo ($vendor_services_price) ? ($price).' AED' : '--'; ?></span>
                             </div>
                         </div>
                         <div class="service_list Billing">
-                            <?php $payment_method = ($this->session->userdata('payment_method')) ? $this->session->userdata('payment_method') : ''; ?>
+                            <?php $billing = ($this->session->userdata('billing_cart')) ? $this->session->userdata('billing_cart') : ''; ?>
                             <?php // print_r($_SESSION); ?>
-                            <?php if(!empty($payment_method)){ foreach($payment_method as $key => $value){ ?>
-                                <div class="s_list">
-                                    <span class="s_label">Payment Method</span>
-                                    <span class="s_text"><?php echo ($value) ? ($value) : '--'; ?></span>
-                                  </div>                                                                
+                            <?php if(!empty($billing)){ foreach($billing as $key => $value){ ?>
+                                <span class="bl_text"><?=$key?></span>
+                                <span class="s_text"><?=$value?></span>
                             <?php } }  ?>
                             <?php ?>
                         </div>
                     </div>
                     <!-- list wrap end -->
                     <div class="check_pay_btn">
-                        <form method="post" action="<?php echo site_url('payment');?>">
-                        <input type="hidden" name="payment_method" value="<?=$payment_method['payment_method']?>">
+                        <!-- <form method="post" action="<?php echo site_url('payment');?>">
+                        <input type="hidden" name="payment_method" value="paypal">
                         <button class="ck_payment_btns">Pay</button>
-                        </form>
+                        </form> -->
+
+                        
+                        <?php if($this->session->userdata('payment_method')['payment_method'] != 'paypal'){ ?>
+                            <form method="post" action="<?php echo site_url('payment');?>">
+                                <input type="hidden" name="payment_method" value="cashOnDelivery">
+                                <button class="btn btn-primary">Pay After work</button>
+                            </form>
+                        <?php }else{ ?>
+                            <form method="post" action="<?php echo site_url('payment');?>">
+                                <input type="hidden" name="payment_method" value="stripe">
+                                <button class="btn btn-primary">Pay After accept request</button>
+                            </form>
+                        <?php } ?>
+
+
+
                     </div>
                 </div>
             </div>
         </div>        
     </div>    
     
- 
 
 <?php $this->load->view('footer'); ?>

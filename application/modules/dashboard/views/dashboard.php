@@ -15,6 +15,44 @@
         </div>
     </div>
 </section>
+
+
+
+<div class="dashboard_cotent_part">
+    <!-- message boxes cover start -->
+    <div class="message_box_cover">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <a href="dashboard/addPromo">
+                        <button type="button" name="" class="red_button submit_btn">Add Promo Card</button>
+                    </a> 
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <a href="dashboard/addBank">
+                        <button type="button" name="" class="red_button submit_btn">
+                        <?php echo ($acc) ? 'Update Bank Acc.' :'Add Bank Acc.'; ?>
+                        </button>
+                    </a> 
+                </div>
+
+                <?php if($acc){ ?>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <a href="dashboard/withdrawAmount">
+                        <button type="button" name="" class="red_button submit_btn">
+                        Withdraw Amount
+                        </button>
+                    </a> 
+                </div>
+            <?php } ?>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- breadcrumb End -->
 <!-- dashboard content part -->
 <div class="dashboard_cotent_part">
@@ -23,6 +61,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-12">
+                    
                     <div class="message_box">
                         <div class="msg_head">
                             <h4>New Message</h4>
@@ -32,40 +71,56 @@
                         </div>
                         <div class="msg_body">
                             <div class="counter_msg">
-                                <span>26</span>
+                                <span id="dMsgCount" >00</span>
                                 <p>New Message</p>
                             </div>
                             <div class="msg_footer">
-                                <a href="#" class="view_link">
+                                <a href="<?php echo site_url('chat'); ?>" class="view_link">
                                     View Details
                                     <i class="fa fa-chevron-right"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
+
+                    <script type="text/javascript">
+                        $(document).ready(function() { 
+                            $('#dMsgCount').html( ($('#msgCount').html()) ? $('#msgCount').html() : '00' );
+                        }); 
+                    </script>
                 </div>
+
+                <?php
+                    $user_id = $this->session->userdata('user_id');
+                    $count =  get_review_count($user_id);
+                ?>
+
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="message_box">
                         <div class="msg_head">
-                            <h4>New Reviews</h4>
+                            <h4>Reviews</h4>
                             <span class="msg_icon">
                                 <i class="fa fa-star"></i>
                             </span>
                         </div>
                         <div class="msg_body">
                             <div class="counter_msg">
-                                <span>26</span>
+                                <span><?php echo ($count) ? $count : '00'; ?></span>
                                 <p>New Reviews</p>
                             </div>
                             <div class="msg_footer">
-                                <a href="#" class="view_link">
+                                <a href="<?php echo site_url('dashboard/reviewList');?>" class="view_link">
                                     View Details
                                     <i class="fa fa-chevron-right"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div> 
+                <?php
+                    $user_id = $this->session->userdata('user_id');
+                    $count =  get_request_count($user_id);
+                ?>
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="message_box">
                         <div class="msg_head">
@@ -76,11 +131,11 @@
                         </div>
                         <div class="msg_body">
                             <div class="counter_msg">
-                                <span>26</span>
+                                <span><?php echo ($count) ? $count : '00'; ?></span>
                                 <p>New Request</p>
                             </div>
                             <div class="msg_footer">
-                                <a href="#" class="view_link">
+                                <a href="<?php echo site_url('user/dashboard');?>" class="view_link">
                                     View Details
                                     <i class="fa fa-chevron-right"></i>
                                 </a>
@@ -88,6 +143,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="message_box">
                         <div class="msg_head">
@@ -98,11 +154,11 @@
                         </div>
                         <div class="msg_body">
                             <div class="counter_msg">
-                                <span>26</span>
+                                <span id="dNotifyCount" >00</span>
                                 <p>New Notification</p>
                             </div>
                             <div class="msg_footer">
-                                <a href="#" class="view_link">
+                                <a onclick="$('#notifyCount').click();" href="#" class="view_link">
                                     View Details
                                     <i class="fa fa-chevron-right"></i>
                                 </a>
@@ -110,12 +166,17 @@
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function() { 
+                        $('#dNotifyCount').html( ($('#notifyCount').html()) ? $('#notifyCount').html() : '00' );
+                    }); 
+                </script>
             </div>
         </div>
     </div>
     <!-- message boxes cover end -->
     <!-- Activity wrapper start -->
-    <div class="activity_wrapper">
+    <!-- <div class="activity_wrapper">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
@@ -203,7 +264,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Activity wrapper end -->
 </div>
 <?php $this->load->view('footer'); ?>

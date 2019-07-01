@@ -52,14 +52,15 @@
                             <input type="password" name="password" placeholder="Your Password" class="form-control">
                         </div>
                         <div class="row">
-                            <div class="col-md-6"><a href="<?php echo site_url('forgot');?>" class="forget-link">Forget Passowrd</a></div>
+                            <div class="col-md-6"><a href="<?php echo base_url('user/forgotPassword'); ?>" class="forget-link">Forget Passowrd</a></div>
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-secondry pull-right">Login</button>
                             </div>
                         </div>
                         <input type="hidden" name="return_url" value="<?php echo $this->session->userdata('return_url');?>">
                         <div class="row">
-                            <h3>don't you have account? <a href="<?php echo site_url('user/register'); ?>">Sign up Now</a></h3>
+                            <!--<h3>don't you have account? <a href="<?php echo site_url('user/register'); ?>">Sign up Now</a></h3>-->
+                            <h3>Don't have an account? <a href="<?php echo site_url('user/register'); ?>">Sign up Now</a></h3>
                         </div>
                     </form>
                 </div>
@@ -77,7 +78,87 @@
         </div>
     </div>
 </section>
-
+<section class="footer_links">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="footer_widget add_widget">
+                    <h3 class="widget_title">Find Us</h3>
+                    <div class="widget_text">
+                        <p>2307 Beverley Rd Brooklyn, Dubai - United Arab Emirates </p>
+                        <p>Open Monday to Saturday From 7h to 18h or talk to an expert 0712-0610-3314 – available 24/7 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="footer_widget">
+                    <h3 class="widget_title">Customers</h3>
+                    <div class="footer_menu">
+                        <ul>
+                            <li>
+                                <a href="#">My service requests</a>
+                            </li>
+                            <li>
+                                <a href="#">How it works?</a>
+                            </li>
+                            <li>
+                                <a href="#">How it works?</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="footer_widget">
+                    <h3 class="widget_title">Provider</h3>
+                    <div class="footer_menu">
+                        <ul>
+                            <li>
+                                <a href="#">Provider's Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="#">Become a service provider</a>
+                            </li>
+                            <li>
+                                <a href="#">Why join helpbit</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="footer_widget">
+                    <h3 class="widget_title">Services</h3>
+                    <div class="footer_menu">
+                        <ul>
+                            <li>
+                                <a href="#">Beauty Services</a>
+                            </li>
+                            <li>
+                                <a href="#">Recent launches</a>
+                            </li>
+                            <li>
+                                <a href="#">Appliances Services</a>
+                            </li>
+                            <li>
+                                <a href="#">Trending Services</a>
+                            </li>
+                            <li>
+                                <a href="#">Home Cleaning</a>
+                            </li>
+                            <li>
+                                <a href="#">Pest Control</a>
+                            </li>
+                            <li>
+                                <a href="#">Home Needs</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id" content="611631231591-lh1g9i6u5jlnfuv02fmfhl7ls4thuo6h.apps.googleusercontent.com">

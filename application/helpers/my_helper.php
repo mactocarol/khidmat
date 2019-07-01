@@ -669,5 +669,66 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
          return($text);
       }
     }
+    
+    function get_parent_id($catid){        
+            $CI =& get_instance();
+            $CI->db->select('*');            
+            $CI->db->where(array('id'=>$catid));
+            $query = $CI->db->get('category');            
+            $reslt = $query->row();
+            
+            if($reslt->level == 1){
+                $id = $reslt->id;
+                return $id;
+            }
+
+            for ($i=0; $i < $reslt->level-1; $i++) { 
+                $id = $reslt->parent_id;
+                get_parent_id($reslt->parent_id);
+            }
+            return $id;
+    }
+
+    function get_request_count($userId){
+        $CI =& get_instance();
+        $count = $CI->db->select('COUNT(id) as count')->get_where('order_detail',array('vendor_id' => $userId,'order_status' => 1))->row_array();
+        return $count['count'];    
+    }
+
+    function get_notifications($userId){
+        $CI =& get_instance();
+        $CI->db->select('*');
+        $CI->db->where('user_id',$userId);
+        $query = $CI->db->get('notification');            
+        $reslt = $query->result_array();
+        return $reslt;
+    }
+
+    function get_footer_list(){
+        $CI =& get_instance();
+        $CI->db->select('*');
+        $CI->db->where('parent_id',0);
+        $query = $CI->db->get('category');            
+        $reslt = $query->result_array();
+        return $reslt;
+    }
+
+    function get_review_count($userId){
+        $CI =& get_instance();
+        $count = $CI->db->select('COUNT(reviewId) as count')->get_where('review',array('receiverId' => $userId))->row_array();
+        return $count['count']; 
+    }
+
+    if (!function_exists('baseE')) {
+      function baseE($data){
+        return base64_encode(md5(rand()).'_'.$data.'_'.md5(rand()));
+      }
+    }
+
+    if (!function_exists('baseD')) {
+      function baseD($data){
+        return explode('_', base64_decode($data))[1] ;
+      }
+    }
         
 ?>

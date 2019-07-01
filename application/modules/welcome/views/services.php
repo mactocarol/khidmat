@@ -79,7 +79,7 @@
 							<?php if($value['field_type'] == 'input'){?>
 							<div class="form-group col-md-12">
 								<label><?=($value['field_key'])?$value['field_key']:''?></label>                                
-								<input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" value="<?php echo $this->session->userdata('service_cart')[implode('_',explode(' ',$value['field_name']))][0]; ?>" onchange="submit_form();" required>                                                    
+								<input class="form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" value="<?php echo ($this->session->userdata('service_cart')) ? $this->session->userdata('service_cart')[implode('_',explode(' ',$value['field_name']))][0] : ''; ?>" onchange="submit_form();" required>                                                    
 							</div>                        
 							<?php } ?>
 							<?php if($value['field_type'] == 'radio'){?>
@@ -89,7 +89,7 @@
 								<div class="form-radio-option col-md-12">
 									<?php foreach(explode(',',$value['field_value']) as $key => $res) { ?>
 									<div class="option1">
-									 <input type="radio" id="<?=$res?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" value="<?=$res?>" <?=($key==0)?'checked':''?> <?php echo ($this->session->userdata('service_cart')['Service_Method'][0] ==  $res) ? 'checked' : ''; ?> onclick="submit_form();">
+									 <input type="radio" id="<?=$res?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" value="<?=$res?>" <?=($key==0)?'checked':''?> <?php echo ($this->session->userdata('service_cart') && $this->session->userdata('service_cart')['Service_Method'][0] ==  $res) ? 'checked' : ''; ?> onclick="submit_form();">
 										<label for="<?=$res?>"><i class="<?php echo explode(',',$value['field_icon'])[$key]; ?>"></i> <span><?=$res?></span></label>                                               
 									</div>
 									<?php } ?>
@@ -213,6 +213,7 @@
                                 <div id="cart">                                    
                                     <?php
                                     $listt = []; $html = ''; $servicemethod = '';
+                                    if($this->session->userdata('service_cart1')){
                                         foreach($this->session->userdata('service_cart1') as $key=>$value){            
                                             if($value['list'] != '_'){
                                                 if(!in_array($value['list'],$listt)){
@@ -239,11 +240,11 @@
                                                 }
                                             }
                                         }
-                                        
+                                    }
                                         $html .= '<hr>';
-                                        if($this->session->userdata('service_cart')){
+                                        if($this->session->userdata('service_cart')){                                            
                                             foreach($this->session->userdata('service_cart') as $key=>$value){
-                                                if($value){
+                                                if(is_array($value)){
                                                     $html .= '<p><strong>'.ucwords(implode(' ',explode('_',$key))).'</strong> : '.implode(', ',$value).'</p>';
                                                 }
                                                 if($key == 'Service_Method'){

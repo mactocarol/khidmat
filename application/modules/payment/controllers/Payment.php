@@ -9,16 +9,46 @@ class Payment extends MY_Controller
             $this->load->library('paypal_lib');
             $page = '';
         }
+
+        function getPrice(){
+
+            echo '<pre>';
+            print_r($this->session->userdata('serviceid'));die();
+
+            $vndor = $this->session->userdata('vndor');
+            $serviceid = $this->session->userdata('serviceid');
+
+            $this->load->model('welcome/welcome_model');
+            $d = $this->welcome_model->getPrice(19,47);
+            
+        }
+        
         public function index(){
             $data=new stdClass();            
             $charge = 0;//$this->get_Charge();
             
             $order_no = $this->create_order_no();//"ORDER_".uniqid();
-            $vendorid = $this->session->userdata('provider_cart')['vndor'];            
+            $vendorid = $this->session->userdata('provider_cart')['vndor'];
+            $serviceid = $this->session->userdata('serviceid');
+
             $vendor_services = $this->payment_model->SelectSingleRecord('vendor_services','*',array("vendor_id"=>$vendorid),'id asc');
             $amt = $vendor_services->charges;
             $amt = $amt + $charge;
-            
+
+            $price = $this->payment_model->SelectSingleRecord('vendor_services_price','*',array("userId"=>$vendorid,"userServicesId"=>$serviceid),Null);
+            //print_r($price); 
+            $payment_type = $this->session->userdata('payment_method')['payment_type'];
+            if(isset($price) && !empty($price)){
+                $amt =  $price->price;
+                if($payment_type == 'week'){
+                    $amt = $price->weekPrice;
+                }else if($payment_type == 'month'){
+                    $amt = $price->monthPrice;
+                }else if($payment_type == 'year'){
+                    $amt = $price->yearPrice;
+                }
+            }
+
             $udata['order_no'] = $order_no;
             $udata['amount'] = $amt;
             $udata['payment_type'] = $this->input->post('payment_method');
@@ -162,8 +192,130 @@ class Payment extends MY_Controller
                         }
                     }
             }else if($this->input->post('payment_method') == 'cashOnDelivery'){ 
+                /*echo '<pre>';
+                print_r($this->session->userdata());die();*/
+                /*Array ( [payment_method] => cash [payment_type] => week [date] => 06/13/2019 )*/
 
                  $udata['transaction_id'] = rand();
+                 $udata['payment_status'] = 1;
+                 //print_r($udata); die;
+                if($lastid = $this->payment_model->InsertRecord('order',$udata)){
+                    $odata['servicename'] = json_encode($this->session->userdata('services')->title);
+                    $odata['services'] = ($this->session->userdata('service_cart')) ? json_encode($this->session->userdata('service_cart')) : json_encode($this->session->userdata('service_cart1'));
+                    $odata['location'] = json_encode($this->session->userdata('location_cart'));
+                    $odata['schedule'] = json_encode($this->session->userdata('schedule_cart'));
+                    $odata['vendor_id'] = $vendorid;
+                    $odata['billing'] = json_encode($this->session->userdata('billing_cart'));
+                    
+                     $odata['payment_price'] = $amt;//$this->session->userdata('payment_price');
+                    
+                    $odata['order_id'] = $order_no;
+                    $odata['amount'] = $amt;
+                    $odata['qty'] = 1;
+
+                    $odata['payment_method'] = 'cashOnDelivery';
+
+                    
+                    $payment_type = $this->session->userdata('payment_method')['payment_type'];
+                    $endDate = $startData = strtotime($this->session->userdata('payment_method')['date']);
+                    $time = strtotime($this->session->userdata('payment_method')['time']);
+                    if($payment_type == 'week'){
+                        $endDate = strtotime("+7 day", $startData);
+                    }else if($payment_type == 'month'){
+                        $endDate = strtotime("+1 months", $startData);
+                    }else if($payment_type == 'year'){
+                        $endDate = strtotime("+1 years", $startData);
+                    }
+                    $odata['payment_type'] = $payment_type;
+                    $odata['startDate'] = date('Y-m-d', $startData);
+                    $odata['endDate'] = date('Y-m-d', $endDate);
+
+                    $odata['time'] = date('h:m:s', $time);
+
+                    //echo '<pre>';
+
+                    //print_r($odata);die();
+
+                    $this->payment_model->InsertRecord('order_detail',$odata);
+                    
+                    $userid = $this->session->userdata('user_id');
+                    $nData = array(
+                        'user_id' => $vendorid,
+                        'sender_id' => $userid,
+                        'notification_msg' => 'You have a order for '.$odata['servicename'],
+                        'notification_connection_id' => $odata['order_id'],
+                        'notification_connection_type' => 'order',
+                    );
+                    $this->payment_model->InsertRecord('notification',$nData);
+                    
+                    redirect('user/dashboard');
+
+                }     
+            }else if($this->input->post('payment_method') == 'stripe'){ 
+
+
+                /*print_r($this->session->userdata('payment_method'));die();*/
+                /*Array ( [payment_method] => cash [payment_type] => week [date] => 06/13/2019 )*/
+
+                 $udata['transaction_id'] = rand();
+                 $udata['payment_status'] = 1;
+
+                if($lastid = $this->payment_model->InsertRecord('order',$udata)){
+                    $odata['servicename'] = json_encode($this->session->userdata('services')->title);
+                    $odata['services'] = ($this->session->userdata('service_cart')) ? json_encode($this->session->userdata('service_cart')) : json_encode($this->session->userdata('service_cart1'));
+                    $odata['location'] = json_encode($this->session->userdata('location_cart'));
+                    $odata['schedule'] = json_encode($this->session->userdata('schedule_cart'));
+                    $odata['vendor_id'] = $vendorid;
+                    $odata['billing'] = json_encode($this->session->userdata('billing_cart'));
+                    
+                    $odata['payment_price'] = $amt;//$this->session->userdata('payment_price');
+                    
+                    $odata['order_id'] = $order_no;
+                    $odata['amount'] = $amt;
+                    $odata['qty'] = 1;
+
+                    $odata['payment_method'] = 'stripe';
+
+                    
+                    $payment_type = $this->session->userdata('payment_method')['payment_type'];
+                    $endDate = $startData = strtotime($this->session->userdata('payment_method')['date']);
+                    $time = strtotime($this->session->userdata('payment_method')['time']);
+                    if($payment_type == 'week'){
+                        $endDate = strtotime("+7 day", $startData);
+                    }else if($payment_type == 'month'){
+                        $endDate = strtotime("+1 months", $startData);
+                    }else if($payment_type == 'year'){
+                        $endDate = strtotime("+1 years", $startData);
+                    }
+                    $odata['payment_type'] = $payment_type;
+                    $odata['startDate'] = date('Y-m-d', $startData);
+                    $odata['endDate'] = date('Y-m-d', $endDate);
+
+                    $odata['time'] = date('h:m:s', $time);
+
+                    //echo '<pre>';
+
+                    //print_r($odata);die();
+
+                    $this->payment_model->InsertRecord('order_detail',$odata);
+                    
+                    $userid = $this->session->userdata('user_id');
+                    $nData = array(
+                        'user_id' => $vendorid,
+                        'sender_id' => $userid,
+                        'notification_msg' => 'You have a order for '.$odata['servicename'],
+                        'notification_connection_id' => $odata['order_id'],
+                        'notification_connection_type' => 'order',
+                    );
+                    $this->payment_model->InsertRecord('notification',$nData);
+                    
+                    redirect('user/dashboard');
+
+                } 
+
+
+
+                /* $udata['transaction_id'] = rand();
                  $udata['payment_status'] = 1;
 
                 if($lastid = $this->payment_model->InsertRecord('order',$udata)){
@@ -177,12 +329,24 @@ class Payment extends MY_Controller
                     $odata['order_id'] = $order_no;
                     $odata['amount'] = $amt;
                     $odata['qty'] = 1;
+
+                    $odata['payment_method'] = 'stripe';
                         
                     $this->payment_model->InsertRecord('order_detail',$odata);
+                    
+                    $userid = $this->session->userdata('user_id');
+                    $nData = array(
+                        'user_id' => $vendorid,
+                        'sender_id' => $userid,
+                        'notification_msg' => 'You have a order for '.$odata['servicename'],
+                        'notification_connection_id' => $odata['order_id'],
+                        'notification_connection_type' => 'order',
+                    );
+                    $this->payment_model->InsertRecord('notification',$nData);
 
                     redirect('user/dashboard');
 
-                }     
+                } */    
             }
             
         }

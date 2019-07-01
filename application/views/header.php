@@ -70,7 +70,7 @@
                                 $userDetail = get_user($user_id); 
                             ?>
                             
-                            <?php if($userDetail->user_type == '2'){ ?>
+                            <?php if(($userDetail) && $userDetail->user_type == '2'){ ?>
                                 <li><a href="<?php echo site_url('user/vendor_services');?>">My Services </a></li>
                             <?php }else{ ?>
                                 <li><a href="<?php echo site_url('catalog/1');?>">Services </a></li>
@@ -175,7 +175,7 @@
                                 <li class="login-btn">
                                     <a href="javascript:void(0)">
                                         <span class="u_img">
-                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6IMTq-efHer8sp1p23DxIw_NsFFUtc6ZI0vAexxMm0MPEsii-" class="img-fluid" alt="User Thumb">
+                                            <img src="<?php echo base_url('upload/profile_image/'.$userDetail->image);?>" class="img-fluid" alt="User Thumb">
                                         </span>
                                         <?php echo $userDetail->f_name; ?>
                                     </a>

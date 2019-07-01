@@ -38,24 +38,30 @@
                                 <th>image</th>
                                 <th>Title</th>
                                 <th>Description</th>
-                                <th>Price</th>
+                                <th>One Price</th>
+                                <th>Week Price</th>
+                                <th>Month Price</th>
+                                <th>Year Price</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             
                             <?php $i=1; foreach($servicesArr as $oneRow){ ?>
-                            <?php if($oneRow->level != 0){ ?>
+                            <?php if($oneRow->level != 0){ //echo "<pre>"; print_r($oneRow); ?>
                             <tr>
                                 <td><?php echo $i; ?></td>
-                                <td><?php echo $oneRow->image; ?></td>
+                                <td><img src="<?php echo base_url('upload/category/').$oneRow->image; ?>" width="100"></td>
                                 <td><?php echo $oneRow->title; ?></td>
                                 <td><?php echo $oneRow->description; ?></td>
                                 <td><?php echo !empty($oneRow->price) ? $oneRow->price : 'NA'; ?></td>
+                                <td><?php echo !empty($oneRow->weekPrice) ? $oneRow->weekPrice : 'NA'; ?></td>
+                                <td><?php echo !empty($oneRow->monthPrice) ? $oneRow->monthPrice : 'NA'; ?></td>
+                                <td><?php echo !empty($oneRow->yearPrice) ? $oneRow->yearPrice : 'NA'; ?></td>
                                 <td>
-                                    <a onclick="showPopUp('<?php echo $oneRow->id; ?>','<?php echo $oneRow->price; ?>');" href="javascript:void(0)" type="button" class="btn btn_view">
+                                    <a href="<?php echo base_url('user/updatePrice/').base64_encode($oneRow->id); ?>" onclickk="showPopUp('<?php echo $oneRow->id; ?>','<?php echo $oneRow->price; ?>');" href="javascript:void(0)" type="button" class="btn btn_view">
                                        
-                                        <?php echo !empty($oneRow->price) ? 'Update' : 'Add'; ?>
+                                        <?php echo !empty($oneRow->price) ? 'Update' : 'Update'; ?>
                                     </a>
                                 </td>
                             </tr>
