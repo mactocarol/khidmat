@@ -244,6 +244,29 @@ img {max-width:100%}
     border: none;
     height: 55px;
 }
+
+#suggesstion-box {
+    background: #fff;
+    border: 1px solid #ccc;
+    margin-top: 0px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+#suggesstion-box ul li {
+    padding: 8px 18px;
+    font-size: 14px;
+    text-transform: capitalize;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    transition: all ease-in 0.25s;
+    -webkit-transition: all ease-in 0.25s;
+    -moz-transition: all ease-in 0.25s;
+}
+#suggesstion-box ul li:hover {
+    background: #ed1b24;
+    color: #fff;
+}
+
 .btn.btn-secondry,.btn.btn-primary {
     background: #ed1b24;
     border-color: #ed1b24;
@@ -2589,6 +2612,9 @@ li.wt-instagram a {
     font-size: 15px;
     text-transform: capitalize;
     margin: 0 0 15px;
+}
+.service_need_wrapper .joblist_label{
+	width: 100%;
 }
 .service_need_wrapper .form-group {
     margin-bottom: 40px;

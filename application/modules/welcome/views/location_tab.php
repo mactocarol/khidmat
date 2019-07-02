@@ -51,7 +51,7 @@
        <?php }else{ ?>
            <input type="hidden" value="provider" id="next_tab">
        <?php } ?>
-       <span class="btn btn-primary" onclick="save_location();">Save</span>
+       <!--<span class="btn btn-primary" onclick="save_location();">Save</span>-->
     </form>
     </div>
     <div id="loader" style="display:none;"><img src="https://media.theaustralian.com.au/fe/sop/wait.gif"></div>

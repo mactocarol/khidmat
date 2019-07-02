@@ -30,15 +30,15 @@
                             <span class="icon"><i class="fas fa-shopping-bag"></i></span>
                             <span class="icon_text">Your Need</span>
                         </a>
-                        <a href="javascript:void(0)" onclick="your_location();" class="prog_box location">
+                        <a href="javascript:void(0)" onclick="" class="prog_box location">
                             <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
                             <span class="icon_text">Your Location</span>
                         </a>
-                        <a href="javascript:void(0)" onclick="your_schedule();" class="prog_box schedule" style="display: none;">
+                        <a href="javascript:void(0)" onclick="" class="prog_box schedule" style="display: none;">
                             <span class="icon"><i class="far fa-calendar-alt"></i></span>
                             <span class="icon_text">Schedule</span>
                         </a>
-                        <a href="javascript:void(0)" onclick="your_provider();" class="prog_box provider">
+                        <a href="javascript:void(0)" onclick="" class="prog_box provider">
                             <span class="icon"><i class="fas fa-user"></i></span>
                             <span class="icon_text">select provider</span>
                         </a>
@@ -433,7 +433,8 @@
             data: $('#locationform').serialize(),
             success: function (response) {
               console.log(response);
-              $('#location_cart').html('<div class="border_line"></div>'+response);              
+              $('#location_cart').html('<div class="border_line"></div>'+response);
+              $('#continue').attr("onclick","load_next_tab()");
             }
           });
     }
@@ -451,7 +452,11 @@
           });
     }
     
-    function select_provider(){
+    function select_provider(){    
+        if($('input[name="vndor"]:checked').length == 0){
+            $('.error2').show();
+            return true;
+        }
         
         $.ajax({
             type: 'post',
@@ -461,6 +466,7 @@
               console.log(response);
               $('#provider_cart').html('<div class="border_line"></div>'+response);
               $('.error2').hide();
+              $('#continue').attr("onclick","load_next_tab()");
             }
           });
         
@@ -552,6 +558,9 @@
                           $('.error').hide();
                           $('.needs').removeClass('active');
                           $('.location').addClass('active');
+                          
+                          $('#continue').attr("onclick","save_location()");
+                          
                       }
                       if(nextpage == 'schedule'){                        
                           $('.tab').html(response);
@@ -559,6 +568,8 @@
                           $('.error1').hide();                        
                           $('.location').removeClass('active');
                           $('.schedule').addClass('active');
+                          $('#continue').attr("onclick","load_next_tab()");
+                          $('.location').attr("onclick","your_location()");
                       }
                       if(nextpage == 'provider'){
                           $('.tab').html(response);
@@ -568,6 +579,9 @@
                           $('.location').removeClass('active');
                           $('.schedule').removeClass('active');
                           $('.provider').addClass('active');
+                          $('#continue').attr("onclick","select_provider()");
+                          $('.location').attr("onclick","your_location()");
+                          $('.schedule').attr("onclick","your_schedule()");
                       }
                       if(nextpage == 'checkout'){
                           $('.tab').html(response);
@@ -577,6 +591,7 @@
                           $('.provider').removeClass('active');
                           $('.checkout').addClass('active');
                           $('#continue').hide();
+                          $('.provider').attr("onclick","your_provider()");
                       }
                       if(nextpage == 'finished'){
                           window.location = "<?php echo site_url('welcome/checkout'); ?>";
@@ -617,7 +632,11 @@
                         $('.provider').removeClass('active');
                         $('.checkout').removeClass('active');
                         $('.location').addClass('active');
+                        $('#schedule_cart').html('');
+                        $('#provider_cart').html('');                        
                         $('#continue').show();
+                        $('#continue').attr("onclick","load_next_tab()");
+                        $('.error2').hide();
                     }
               }, 500); 
             }
@@ -646,7 +665,10 @@
                     $('.provider').removeClass('active');
                     $('.checkout').removeClass('active');
                     $('.schedule').addClass('active');
+                    $('#provider_cart').html('');
                     $('#continue').show();
+                    $('#continue').attr("onclick","load_next_tab()");
+                    $('.error2').hide();
                 }
               }, 500); 
             }

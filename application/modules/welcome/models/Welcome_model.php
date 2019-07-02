@@ -63,7 +63,7 @@ class Welcome_model extends MY_Model
 				vendor_services_price.userId=users.id
 			WHERE 
 				CONCAT(',', services_search, ',') 
-			LIKE '%,".$serviceid.",%'
+			LIKE '%,".$serviceid.",%' AND vendor_services_price.price != ''
 		";
 		//print_r($sql);die();
 		$query = $this->db->query($sql);

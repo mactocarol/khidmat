@@ -4,18 +4,12 @@
             <div class="row">
                 <h1 class="text-center text-capitalize">Ready to Live Smarter?</h1>
                 <h3 class="text-center text-capitalize">Get instant access to reliable and affordable services</h3>
-                <!-- <div class="form_outer">
-                    <form class="row">
-                        <div class="col-md-3">
+                <div class="form_outer">
+                    <form class="row" id = "formid">
+                        <div class="col-md-9">
                             <div class="form-group">
-                                <div class="location_search">
-                                    <input type="text" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Location"><i class="fa fa-location-arrow"></i></div>
-
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search For A Services">
+                                <input type="text" id="search-box" class="typeahead form-control" placeholder="Search For A Services">
+                                <div id="suggesstion-box"></div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -25,7 +19,7 @@
                         </div>
                     </form>
                 </div>
-                <h4 class="text-capitalize text-center">E.g. Salon at Home, Plumber, Wedding Photographer</h4> -->
+                <h4 class="text-capitalize text-center">E.g. Salon at Home, Plumber, Wedding Photographer</h4>
             </div>
         </div>
     </div>
@@ -281,4 +275,35 @@
             </div>
         </div>
     </div>
+    <script>//search bar ajax
+            // AJAX call for autocomplete 
+        $(document).ready(function()
+        {
+            $("#search-box").keyup(function()
+            {
+                $.ajax({
+                type: "POST",
+                url: '<?php echo site_url('welcome/search_bar');?>',      
+                data:'keyword='+$(this).val(),
+                // beforeSend: function(){
+                //     $("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+                // },
+                success: function(data)
+                {
+                    $("#suggesstion-box").show();
+                    $("#suggesstion-box").html(data);
+                    $("#search-box").css("background","#FFF");
+                }
+
+                });
+            });
+        });
+        //To select country name
+        function selectServices(val,id)
+         {
+            $("#search-box").val(val);
+            $("#suggesstion-box").hide();
+            $('#formid').attr('action','<?php echo site_url('welcome/services')?>/'+id);
+         }
+    </script>
     <?php $this->load->view('footer'); ?>

@@ -5,7 +5,7 @@
             <?php foreach($vendors as $row){ ?>
 
                 <label class="joblist_label">
-                    <input name="vndor" type="radio" onclick="select_provider();" value="<?=$row['id']?>" <?php echo ($this->session->userdata('provider_cart')['vndor'] == $row['id']) ? 'checked' : ''?>>
+                    <input name="vndor" type="radio" onclick="select_provider();" value="<?=$row['id']?>" <?php echo ($this->session->userdata('provider_cart') && $this->session->userdata('provider_cart')['vndor'] == $row['id']) ? 'checked' : ''?>>
                     <div class="job-list">
                         <div class="row">
                             <div class="col-lg-2"><img src="<?php echo base_url('upload/profile_image/'.$row['image']);?>"></div>
