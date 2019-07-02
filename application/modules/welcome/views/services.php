@@ -433,7 +433,7 @@
             data: $('#locationform').serialize(),
             success: function (response) {
               console.log(response);
-              $('#location_cart').html('<div class="border_line"></div>'+response);
+              $('#location_cart').html('<div class="border_line"></div><div style="text-align:right;"><a onclick="your_location()"><i class="far fa-edit" title="edit"></i></a></div>'+response);              
               $('#continue').attr("onclick","load_next_tab()");
             }
           });

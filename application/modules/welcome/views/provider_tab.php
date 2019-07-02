@@ -2,7 +2,8 @@
     <h1>Select the services provider</h1>
     <form id="providerform" method="post" action="javascript:void(0)">
         <div class="job-filter-result" style="overflow-y: scroll; height: 750px;">
-            <?php foreach($vendors as $row){ ?>
+            <?php if($vendors){
+                foreach($vendors as $row){ ?>
 
                 <label class="joblist_label">
                     <input name="vndor" type="radio" onclick="select_provider();" value="<?=$row['id']?>" <?php echo ($this->session->userdata('provider_cart') && $this->session->userdata('provider_cart')['vndor'] == $row['id']) ? 'checked' : ''?>>
@@ -38,6 +39,8 @@
                         <h5>All Prices include VAT</h5>
                     </div>
                 </label>
+                <?php } } else {?>
+                <h5>No Service Provider Available, Please Mofify Your Search</h5>
                 <?php } ?>
                 <input type="hidden" value="checkout" id="next_tab">
         </div>
