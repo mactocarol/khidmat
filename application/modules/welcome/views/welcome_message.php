@@ -219,19 +219,28 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <h3>254</h3>
+
+                    <h3>
+                        <?php echo $countServices?> 
+                    </h3>
                     <p>total services</p>
                 </div>
                 <div class="col-md-3">
-                    <h3>172</h3>
-                    <p>won awards</p>
+                    <h3>
+                        <?php echo $countOrders?>   
+                    </h3>
+                    <p>total orders</p>
                 </div>
                 <div class="col-md-3">
-                    <h3>12168</h3>
-                    <p>happy coustomer every year</p>
+                    <h3>
+                        <?php echo $countCustomers?>  
+                    </h3>                    
+                    <p>happy coustomers</p>
                 </div>
                 <div class="col-md-3">
-                    <h3>254</h3>
+                    <h3>
+                        <?php echo $countVendors?> 
+                    </h3>
                     <p>verified experties</p>
                 </div>
             </div>

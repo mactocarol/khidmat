@@ -26,6 +26,7 @@ class User extends MY_Controller
             $data=new stdClass();
             if($this->session->flashdata('item')) {
                 $items = $this->session->flashdata('item');
+                //print_r($items); die;
                 if($items->success){
                     $data->error=0;
                     $data->success=1;
@@ -87,7 +88,7 @@ class User extends MY_Controller
                                     'user_type'=> ($this->input->post('user') == 'buyer') ? '1' : '2',
                                     'key'=> $key,
                                     //'is_verified' => '0'
-                                    'is_verified' => ($this->input->post('user') == 'buyer') ? '0' : '1',
+                                    'is_verified' => ($this->input->post('user') == 'buyer') ? '0' : '0',
                                 );
                                     $new_id = $this->user_model->new_user($udata);
                                     
@@ -283,7 +284,7 @@ class User extends MY_Controller
                         $data->message='Login Successful';
                         //print_r($this->session->userdata('email')); die;
                         if($this->input->post('return_url')){ redirect(($this->input->post('return_url'))); }
-                        redirect('user/dashboard');                                 
+                        redirect('user');                                 
                 }                                              
                $data->users = $this->user_model->SelectSingleRecord('users','*',array("id"=>base64_decode($id)),'id desc');
                
@@ -462,12 +463,12 @@ class User extends MY_Controller
             } 
             $data=new stdClass();
             if($this->session->flashdata('item')) {
-                
                 $items = $this->session->flashdata('item');
+                //print_r($items); die;                
                 if($items->success){
                     $data->error=0;
                     $data->success=1;
-                    $data->msg=$items->message;
+                    $data->message=$items->message;
                 }else{
                     $data->error=1;
                     $data->success=0;

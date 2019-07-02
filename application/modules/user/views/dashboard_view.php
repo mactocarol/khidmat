@@ -28,6 +28,25 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 ">
+        <?php
+        if(isset($message)) {         
+          if($success){
+        ?>
+              <div class="alert alert-dismissible alert-success">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>Success!</strong> <?php print_r($message); ?>
+              </div>
+            <?php
+            }else{
+            ?>
+              <div class="alert alert-dismissible alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>Error!</strong> <?php print_r($message); ?>
+              </div>
+        <?php
+          }
+        }
+        ?>    
         <div class="custom_table">
                <div class="table_header">
                   <span>My Listing</span>
@@ -40,10 +59,11 @@
                             <tr>
                                 <th>Order No.</th>
                                 <th>Service Requested</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
+                                <th>Date</th>
+                                <th>Frequency</th>
                                 <th>Scheduled Time</th>
                                 <th>Request type</th>
+                                <th>Payment Method</th>
                                 <th>Status</th>
                                 <th>Cost</th>
                                 <th>Action</th>
@@ -57,10 +77,30 @@
                             <tr>
                                 <td><?=($row['order_id'])?($row['order_id']):''?></td>
                                 <td><?php echo ($row['servicename'])?json_decode($row['servicename']):''?></td>
-                                <td><?=($row['startDate'])?date('d M, Y',strtotime($row['startDate'])):''?></td>
-                                <td><?=($row['endDate'])?date('d M, Y',strtotime($row['endDate'])):''?></td>
-                                <td><?=($row['time'])?date('h:i a',strtotime($row['time'])):''?></td>
-                                <td>On-site</td>
+                                <td>
+                                    <?php
+                                    if($row['startDate']){
+                                        if($row['payment_type'] == 'day'){
+                                            echo date('d M Y',strtotime($row['startDate']));
+                                        }
+                                        if($row['payment_type'] == 'week'){
+                                            echo 'On '.date('D',strtotime($row['startDate']));
+                                        }
+                                        if($row['payment_type'] == 'month'){
+                                            echo 'On '.date('d',strtotime($row['startDate']));
+                                        }
+                                        if($row['payment_type'] == 'year'){
+                                            echo 'On '.date('d M',strtotime($row['startDate']));
+                                        }
+                                    }else{
+                                        echo "N/A";
+                                    }
+                                    ?>
+                                    </td>
+                                <td><?=($row['payment_type'] != 'day')? 'Every '.$row['payment_type']:'One Time'?></td>
+                                <td><?=($row['time'])?$row['time']:'N/A'?></td>
+                                <td><?=($row['schedule'] != 1)?'On Site':'Collect & Return'?></td>
+                                <td><?=($row['payment_method'] == 'stripe')?'credit / debit Card':'Cash'?></td>
                                 <td>
                                     <?php if($row['order_status'] == 1){?>
                                     <a href="#" type="button" class="btn btn_pending">Pending</a>

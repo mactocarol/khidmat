@@ -24,7 +24,21 @@ class Payment extends MY_Controller
         }
         
         public function index(){
-            $data=new stdClass();            
+            $data=new stdClass();
+            if($this->session->flashdata('item')) {
+                $items = $this->session->flashdata('item');
+                //print_r($items); die;
+                if($items->success){
+                    $data->error=0;
+                    $data->success=1;
+                    $data->message=$items->message;
+                }else{
+                    $data->error=1;
+                    $data->success=0;
+                    $data->message=$items->message;
+                }
+                
+            }
             $charge = 0;//$this->get_Charge();
             
             $order_no = $this->create_order_no();//"ORDER_".uniqid();
@@ -217,20 +231,22 @@ class Payment extends MY_Controller
 
                     
                     $payment_type = $this->session->userdata('payment_method')['payment_type'];
-                    $endDate = $startData = strtotime($this->session->userdata('payment_method')['date']);
-                    $time = strtotime($this->session->userdata('payment_method')['time']);
-                    if($payment_type == 'week'){
-                        $endDate = strtotime("+7 day", $startData);
-                    }else if($payment_type == 'month'){
-                        $endDate = strtotime("+1 months", $startData);
-                    }else if($payment_type == 'year'){
-                        $endDate = strtotime("+1 years", $startData);
+                    $endDate = $startData = ($this->session->userdata('schedule_cart') != 1) ? strtotime($this->session->userdata('schedule_cart')['dateslots']) : '';//strtotime($this->session->userdata('payment_method')['date']);
+                    $time = $this->session->userdata('schedule_cart')['timeslots'];//strtotime($this->session->userdata('payment_method')['time']);
+                    if($this->session->userdata('schedule_cart')){
+                        if($payment_type == 'week'){
+                            $endDate = strtotime("+7 day", $startData);
+                        }else if($payment_type == 'month'){
+                            $endDate = strtotime("+1 months", $startData);
+                        }else if($payment_type == 'year'){
+                            $endDate = strtotime("+1 years", $startData);
+                        }
                     }
                     $odata['payment_type'] = $payment_type;
-                    $odata['startDate'] = date('Y-m-d', $startData);
-                    $odata['endDate'] = date('Y-m-d', $endDate);
+                    $odata['startDate'] = ($startData) ? date('Y-m-d', $startData) : '';
+                    $odata['endDate'] = ($endDate) ? date('Y-m-d', $endDate) : '';
 
-                    $odata['time'] = date('h:m:s', $time);
+                    $odata['time'] = $time;//date('h:m:s', $time);
 
                     //echo '<pre>';
 
@@ -248,6 +264,10 @@ class Payment extends MY_Controller
                     );
                     $this->payment_model->InsertRecord('notification',$nData);
                     
+                    $data->error=0;
+                    $data->success=1;
+                    $data->message='Your order has been successfully placeed, please wait while service provider accept your request.';
+                    $this->session->set_flashdata('item',$data);
                     redirect('user/dashboard');
 
                 }     
@@ -278,20 +298,23 @@ class Payment extends MY_Controller
 
                     
                     $payment_type = $this->session->userdata('payment_method')['payment_type'];
-                    $endDate = $startData = strtotime($this->session->userdata('payment_method')['date']);
-                    $time = strtotime($this->session->userdata('payment_method')['time']);
-                    if($payment_type == 'week'){
-                        $endDate = strtotime("+7 day", $startData);
-                    }else if($payment_type == 'month'){
-                        $endDate = strtotime("+1 months", $startData);
-                    }else if($payment_type == 'year'){
-                        $endDate = strtotime("+1 years", $startData);
+                    $endDate = $startData = ($this->session->userdata('schedule_cart') != 1) ? strtotime($this->session->userdata('schedule_cart')['dateslots']) : '';//strtotime($this->session->userdata('payment_method')['date']);
+                    $time = $this->session->userdata('schedule_cart')['timeslots'];//strtotime($this->session->userdata('payment_method')['time']);
+                    
+                    if($this->session->userdata('schedule_cart')){
+                        if($payment_type == 'week'){
+                            $endDate = strtotime("+7 day", $startData);
+                        }else if($payment_type == 'month'){
+                            $endDate = strtotime("+1 months", $startData);
+                        }else if($payment_type == 'year'){
+                            $endDate = strtotime("+1 years", $startData);
+                        }
                     }
                     $odata['payment_type'] = $payment_type;
-                    $odata['startDate'] = date('Y-m-d', $startData);
-                    $odata['endDate'] = date('Y-m-d', $endDate);
+                    $odata['startDate'] = ($startData) ? date('Y-m-d', $startData) : '';
+                    $odata['endDate'] = ($endDate) ? date('Y-m-d', $endDate) : '';
 
-                    $odata['time'] = date('h:m:s', $time);
+                    $odata['time'] = $time;//date('h:m:s', $time);
 
                     //echo '<pre>';
 
@@ -309,6 +332,10 @@ class Payment extends MY_Controller
                     );
                     $this->payment_model->InsertRecord('notification',$nData);
                     
+                    $data->error=0;
+                    $data->success=1;
+                    $data->message='Your order has been successfully placeed, please wait while service provider accept your request.';
+                    $this->session->set_flashdata('item',$data);
                     redirect('user/dashboard');
 
                 } 

@@ -91,24 +91,27 @@
                         <?php if($schedule = $this->session->userdata('payment_method')) {?>
 
                             <?php 
-
+                            //print_r($this->session->userdata('schedule_cart'));
                             $payment_type = $this->session->userdata('payment_method')['payment_type'];
-                            $endDate = $startData = strtotime($this->session->userdata('payment_method')['date']);
-                            $time = strtotime($this->session->userdata('payment_method')['time']);
+                            $endDate = $startData = strtotime($this->session->userdata('schedule_cart')['dateslots']);//strtotime($this->session->userdata('payment_method')['date']);
+                            $time = $this->session->userdata('schedule_cart')['timeslots'];//strtotime($this->session->userdata('payment_method')['time']);
                             if($payment_type == 'week'){
                                 $endDate = strtotime("+7 day", $startData);
+                                $frequency = 'Every Week On '.date('D', $startData);
                             }else if($payment_type == 'month'){
                                 $endDate = strtotime("+1 months", $startData);
+                                $frequency = 'Every Month On '.date('d', $startData).' date of month';
                             }else if($payment_type == 'year'){
                                 $endDate = strtotime("+1 years", $startData);
+                                $frequency = 'Every Year On '.date('d M', $startData);
                             }
                             ?>
 
-
+                        <?php if($this->session->userdata('schedule_cart') != 1){?>
                         <div class="service_list schedule">
                             <div class="s_list">
                               <span class="s_label">Schedule Time</span>
-                              <span class="s_text"><?php echo ($schedule) ? date('h:m:s', $time) : '--'; ?></span>
+                              <span class="s_text"><?php echo ($schedule) ? $time : '--'; ?></span>
                             </div>        
                         </div>
 
@@ -119,10 +122,11 @@
                                     <span class="s_text"><?php echo ($schedule) ? date('Y-m-d', $startData) : '--'; ?></span>
                                 <?php }else{ ?>
                                     <span class="s_label">Schedule Date</span>
-                                    <span class="s_text"><?php echo ($schedule) ? date('Y-m-d', $startData).' To '.date('Y-m-d', $endDate) : '--'; ?></span>
+                                    <span class="s_text"><?php echo ($frequency) ? $frequency : '--'; ?></span>
                                 <?php } ?>
                             </div>        
                         </div>
+                        <?php } ?>
                         <?php } ?>
                         <div class="service_list provider">
                             <div class="s_list">

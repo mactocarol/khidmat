@@ -31,6 +31,16 @@ class Welcome extends MY_Controller {
         $data->category = $category;
         $category3 = $this->welcome_model->mostPopularCategories();
         $data->category = $category3;
+        
+        $countServices = $this->welcome_model->countrecords('services',$WhereData=array("status"=>"1","is_deleted"=>"0"));
+        $data->countServices = $countServices;
+        $countCustomers = $this->welcome_model->countrecords('users',$WhereData=array("is_verified"=>"1","is_deleted"=>"0","user_type"=>"1"));
+        $data->countCustomers = $countCustomers;
+        $countVendors = $this->welcome_model->countrecords('users',$WhereData=array("is_verified"=>"1","is_deleted"=>"0","user_type"=>"2"));
+        $data->countVendors = $countVendors;
+        $countOrders = $this->welcome_model->countrecords('order_detail',$WhereData=array("order_status"=>"2"));
+        $data->countOrders = $countOrders;
+        
 		$this->load->view('welcome_message',$data);
 	}
     

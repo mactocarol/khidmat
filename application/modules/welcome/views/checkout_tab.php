@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <h1>Payment Type</h1>
+                    <h1>Service Type</h1>
                     <div class="form-group">
                         <div class="radio_box">
 
@@ -77,7 +77,7 @@
                                 <input onclick="changeStatus()" type="radio" class="form-control" name="payment_type" value="day" <?php echo $priceChecked; ?> >
                                 <span class="r_check"></span>
                                 <div class="r_texts">
-                                    <span> One Day </span>
+                                    <span> One Time </span>
                                 </div>
                             </label>
                             <?php } ?>
@@ -88,7 +88,7 @@
                                 <input onclick="changeStatus()" type="radio" class="form-control" name="payment_type" value="week" <?php echo $weekPriceChecked; ?>>
                                 <span class="r_check"></span>
                                 <div class="r_texts">
-                                    <span> One Week </span>
+                                    <span> Every Week (<?php echo ($this->session->userdata('schedule_cart')) ? 'On '.date('D',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' @'.$this->session->userdata('schedule_cart')['timeslots'] : '';?>)</span>
                                 </div>
                             </label>
                             <?php } ?>
@@ -100,7 +100,7 @@
                                 <input onclick="changeStatus()" type="radio" class="form-control" name="payment_type" value="month" <?php echo $monthPriceChecked; ?>>
                                 <span class="r_check"></span>
                                 <div class="r_texts">
-                                    <span> One Month </span>
+                                    <span> Every Month (<?php echo ($this->session->userdata('schedule_cart')) ? 'On '.date('d',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' date @'.$this->session->userdata('schedule_cart')['timeslots'] : '';?>)</span>
                                 </div>
                             </label>
                             <?php } ?>
@@ -111,7 +111,7 @@
                                 <input onclick="changeStatus()" type="radio" class="form-control" name="payment_type" value="year" <?php echo $yearPriceChecked; ?>>
                                 <span class="r_check"></span>
                                 <div class="r_texts">
-                                    <span> One Year </span>
+                                    <span> Every Year (<?php echo ($this->session->userdata('schedule_cart')) ? 'On '.date('d M',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' @'.$this->session->userdata('schedule_cart')['timeslots'] : '';?>)</span>
                                 </div>
                             </label>
                             <?php } ?>
@@ -120,13 +120,13 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
+                <!--<div class="col-md-12">
                     <h1>Appointment / Start Date</h1>
                     <div class="form-group">
                         
                         <!-- <div class="radio_box oneDate">
                             <input placeholder="date" style="border : 1px solid #c5c5c5" id="datepicker1" type="text" class="form-control" name="Date">
-                        </div><br><br> -->
+                        </div><br><br> --
 
                         <div class="radio_box seDate">
                             <input placeholder="Appointment / Start Date" style="border : 1px solid #c5c5c5" id="datepicker2" type="text" class="form-control" name="date">
@@ -137,7 +137,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div>-->
 
                 <!-- <?php  if(!empty($price)){ ?>
                     <script type="text/javascript">$('.seDate').hide();</script>

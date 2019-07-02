@@ -86,10 +86,20 @@
                         
                         <?php $schedule = json_decode($order['schedule']); ?>
                         
-                        <?php if($schedule != '' && $schedule != '1'){?>
+                        <?php if($schedule != '' && $schedule != '1'){
+                        if($order['payment_type'] == 'dat'){                            
+                            $frequency = 'On '.date('D', strtotime($order['startDate']));
+                        }else if($order['payment_type'] == 'week'){                            
+                            $frequency = 'Every Week On '.date('D', strtotime($order['startDate']));
+                        }else if($order['payment_type'] == 'month'){                            
+                            $frequency = 'On '.date('d', strtotime($order['startDate'])).' date of every month';
+                        }else if($order['payment_type'] == 'year'){                            
+                            $frequency = 'Every Year On '.date('d M', strtotime($order['startDate']));
+                        }?>
                         <div class="section_content">
                           <i class="fa fa-cog" aria-hidden="true"></i>
-                          <span>Schedule Time : <?=($schedule)?($schedule->dateslots.' '.$schedule->timeslots):''?></span>
+                          <span>Schedule Time : <?=$frequency?>
+                          </span>
                         </div>
                         <?php } ?>
                     
