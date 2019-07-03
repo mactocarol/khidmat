@@ -43,36 +43,36 @@
                             $weekPriceChecked = '';
                             $monthPriceChecked = '';
                             $yearPriceChecked = '';
-
-                            if(!empty($price->price)){
+                            
+                            if(!empty($vendors[0]['price'])){
                                 if($checked == 0){
                                     $checked = 1;
                                     $priceChecked = 'checked';
                                 }
                             }
 
-                            if(!empty($price->weekPrice)){
+                            if(!empty($vendors[0]['weekPrice'])){
                                 if($checked == 0){
                                     $checked = 1;
                                     $weekPriceChecked = 'checked';
                                 }
                             }
 
-                            if(!empty($price->monthPrice)){
+                            if(!empty($vendors[0]['monthPrice'])){
                                 if($checked == 0){
                                     $checked = 1;
                                     $monthPriceChecked = 'checked';
                                 }
                             }
 
-                            if(!empty($price->yearPrice)){
+                            if(!empty($vendors[0]['yearPrice'])){
                                 if($checked == 0){
                                     $checked = 1;
                                     $yearPriceChecked = 'checked';
                                 }
                             }
                             ?>
-                            <?php  if(!empty($price->price)){ ?>
+                            <?php  if(!empty($vendors[0]['price'])){ ?>
                             <label>
                                 <input onclick="changeStatus()" type="radio" class="form-control" name="payment_type" value="day" <?php echo $priceChecked; ?> >
                                 <span class="r_check"></span>
@@ -83,35 +83,35 @@
                             <?php } ?>
 
                             
-                            <?php  if(!empty($price->weekPrice)){ ?>
+                            <?php  if(!empty($vendors[0]['weekPrice'])){ ?>
                             <label>
                                 <input onclick="changeStatus()" type="radio" class="form-control" name="payment_type" value="week" <?php echo $weekPriceChecked; ?>>
                                 <span class="r_check"></span>
                                 <div class="r_texts">
-                                    <span> Every Week (<?php echo ($this->session->userdata('schedule_cart')) ? 'On '.date('D',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' @'.$this->session->userdata('schedule_cart')['timeslots'] : '';?>)</span>
+                                    <span> Every Week (<?php echo ($this->session->userdata('schedule_cart') != 1) ? 'On '.date('D',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' @'.$this->session->userdata('schedule_cart')['timeslots'] : 'Once in a week';?>)</span>
                                 </div>
                             </label>
                             <?php } ?>
 
 
                             
-                            <?php  if(!empty($price->monthPrice)){ ?>
+                            <?php  if(!empty($vendors[0]['monthPrice'])){ ?>
                             <label>
                                 <input onclick="changeStatus()" type="radio" class="form-control" name="payment_type" value="month" <?php echo $monthPriceChecked; ?>>
                                 <span class="r_check"></span>
                                 <div class="r_texts">
-                                    <span> Every Month (<?php echo ($this->session->userdata('schedule_cart')) ? 'On '.date('d',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' date @'.$this->session->userdata('schedule_cart')['timeslots'] : '';?>)</span>
+                                    <span> Every Month (<?php echo ($this->session->userdata('schedule_cart') != 1) ? 'On '.date('d',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' date @'.$this->session->userdata('schedule_cart')['timeslots'] : 'Once in a month';?>)</span>
                                 </div>
                             </label>
                             <?php } ?>
 
 
-                            <?php  if(!empty($price->yearPrice)){ ?>
+                            <?php  if(!empty($vendors[0]['yearPrice'])){ ?>
                             <label>
                                 <input onclick="changeStatus()" type="radio" class="form-control" name="payment_type" value="year" <?php echo $yearPriceChecked; ?>>
                                 <span class="r_check"></span>
                                 <div class="r_texts">
-                                    <span> Every Year (<?php echo ($this->session->userdata('schedule_cart')) ? 'On '.date('d M',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' @'.$this->session->userdata('schedule_cart')['timeslots'] : '';?>)</span>
+                                    <span> Every Year (<?php echo ($this->session->userdata('schedule_cart') != 1) ? 'On '.date('d M',strtotime($this->session->userdata('schedule_cart')['dateslots'])).' @'.$this->session->userdata('schedule_cart')['timeslots'] : 'Once in a year';?>)</span>
                                 </div>
                             </label>
                             <?php } ?>

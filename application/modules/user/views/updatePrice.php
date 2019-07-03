@@ -42,26 +42,26 @@
             <div class="login-inner">
                 <div class="login-header"><h1><i class="fa fa-lock"></i> Update Price</h1></div>
                 <div class="login-form">
-                    <form method="post" id="registerform" action="<?php echo site_url('user/updatePrice/').base64_encode(($data->userServicesId) ? $data->userServicesId : $newId);?>">
+                    <form method="post" id="registerform" action="<?php echo site_url('user/updatePrice/').base64_encode(isset($data->userServicesId) ? $data->userServicesId : $newId);?>">
                         
                         <div class="form-group">
                             <label>One Day Price</label>
-                            <input value="<?php echo ($data->price) ? $data->price : ''; ?>" type="text" placeholder="One Day Price" name="price" class="number form-control" >
+                            <input value="<?php echo isset($data->price) ? $data->price : ''; ?>" type="text" placeholder="One Day Price" name="price" class="number form-control" >
                         </div>
 
                         <div class="form-group">
                             <label>One Week Day Price</label>
-                            <input value="<?php echo ($data->weekPrice) ? $data->weekPrice : ''; ?>" type="text" placeholder="One Week Day Price" name="weekPrice" class="number form-control" >
+                            <input value="<?php echo isset($data->weekPrice) ? $data->weekPrice : ''; ?>" type="text" placeholder="One Week Day Price" name="weekPrice" class="number form-control" >
                         </div>
 
                         <div class="form-group">
                             <label>One Month Day Price</label>
-                            <input value="<?php echo ($data->monthPrice) ? $data->monthPrice : ''; ?>" type="text" placeholder="One Month Day Price" name="monthPrice" class="number form-control" >
+                            <input value="<?php echo isset($data->monthPrice) ? $data->monthPrice : ''; ?>" type="text" placeholder="One Month Day Price" name="monthPrice" class="number form-control" >
                         </div>
 
                         <div class="form-group">
                             <label>One Year Day Price</label>
-                            <input value="<?php echo ($data->yearPrice) ? $data->yearPrice : ''; ?>" type="text" placeholder="One Year Day Price" name="yearPrice" class="number form-control" >
+                            <input value="<?php echo isset($data->yearPrice) ? $data->yearPrice : ''; ?>" type="text" placeholder="One Year Day Price" name="yearPrice" class="number form-control" >
                         </div>
                         
                         

@@ -11,20 +11,41 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- <?php if($userDetail->user_type == '2'){ ?>
+                    <li><a href="<?php echo site_url('user/vendor_services');?>">My Services </a></li>
+                <?php }else{ ?>
+                    <li><a href="<?php echo site_url('catalog/1');?>">Services </a></li>
+                <?php } ?> -->
+                
+                <?php 
+                    $user_id = $this->session->userdata('user_id');
+                    $userDetail = get_user($user_id); 
+                ?>
+
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="footer_widget">
                         <h3 class="widget_title">Customers</h3>
                         <div class="footer_menu">
                             <ul>
-                                <li>
+
+                                <?php if($userDetail->user_type == '1'){ ?>
+                                    <li><a href="<?php echo site_url('user/dashboard');?>">My service requests</a></li>
+                                <?php }else{ ?>
+                                    <li><a href="<?php echo base_url(); ?>">My service requests</a></li>
+                                <?php } ?>
+
+                                <li><a href="<?php echo site_url('blog');?>">Blog</a></li>
+                                
+                                <!-- <li>
                                     <a href="#">My service requests</a>
+                                </li> -->
+                                <!-- <li>
+                                    <a href="#"></a>
                                 </li>
                                 <li>
                                     <a href="#">How it works?</a>
-                                </li>
-                                <li>
-                                    <a href="#">How it works?</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -34,45 +55,40 @@
                         <h3 class="widget_title">Provider</h3>
                         <div class="footer_menu">
                             <ul>
-                                <li>
+                                <!-- <li>
                                     <a href="#">Provider's Dashboard</a>
-                                </li>
-                                <li>
+                                </li> -->
+
+                                <?php if($userDetail->user_type == '2'){ ?>
+                                    <li><a href="<?php echo site_url('dashboard');?>">Provider's Dashboard</a></li>
+                                <?php }else{ ?>
+                                    <li><a href="<?php echo base_url(); ?>">Provider's Dashboard</a></li>
+                                <?php } ?>
+
+                                <li><a href="<?php echo site_url('blog');?>">Blog</a></li>
+                               <!--  <li>
                                     <a href="#">Become a service provider</a>
                                 </li>
                                 <li>
                                     <a href="#">Why join helpbit</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
                 </div>
+
                  <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="footer_widget">
                         <h3 class="widget_title">Services</h3>
                         <div class="footer_menu">
                             <ul>
+                                <?php $services = get_footer_list(); ?>
+                                <?php foreach($services as $oneRow){ ?>
                                 <li>
-                                    <a href="#">Beauty Services</a>
+                                    <a href="<?php echo base_url('catalog/').$oneRow['id']; ?>"><?php echo $oneRow['title']; ?></a>
                                 </li>
-                                <li>
-                                    <a href="#">Recent launches</a>
-                                </li>
-                                <li>
-                                    <a href="#">Appliances Services</a>
-                                </li>
-                                <li>
-                                    <a href="#">Trending Services</a>
-                                </li>
-                                <li>
-                                    <a href="#">Home Cleaning</a>
-                                </li>
-                                <li>
-                                    <a href="#">Pest Control</a>
-                                </li>
-                                <li>
-                                    <a href="#">Home Needs</a>
-                                </li>
+                                <?php } ?>
+                                
                             </ul>
                         </div>
                     </div>
@@ -97,11 +113,11 @@
                     <div class="col-md-4">
                         <div class="social_icon">
                             <ul>
-                                <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google"></i></a></li>
+                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                                <li><a href="#"><i class="fab fa-google"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -154,6 +170,9 @@
 <script src="<?php echo base_url('front');?>/js/owl.carousel.js"></script>
 <script src="<?php echo base_url('front');?>/js/bootstrap-select.min.js"></script>
 <script src="<?php echo base_url('front');?>/js/custom.js"></script>
+
+<script src="<?php echo base_url('front');?>/js/plugins/calendar/monthly.js"></script>
+
 <script>
     $(document).ready(function() {
         $('.owl-carousel').owlCarousel({
@@ -167,7 +186,7 @@
                 },
                 600: {
                     items: 3,
-                    nav: false
+                    nav: true
                 },
                 1000: {
                     items: 4,

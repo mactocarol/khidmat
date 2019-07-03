@@ -50,16 +50,18 @@ class Payment extends MY_Controller
             $amt = $amt + $charge;
 
             $price = $this->payment_model->SelectSingleRecord('vendor_services_price','*',array("userId"=>$vendorid,"userServicesId"=>$serviceid),Null);
+            $this->load->model('welcome/welcome_model');
+            $price = $this->welcome_model->searchVendor($serviceid);
             //print_r($price); 
             $payment_type = $this->session->userdata('payment_method')['payment_type'];
             if(isset($price) && !empty($price)){
-                $amt =  $price->price;
+                $amt =  $price[0]['price'];
                 if($payment_type == 'week'){
-                    $amt = $price->weekPrice;
+                    $amt = $price[0]['weekPrice'];
                 }else if($payment_type == 'month'){
-                    $amt = $price->monthPrice;
+                    $amt = $price[0]['monthPrice'];
                 }else if($payment_type == 'year'){
-                    $amt = $price->yearPrice;
+                    $amt = $price[0]['yearPrice'];
                 }
             }
 

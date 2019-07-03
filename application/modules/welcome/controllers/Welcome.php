@@ -372,7 +372,7 @@ class Welcome extends MY_Controller {
         $vendorid = $this->session->userdata('provider_cart')['vndor'];
         $data->vendor = $this->welcome_model->SelectSingleRecord('users','*',$udata=array("id"=>$vendorid),'id asc');
         $data->vendor_services = $this->welcome_model->SelectSingleRecord('vendor_services','*',$udata=array("vendor_id"=>$vendorid),'id asc');
-        $data->vendor_services_price = $this->welcome_model->SelectSingleRecord('vendor_services_price','*',$udata=array("userId"=>$vendorid,"userServicesId"=>$this->session->userdata('serviceid')),Null);
+        $data->vendor_services_price = $this->welcome_model->searchVendor($this->session->userdata('serviceid'));            
         //print_r($data->vendor_services_price); die;
         $services = $this->session->userdata('services');
         $this->load->view('checkout.php',$data);          
@@ -491,10 +491,13 @@ class Welcome extends MY_Controller {
                         }                        
                         //$vendors = $this->welcome_model->joindataResult('v.vendor_id','u.id',array(),'u.*,v.charges','vendor_services as v','users as u',$orderby=Null);
                         $vendors = $this->welcome_model->searchVendor($this->session->userdata('serviceid'));
-                        foreach($vendors as $key=>$row){
-                            $vendor_services_price = $this->welcome_model->SelectSingleRecord('vendor_services_price','*',$udata=array("userId"=>$row['id'],"userServicesId"=>$this->session->userdata('serviceid')),Null);
-                            $vendors[$key]['price'] = $vendor_services_price;
-                        }
+                        //print_r($vendors); die;
+                        //foreach($vendors as $key=>$row){
+                        //    echo $row['id'];
+                        //    $vendor_services_price = $this->welcome_model->SelectSingleRecord('vendor_services_price','*',array("userId"=>$row['id'],"userServicesId"=>$this->session->userdata('serviceid')),Null);
+                        //    print_r($this->db->last_query());
+                        //    $vendors[$key]['price'] = $vendor_services_price;
+                        //}
                         //print_r($vendors); die;
                         $data->vendors = $vendors;
                         $this->load->view('provider_tab.php',$data);
@@ -505,8 +508,8 @@ class Welcome extends MY_Controller {
             
             if($_POST['nextpage'] == 'checkout'){                
                 if(($this->session->userdata('provider_cart')) ){
-                    $data->price = $this->welcome_model->SelectSingleRecord('vendor_services_price','*',$udata=array("userId"=>$this->session->userdata('provider_cart')['vndor'],"userServicesId"=>$this->session->userdata('serviceid')),Null);
-                    //print_r($data->price);die;
+                    //$data->price = $this->welcome_model->SelectSingleRecord('vendor_services_price','*',$udata=array("userId"=>$this->session->userdata('provider_cart')['vndor'],"userServicesId"=>$this->session->userdata('serviceid')),Null);
+                    $data->vendors = $this->welcome_model->searchVendor($this->session->userdata('serviceid'));
                     $this->load->view('checkout_tab.php',$data);
                 }else{
                     echo 0;
@@ -569,11 +572,11 @@ class Welcome extends MY_Controller {
         
         if((($this->session->userdata('service_cart')) || ($this->session->userdata('service_cart1'))) && ($this->session->userdata('location_cart')) && ($this->session->userdata('schedule_cart'))){
             //$vendors = $this->welcome_model->joindataResult('v.vendor_id','u.id',array(),'u.*,v.charges','vendor_services as v','users as u',$orderby=Null);
-            $vendors = $this->welcome_model->searchVendor($this->session->userdata('serviceid'));
-            foreach($vendors as $key=>$row){
-                $vendor_services_price = $this->welcome_model->SelectSingleRecord('vendor_services_price','*',$udata=array("userId"=>$row['id'],"userServicesId"=>$this->session->userdata('serviceid')),Null);
-                $vendors[$key]['price'] = $vendor_services_price;
-            }
+            $vendors = $this->welcome_model->searchVendor($this->session->userdata('serviceid'));            
+            //foreach($vendors as $key=>$row){
+            //    $vendor_services_price = $this->welcome_model->SelectSingleRecord('vendor_services_price','*',$udata=array("userId"=>$row['id'],"userServicesId"=>$this->session->userdata('serviceid')),Null);
+            //    $vendors[$key]['price'] = $vendor_services_price;
+            //}
             $data->vendors = $vendors;
             $this->load->view('provider_tab.php',$data);
         }else{
@@ -608,8 +611,12 @@ class Welcome extends MY_Controller {
         $this->session->set_userdata('provider_cart',$_POST);
         $vendor = $this->welcome_model->SelectSingleRecord('users','*',$udata=array("id"=>$_POST['vndor']),'id asc');
         //$vendor_services = $this->welcome_model->SelectSingleRecord('vendor_services','*',$udata=array("vendor_id"=>$_POST['vndor']),'id asc');
-        //print_r($_POST['vendor']); die;        
+        //print_r($_POST['vendor']); die;
+        if($vendor->shop_name){
+            echo '<div class="location_dv"><p><strong>Vendor</strong> <img src="'.base_url('upload/profile_image/'.$vendor->image).'" height="50px"> '.ucwords($vendor->shop_name).'</p></div>';
+        }else{
             echo '<div class="location_dv"><p><strong>Vendor</strong> <img src="'.base_url('upload/profile_image/'.$vendor->image).'" height="50px"> '.ucwords($vendor->f_name).' '.ucwords($vendor->l_name).'</p></div>';
+        }
             //echo '<p><strong>Charges</strong> : '.($vendor_services->charges).'</p>';        
 	}
     

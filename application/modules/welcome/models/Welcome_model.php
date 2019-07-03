@@ -44,7 +44,18 @@ class Welcome_model extends MY_Model
 	}
     
     function searchVendor($serviceid){
-
+        $data = $this->db->get_where('services',array('id' => $serviceid))->row_array();
+	    if(empty($data)){
+	        return false;
+	    }
+		$serviceid = get_parent_id($data['category_id']);
+        if(empty($serviceid)){
+	        return false;
+	    }
+        
+        if(empty($serviceid)){
+	        return false;
+	    }
 		
 		$sql = "
 			SELECT 	
@@ -63,7 +74,7 @@ class Welcome_model extends MY_Model
 				vendor_services_price.userId=users.id
 			WHERE 
 				CONCAT(',', services_search, ',') 
-			LIKE '%,".$serviceid.",%' AND vendor_services_price.price != ''
+			LIKE '%,".$serviceid.",%' AND vendor_services_price.price != '' AND vendor_services_price.price != '0'
 		";
 		//print_r($sql);die();
 		$query = $this->db->query($sql);

@@ -399,7 +399,7 @@ class User extends MY_Controller
             {
                 $email = $this->security->xss_clean($this->input->post('email'));
                 $password = $this->security->xss_clean($this->input->post('password'));
-                $Selectdata = array('id','email','username','image');
+                $Selectdata = array('id','email','username','image','user_type');
                 $udata = array("email"=>$email,"password"=>md5($password),"is_verified"=>'1');                
                 $result = $this->user_model->SelectSingleRecord('users',$Selectdata,$udata,$orderby=array());
                 
@@ -592,6 +592,7 @@ class User extends MY_Controller
                         'phone'=>$this->input->post('contact'),
                         'f_name'=>$this->input->post('f_name'),
                         'l_name'=>$this->input->post('l_name'),
+                        'shop_name'=>$this->input->post('shop_name'),
                         'dob'=>$this->input->post('dob'),                        
                         'address'=>$this->input->post('address'),
                         'country'=>$this->input->post('country'),
@@ -608,6 +609,7 @@ class User extends MY_Controller
                         'phone'=>$this->input->post('contact'),                        
                         'f_name'=>$this->input->post('f_name'),
                         'l_name'=>$this->input->post('l_name'),
+                        'shop_name'=>$this->input->post('shop_name'),
                         'dob'=>$this->input->post('dob'),                        
                         'address'=>$this->input->post('address'),                        
                         'country'=>$this->input->post('country'),
@@ -848,9 +850,10 @@ class User extends MY_Controller
                 $categories[$key]['isAdded'] = $isAdded;
                 $categories[$key]['subcategories'] = $subcategories;
             }
+            
             //echo '<pre>';
             //print_r($categories);
-            $this->load->view('add_vendor_services',array('categories' => $categories));
+            $this->load->view('add_vendor_services',array('categories' => $categories,'sellerid'=>$this->session->userdata('user_id')));
         }
 
         function update_vendor_services(){

@@ -62,6 +62,18 @@
         <form method="post" id="updateuserform" action="<?php echo site_url('user/profile');?>">
           <div class="right_profile_content">
             <h2>My Profile</h2>
+            <?php if($result->user_type == 2){?>
+            <div class="input_profile_box">
+              <div class="col-md-3">
+                <span>Shop name</span>
+              </div>
+              <div class="col-md-9">
+                <div class="input_fields">
+                  <input type="text" name="shop_name" placeholder="Shop Name (if empty then your name will be shown to customers)" value="<?=$result->shop_name?>">
+                </div>
+              </div>
+            </div>
+            <?php } ?>
             <div class="input_profile_box">
               <div class="col-md-3">
                 <span>First name</span>

@@ -12,7 +12,7 @@
                             <div class="col-lg-2"><img src="<?php echo base_url('upload/profile_image/'.$row['image']);?>"></div>
                             <div class="col-lg-5">
                                 <div class="job-title-outer">
-                                    <h4><a href="#"><?=($row['f_name'])?$row['f_name'].' '.$row['l_name']:''?></a></h4>
+                                    <h4><a href="#"><?=($row['shop_name'])? $row['shop_name'] : $row['f_name'].' '.$row['l_name']?></a></h4>
 
                                 </div>
                                 <p><span class="total-rate">4.5</span>
@@ -26,10 +26,10 @@
                             <h5>Minimum service order : AED <?= ($row['price']) ? $row['price'] : ''?></h5> -->
 
                                     AED PRICE FOR
-                                    <h5>One Day : <?= ($row['price']) ? $row['price']->price : ''?></h5>
-                                    <h5>One Week : <?= ($row['price']) ? $row['price']->weekPrice : ''?></h5>
-                                    <h5>One Month : <?= ($row['price']) ? $row['price']->monthPrice : ''?></h5>
-                                    <h5>One Year : <?= ($row['price']) ? $row['price']->yearPrice : ''?></h5>
+                                    <h5>One Day : <?= ($row['price']) ? $row['price'] : ''?></h5>
+                                    <h5>One Week : <?= ($row['weekPrice']) ? $row['weekPrice'] : ''?></h5>
+                                    <h5>One Month : <?= ($row['monthPrice']) ? $row['monthPrice'] : ''?></h5>
+                                    <h5>One Year : <?= ($row['yearPrice']) ? $row['yearPrice'] : ''?></h5>
 
 
 

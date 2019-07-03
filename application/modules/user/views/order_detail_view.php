@@ -77,7 +77,7 @@
                         </div>
                         <div class="section_content">     
                           <i class="fas fa-wallet"></i>
-                          <span>AED <?=($order['amount'])? $order['amount'] : '' ;?>(<?=($order['payment_type'])? $order['payment_type'] : '' ;?>)</span>
+                          <span>AED <?=($order['amount'])? $order['amount'] : '' ;?>(<?=($order['payment_type'] != 'day')? 'Every '.$order['payment_type'] : 'One Time';?>)</span>
                         </div>
                         <div class="section_content">
                           <i class="fa fa-cog" aria-hidden="true"></i>
@@ -321,7 +321,7 @@
                   
                   <div class="buyer_detail_box template2_inr">
                     <img width="200" height="200" onerror="$(this).attr('src','https://dummyimage.com/200x200/ffffff/e12454?text=<?=($vendor->f_name); ?>')"  src="<?php echo base_url('upload/profile_image/').$vendor->image; ?>">
-                    <h2><?=($vendor->f_name).' '.($vendor->l_name)?></h2>
+                    <h2><?=($vendor->shop_name) ? $vendor->shop_name : ($vendor->f_name).' '.($vendor->l_name)?></h2>
                     <span><?=($vendor->country).', '.($vendor->city)?></span>
                     <span><i class="fa fa-phone" aria-hidden="true"></i><?=($vendor->phone)?></span>
                     <span><i class="fa fa-envelope" aria-hidden="true"></i><?=($vendor->email)?></span>                  

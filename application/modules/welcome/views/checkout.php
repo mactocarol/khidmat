@@ -131,18 +131,18 @@
                         <div class="service_list provider">
                             <div class="s_list">
                               <span class="s_label">Provider</span>
-                              <span class="s_text"><?php echo ($vendor) ? ($vendor->f_name.' '.$vendor->l_name) : '--'; ?></span>
+                              <span class="s_text"><?php echo ($vendor->shop_name) ? $vendor->shop_name : ($vendor->f_name.' '.$vendor->l_name); ?></span>
                             </div>
                             <div class="s_list">
                               <span class="s_label">Charge</span>
                               <?php if($payment_type == 'day'){
-                                $price = $vendor_services_price->price;
+                                $price = $vendor_services_price[0]['price'];
                               } else if($payment_type == 'week') {
-                                $price = $vendor_services_price->weekPrice;
+                                $price = $vendor_services_price[0]['weekPrice'];
                               } else if($payment_type == 'month') {
-                                $price = $vendor_services_price->monthPrice;
+                                $price = $vendor_services_price[0]['monthPrice'];
                               } else if($payment_type == 'year') {
-                                $price = $vendor_services_price->yearPrice;
+                                $price = $vendor_services_price[0]['yearPrice'];
                               }?>
                               <span class="s_text"><?php echo ($vendor_services_price) ? ($price).' AED' : '--'; ?></span>
                             </div>

@@ -2,12 +2,12 @@
 <?php $myId = $this->session->userdata('user_id'); $myDetail = get_user($myId); $opDetail = get_user($id); ?>
 
 <input type="hidden" id="myId" value="<?php echo $myDetail->id; ?>" name="">
-<input type="hidden" id="myName" value="<?php echo $myDetail->f_name.' '.$myDetail->l_name; ?>" name="">
+<input type="hidden" id="myName" value="<?php echo $myDetail->shop_name ? $myDetail->shop_name : $myDetail->f_name.' '.$myDetail->l_name; ?>" name="">
 <input type="hidden" id="myImage" value="<?php echo $myDetail->image; ?>" name="">
 <input type="hidden" id="myType" value="<?php echo $myDetail->user_type; ?>" name="">
 
 <input type="hidden" id="opId" value="<?php echo $opDetail->id; ?>" name="">
-<input type="hidden" id="opName" value="<?php echo $opDetail->f_name.' '.$opDetail->l_name; ?>" name="">
+<input type="hidden" id="opName" value="<?php echo ($opDetail->shop_name) ? $opDetail->shop_name : $opDetail->f_name.' '.$opDetail->l_name; ?>" name="">
 <input type="hidden" id="opImage" value="<?php echo $opDetail->image; ?>" name="">
 <input type="hidden" id="opType" value="<?php echo $opDetail->user_type; ?>" name="">
 
@@ -40,7 +40,7 @@
                                 <img src="<?php echo base_url('upload/profile_image/').$opDetail->image; ?>" alt="" class="img-fluid">
                             </span>
                             <div class="profile_dtl">
-                                <h5><?php echo $opDetail->f_name.' '.$opDetail->l_name; ?></h5>
+                                <h5><?php echo ($opDetail->shop_name) ? $opDetail->shop_name : $opDetail->f_name.' '.$opDetail->l_name; ?></h5>
                                 <span id="onOff" style="color: #FFFFFF;"></span>
                             </div>
                         </div>
