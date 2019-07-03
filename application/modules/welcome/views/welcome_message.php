@@ -8,7 +8,7 @@
                     <form class="row" id = "formid">
                         <div class="col-md-9">
                             <div class="form-group">
-                                <input type="text" id="search-box" class="typeahead form-control" placeholder="Search For A Services">
+                                <input type="text" id="search-box" class="form-control" placeholder="Search For A Services" autocomplete="off">
                                 <div id="suggesstion-box"></div>
                             </div>
                         </div>

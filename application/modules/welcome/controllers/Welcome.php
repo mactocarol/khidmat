@@ -641,4 +641,31 @@ class Welcome extends MY_Controller {
         }
         $this->load->view('contactUs',$data);
     }
+    
+    public function search_bar()
+    {
+        //$search = $_POST['keyword'];
+        //$where = array('title' =>$search);
+        $keyword = $_POST['keyword'];
+        // print_r($keyword);die();
+
+        $result = $this->welcome_model->search_record('services',$keyword,$order = '');
+
+            // echo $this->db->last_query(); die;
+             // print_r($result);die(); 
+        if(!empty($result))
+         {
+            ?>
+            <ul>
+                <?php
+                foreach($result as $services)
+                {
+                    // print_r($services);
+                ?>
+                <li onClick="selectServices('<?php echo $services['title']; ?>','<?php echo $services['id']; ?>');"><?php echo $services["title"]; ?></li>
+                <?php } ?>
+            </ul>
+    <?php }
+            
+    }  
 }

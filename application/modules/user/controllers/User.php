@@ -268,22 +268,21 @@ class User extends MY_Controller
                          $this->user_model->UpdateRecord('users',$udata,array("id"=>base64_decode($this->input->post('sellerid'))));
                                                                                                 
                     $result1 = $this->user_model->SelectSingleRecord('users','*',array("id"=>base64_decode($this->input->post('sellerid'))),'id desc');    
-                        $sess_array = array(
-                        'user_id' => $result1->id,
-                        'email' => $result1->username,
-                        'image' => $result1->image,
-                        'user_group_id' => 2,
-                        'logged_in' => TRUE
-                        );
-                    
-                        
-                        //print_r($sess_array); die;
-                        $this->session->set_userdata($sess_array);
+                        //$sess_array = array(
+                        //'user_id' => $result1->id,
+                        //'email' => $result1->username,
+                        //'image' => $result1->image,
+                        //'user_group_id' => 2,
+                        //'logged_in' => TRUE
+                        //);
+                        //
+                        //
+                        ////print_r($sess_array); die;
+                        //$this->session->set_userdata($sess_array);
                         $data->error=0;
                         $data->success=1;
-                        $data->message='Login Successful';
-                        //print_r($this->session->userdata('email')); die;
-                        if($this->input->post('return_url')){ redirect(($this->input->post('return_url'))); }
+                        $data->message='Registration Successful, please verify your account to login.';
+                        $this->session->set_flashdata('item',$data);                      
                         redirect('user');                                 
                 }                                              
                $data->users = $this->user_model->SelectSingleRecord('users','*',array("id"=>base64_decode($id)),'id desc');

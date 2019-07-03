@@ -108,5 +108,18 @@ class Welcome_model extends MY_Model
 		$data = $this->db->order_by('rand()')->where_in('id',array(10,11,42,43,61,65,68,66,101,102,73,74,75,79,80,86,87))->limit(8)->get('category')->result_array();
 		return $data;
 	}
+    
+    function search_record($TableName,$keyword,$orderby)
+	{
+		// print_r($query);die();
+        if($keyword){
+            $result = $this->db->select('id,title')->from('services')
+                            ->where("title LIKE '%$keyword%'")->get()->result_array();    
+        }else{
+            $result = [];
+        }
+		
+       	return $result;
+	}
         
 }
