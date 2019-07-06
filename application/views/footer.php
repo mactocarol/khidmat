@@ -29,7 +29,7 @@
                         <div class="footer_menu">
                             <ul>
 
-                                <?php if($userDetail->user_type == '1'){ ?>
+                                <?php if($userDetail && $userDetail->user_type == '1'){ ?>
                                     <li><a href="<?php echo site_url('user/dashboard');?>">My service requests</a></li>
                                 <?php }else{ ?>
                                     <li><a href="<?php echo base_url(); ?>">My service requests</a></li>
@@ -59,7 +59,7 @@
                                     <a href="#">Provider's Dashboard</a>
                                 </li> -->
 
-                                <?php if($userDetail->user_type == '2'){ ?>
+                                <?php if($userDetail && $userDetail->user_type == '2'){ ?>
                                     <li><a href="<?php echo site_url('dashboard');?>">Provider's Dashboard</a></li>
                                 <?php }else{ ?>
                                     <li><a href="<?php echo base_url(); ?>">Provider's Dashboard</a></li>

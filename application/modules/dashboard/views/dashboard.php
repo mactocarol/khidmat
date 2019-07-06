@@ -267,4 +267,5 @@
     </div> -->
     <!-- Activity wrapper end -->
 </div>
+
 <?php $this->load->view('footer'); ?>

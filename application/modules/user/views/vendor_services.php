@@ -30,6 +30,10 @@
                   <button style="float: right;" type="button" name="" onclick="submit_form();" class="red_button submit_btn">Update Service</button></a>
 
                 </div>
+                <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Note: </strong> Your services will be visible only if you enter price for each.
+                </div>                
                 <div class="table_section">
                     <table class="table table-customize">
                         <thead>
@@ -50,8 +54,12 @@
                             <?php $i=1; foreach($servicesArr as $oneRow){ ?>
                             <?php if($oneRow->level != 0){ //echo "<pre>"; print_r($oneRow); ?>
                             <tr>
-                                <td><?php echo $i; ?></td>
+                                <td><?php echo $i; ?></td>                                
+                                <?php if($oneRow->image == "default-category.png"){ ?>
+                                <td><img src="https://dummyimage.com/400x250/aaaaaa/ffffff?text=<?php echo $oneRow->title; ?>" width="100"></td>
+                                <?php }else{ ?>
                                 <td><img src="<?php echo base_url('upload/category/').$oneRow->image; ?>" width="100"></td>
+                                <?php } ?>
                                 <td><?php echo $oneRow->title; ?></td>
                                 <td><?php echo $oneRow->description; ?></td>
                                 <td><?php echo !empty($oneRow->price) ? $oneRow->price : 'NA'; ?></td>

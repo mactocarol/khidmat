@@ -401,7 +401,7 @@
     }
     
     function save_location(){
-        if($('#location').val() === ''){
+        if($('#location').val() === '' || $('#address_hidden').val() === ''){
             $('#location_error').show();
             return true;
         }

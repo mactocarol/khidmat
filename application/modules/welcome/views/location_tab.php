@@ -1,8 +1,9 @@
     <div class="servicebox">
     <form id="locationform" method="post" action="#">
+        <input type="hidden" name="address_hidden" id="address_hidden" value="<?php echo ($this->session->userdata('location_cart')) ? $this->session->userdata('location_cart')['address_hidden'] : ''?>">
         <div class="form_group">
             <div class="form_input">
-                <input type="text" id="location" name="location" placeholder="Enter your address" class="form-control" value="<?php echo ($this->session->userdata('location_cart')) ? $this->session->userdata('location_cart')['location'] : ''?>" required>
+                <input type="text" id="location" name="location" placeholder="Enter your address" class="form-control" value="<?php echo ($this->session->userdata('location_cart')) ? $this->session->userdata('location_cart')['location'] : ''?>" required autocomplete="off">
                 <div class="danger" id="location_error" role="alert" style="display: none; color:red">
                     This field is required.
                 </div>
@@ -44,8 +45,7 @@
                <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6959761.014640264!2d50.69992317560584!3d31.566893458551075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef7ec2ec16b1df1%3A0x40b095d39e51face!2sIran!5e0!3m2!1sen!2sin!4v1552371736211" allowfullscreen=""></iframe>-->
                <div id="map" style="width:100%; height:300px;"></div>
             </div>
-        </div>
-        
+        </div>        
        <?php if(trim($servicemethod) == 'On Site'){ ?>
            <input type="hidden" value="schedule" id="next_tab">
        <?php }else{ ?>
@@ -58,7 +58,8 @@
     
 <script>    
      var options = {        
-        types: ['geocode'] //this should work !        
+        //types: ['geocode'] //this should work !
+        componentRestrictions: {country: "AE"}
       };
 	var input = document.getElementById('location');
 	
@@ -77,7 +78,7 @@
      // autocomplete.addListener('place_changed', function() {
      google.maps.event.addListener(autocomplete, 'place_changed', function() {
             var place = autocomplete.getPlace();
-            //console.log(place);
+            
             //code for remove other locality
             var addr = '';
             for (var i = 0; i < place.address_components.length; i++) {
@@ -100,11 +101,12 @@
                     addr += val+' ';
                 }            
               }
-            }            
+            }
+            console.log(place);
             var geo = place.geometry.location;            
             //console.log(geo.lat());
             initialize(geo.lat(), geo.lng());
-            $('#address_hidden').val(addr);
+            $('#address_hidden').val(place.formatted_address);
             //code for remove other locality
     });
 </script>

@@ -591,8 +591,12 @@ class Welcome extends MY_Controller {
         $this->session->set_userdata('schedule_cart',1);
         //print_r($_POST);
         foreach($_POST as $key=>$value){
-            if($value){
-                 echo '<div class="location_dv"><p><strong><i class="fas fa-map-marker-alt"></i>'.ucwords(implode(' ',explode('_',$key))).'</strong> '.$value.'</p></div>';
+            if($value && ($key != 'location')){
+                if($key == 'address_hidden') {
+                   echo '<div class="location_dv"><p><strong><i class="fas fa-map-marker-alt"></i>location</strong> '.$value.'</p></div>';
+                }else{                                        
+                   echo '<div class="location_dv"><p><strong><i class="fas fa-map-marker-alt"></i>'.ucwords(implode(' ',explode('_',$key))).'</strong> '.$value.'</p></div>';
+                }
             }
         }
 	}

@@ -490,6 +490,17 @@ class User extends MY_Controller
             //echo $this->session->userdata('user_id'); die;
             $data->orders = $this->user_model->joindatapagination('o.order_no','od.order_id',$where,'o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc',10,0);
             
+            $where_array = array('od.order_status'=>1);
+            $where1 = array_merge($where,$where_array);            
+            $data->pending_orders = $this->user_model->joindatapagination('o.order_no','od.order_id',$where1,'o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc',10,0);
+            
+            $where_array = array('od.order_status'=>2);
+            $where2 = array_merge($where,$where_array);            
+            $data->accepted_orders = $this->user_model->joindatapagination('o.order_no','od.order_id',$where2,'o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc',10,0);
+            
+            $where_array = array('od.order_status'=>3);
+            $where3 = array_merge($where,$where_array);            
+            $data->cancelled_orders = $this->user_model->joindatapagination('o.order_no','od.order_id',$where3,'o.payment_status,o.payment_type,od.*','order as o','order_detail as od','o.id desc',10,0);
             //print_r($data->orders); die;
                       
             $data->title = 'Dashboard';

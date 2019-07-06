@@ -129,22 +129,24 @@ class Dashboard extends MY_Controller {
             $insertData = array(
                 'firstName' => $postData['firstName'],
                 'lastName' => $postData['lastName'],
-                'accountNumber' => baseE($postData['accountNumber']),
-                'routingNumber' => baseE($postData['routingNumber']),
-                'ssnLast' => baseE($postData['ssnLast']),
-                'postalCode' => baseE($postData['postalCode']),
-                'userId' => $this->session->userdata('user_id'),
+                'accountNumber' => base64_encode($postData['accountNumber']),
+                'routingNumber' => base64_encode($postData['routingNumber']),
+                'ssnLast' => base64_encode($postData['ssnLast']),
+                'postalCode' => base64_encode($postData['postalCode']),
+                'userId' => $this->session->userdata('user_id'),                  
             );
-
-            $checkData = $this->dashboard_model->SelectSingleRecord('bankDetail','*',array("userId"=>$this->session->userdata('user_id')),'userId desc');
+            
+            $checkData = $this->dashboard_model->SelectSingleRecord('bankdetail','*',array("userId"=>$this->session->userdata('user_id')),'userId desc');
 
             if(isset($checkData) && !empty($checkData)){
-                $this->dashboard_model->UpdateRecord('bankDetail',$insertData,array("userId"=>$this->session->userdata('user_id')));
+                $this->dashboard_model->UpdateRecord('bankdetail',$insertData,array("userId"=>$this->session->userdata('user_id')));
             }else{
-                $this->dashboard_model->InsertRecord('bankDetail',$insertData);
+                $this->dashboard_model->InsertRecord('bankdetail',$insertData);
             }
             redirect('dashboard/');
         }
+        
+        $data->checkData = $this->dashboard_model->SelectSingleRecord('bankdetail','*',array("userId"=>$this->session->userdata('user_id')),'userId desc');
         $this->load->view('addBank',$data);
     }
 
