@@ -67,8 +67,9 @@
 							<div class="form-group col-md-12">
 								<label><?=($value['field_key'])?$value['field_key']:''?></label>
 								<select class="<?=($value['is_multiple'])?'selectpicker':''?> form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" <?=($value['is_multiple'])?'multiple':''?> onchange="submit_form('<?=($value['field_name'])?$value['field_name']:''?>');" required>
-									<?php foreach(explode(',',$value['field_value']) as $k => $res) { ?>                
-										<option <?php if($this->session->userdata('service_cart')) { echo (in_array(trim($res),$this->session->userdata('service_cart')[$value['field_name']])) ? 'selected' : ''; }else{ echo ($k == 0) ? '' : '';  } ?>><?=$res?></option>
+									<?php foreach(explode(',',$value['field_value']) as $k => $res) { ?>
+                                        <?php $field_name = implode('_',explode(' ',$value['field_name']));?>
+										<option <?php if($this->session->userdata('service_cart')) { echo (in_array(trim($res),$this->session->userdata('service_cart')[$field_name])) ? 'selected' : ''; }else{ echo ($k == 0) ? '' : '';  } ?>><?=$res?></option>
 									<?php } ?>
 								  </select>
                                   <?php if($value['is_multiple']) {?>
@@ -109,7 +110,7 @@
 							<?php }else{ ?>
 							
 							<?php if(count($row) == 2) { $col1 = 3; $col = 5; $col3 = 4; }?>
-							<?php if(count($row) == 3) { $col1 = ($options[0][2]['is_required']) ? '2': '3'; $col = ($options[0][2]['is_required']) ? '4': '6'; $col3 = ($options[0][2]['is_required']) ? '2': '3'; }?>
+							<?php if(count($row) == 3) { $col1 = ($options[0][1]['is_required']) ? '2': '3'; $col = ($options[0][1]['is_required']) ? '4': '6'; $col3 = ($options[0][1]['is_required']) ? '2': '3'; }?>
 							<?php if($value['list_name']) {   $l = implode('_',explode(' ',$value['list_name'])); }else{ $l = '_'; }?>
 							<?php if($value['field_type'] == 'label'){?>
 							<div class="<?php echo ($value['list_name']) ? 'panel_cover' : 'panel_down'; ?>">

@@ -350,7 +350,7 @@
                                     <a href="#" type="button" class="btn btn_accepted">Accepted</a>
                                     <?php } ?>
                                     <?php if($row['order_status'] == 3){?>
-                                    <a href="#" type="button" class="btn btn_cancel">Cancle</a>
+                                    <a href="#" type="button" class="btn btn_cancel">Cancel</a>
                                     <?php } ?>
                                 </td>
                                 <td><?=($row['amount'])?($row['amount']):'NA'?></td>

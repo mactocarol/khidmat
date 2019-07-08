@@ -40,7 +40,7 @@
                     </div>
                 </label>
                 <?php } } else {?>
-                <h5>No Service Provider Available, Please Mofify Your Search</h5>
+                <h5>No Service Provider Available, Please Modify Your Search</h5>
                 <?php } ?>
                 <input type="hidden" value="checkout" id="next_tab">
         </div>
