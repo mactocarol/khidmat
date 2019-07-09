@@ -42,7 +42,7 @@ function attachSignin(element) {
             fd.append('fullName', localStorage.fullName);
             fd.append('firstName', localStorage.firstName);
             fd.append('lastName', localStorage.lastName);
-            fd.append('image', profile.getImageUrl());
+            fd.append('image', localStorage.image);
             fd.append('email', localStorage.email);
             console.log(fd);
             $.ajax({
