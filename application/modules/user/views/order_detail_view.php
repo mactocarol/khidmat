@@ -7,7 +7,8 @@
             </div>
             <div class="col-lg-6">
                  <ol class="breadcrumb pull-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo site_url('user/dashboard'); ?>">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo site_url('user/dashboard'); ?>">Orders</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Order Detail</li>
                   </ol>
             </div>
@@ -47,22 +48,46 @@
                   <h2><?=($order['servicename'])?json_decode($order['servicename']):''?></h2>
                     <div class="section_box">
                         <div class="section_content">
-                            <!-- <?php if($order['payment_status'] == 2){ ?>    
-                            <img src="<?php echo base_url('front');?>/images/right.png">
-                            <span>Accepted</span>
+                            
+                            <?php if($result->user_type == 1){ ?>
+                                <?php if($order['order_status'] == 2 && $order['payment_status'] == 'pending'){ ?>                                  
+                                  <div class="alert alert-dismissible alert-success">                                    
+                                        <img src="<?php echo base_url('front');?>/images/right.png"> <strong>Accepted!</strong> Your Order has been accepted by Service Provider.
+                                  </div>
+                                <?php }else if($order['order_status'] == 2 && $order['payment_status'] != 'pending'){ ?>                                  
+                                  <div class="alert alert-dismissible alert-success">                                    
+                                        <img src="<?php echo base_url('front');?>/images/right.png"> <strong>Completed!</strong> Your Order has been completed by Service Provider.
+                                  </div>
+                                <?php }else if($order['order_status'] == 1){ ?>
+                                  <div class="alert alert-dismissible alert-warning">                                    
+                                        <strong>Pending!</strong> Confirming your Order with Service Provider.
+                                  </div>                                
+                                <?php }else{ ?>                               
+                                  <div class="alert alert-dismissible alert-danger">                                    
+                                        <img height="25" width="25" src="https://2.bp.blogspot.com/-SCbOaY9CwqU/WsJPsDgZbWI/AAAAAAAABqU/NiSJaXtY1tEdDYcyBFU8LNFAxfCWQNmcgCLcBGAs/s1600/wrong.png">
+                                        <strong>Cancelled!</strong> Sorry, Service Provider is not available at this time, Please make another order with other service provider.
+                                  </div> 
+                                <?php } ?>
                             <?php } else { ?>
-                            <span>Pending</span>
-                            <?php } ?>  -->
-
-                            <?php if($order['order_status'] == 2){ ?>    
-                              <img src="<?php echo base_url('front');?>/images/right.png">
-                              <span>Accepted</span>
-                            <?php }elseif($order['order_status'] == 1){ ?>
-                              <span style="color: orange;">Pending</span>
-                            <?php }else{ ?> 
-                              <img height="25" width="25" src="https://2.bp.blogspot.com/-SCbOaY9CwqU/WsJPsDgZbWI/AAAAAAAABqU/NiSJaXtY1tEdDYcyBFU8LNFAxfCWQNmcgCLcBGAs/s1600/wrong.png">
-                              <span style="color: red;">Cancle</span>  
-                            <?php } ?>    
+                                <?php if($order['order_status'] == 2 && $order['payment_status'] == 'pending'){ ?>                               
+                                  <div class="alert alert-dismissible alert-success">                                    
+                                        <img src="<?php echo base_url('front');?>/images/right.png"> <strong>Accepted!</strong> Your have accepted this order.
+                                  </div>
+                                <?php }else if($order['order_status'] == 2 && $order['payment_status'] != 'pending'){ ?>                                  
+                                  <div class="alert alert-dismissible alert-success">                                    
+                                        <img src="<?php echo base_url('front');?>/images/right.png"> <strong>Completed!</strong> Your have completed this order.
+                                  </div>
+                                <?php }else if($order['order_status'] == 1){ ?>
+                                  <div class="alert alert-dismissible alert-warning">                                    
+                                        <strong>Pending!</strong> You have not accepted this order.
+                                  </div>                                
+                                <?php }else{ ?>                               
+                                  <div class="alert alert-dismissible alert-danger">                                    
+                                        <img height="25" width="25" src="https://2.bp.blogspot.com/-SCbOaY9CwqU/WsJPsDgZbWI/AAAAAAAABqU/NiSJaXtY1tEdDYcyBFU8LNFAxfCWQNmcgCLcBGAs/s1600/wrong.png">
+                                        <strong>Cancelled!</strong> You have declined this order.
+                                  </div> 
+                                <?php } ?>
+                            <?php } ?>
 
 
                         </div>
@@ -104,8 +129,7 @@
                         <?php } ?>
                     
                         <div class="section_content">
-                        <h4>Services</h4>    
-                            <p>
+                        <h3>Services</h3>                                
                             <?php $service = json_decode($order['services']); ?>                            
                             <?php foreach($service as $key => $value){  //print_r($value); 
                                 if(is_array($value)){
@@ -133,41 +157,63 @@
                                         }                
                                     }
                                 }else{ ?>
-                                <strong><?=$key?> : </strong><?= implode(',',$value) ?><br>
+                                <div class="section_content">
+                                    <span><strong><?=implode(' ',explode('_',$key))?> : </strong><?= implode(',',$value) ?></span>
+                                </div>
                             <?php } } }?>
-                            <?php ?>
-                            </p>
+                            <?php ?>                            
                         </div>
                         
-                        <!--<div class="section_content">
-                        <h4>Billing Address</h4>    
-                        <?php $billing = json_decode($order['billing']);
-                        if(!empty($billing)){ ?>
-                          <p>
-                            <strong>Name : </strong><?=$billing->name?><br>
-                            <strong>Email : </strong><?=$billing->email?><br>
-                            <strong>Address : </strong><?=$billing->address?><br>
-                            <strong>City : </strong><?=$billing->city?><br>
-                            <strong>State : </strong><?=$billing->state?><br>
-                            <strong>Zipcode : </strong><?=$billing->zipcode?><br>
-                          </p>
-                        <?php } else { ?>
-                            <p>No Information Provided</p>
-                        <?php } ?>
-                        </div>-->
-
-                        <div class="section_content">
-                        <h4>Payment Method</h4>    
-                          <p>
-                            <strong><?php echo ($order['payment_method'] == 'stripe') ? 'credit / debit Card' : 'Cash'; ?></strong>
-                          </p>
+                        <h3>Payment Method</h3>                                                                              
+                        <div class="section_content">                        
+                            <span><strong><?php echo ($order['payment_method'] == 'stripe') ? 'credit / debit Card' : 'Cash'; ?></strong></span>
                         </div>
-
+                        
+                        <h3>Payment Status</h3>
                         <div class="section_content">
-                        <h4>Payment Status</h4>    
-                          <p>
-                            <strong style="color: <?php echo ($order['payment_status'] == 'pending') ? 'orange' : 'green'; ?>;" ><?php echo ($order['payment_status'] == 'pending') ? 'Pending' : 'Paid'; ?></strong>
-                          </p>
+                            <?php if($result->user_type == 1){ ?>
+                                <?php if($order['order_status'] == 1){ ?>
+                                  <div class="alert alert-dismissible alert-warning">                                    
+                                        <strong>Pending!</strong> You will make payment once your order has been accepted.
+                                  </div> 
+                                <?php } ?>
+                                <?php if($order['order_status'] == 2 && $order['payment_status'] == 'pending'){ ?>
+                                  <div class="alert alert-dismissible alert-warning">                                    
+                                        <strong>Pending!</strong> Make payment once your order has been completed.
+                                  </div> 
+                                <?php } ?>
+                                <?php if($order['order_status'] == 2 && $order['payment_status'] != 'pending'){ ?>
+                                  <div class="alert alert-dismissible alert-success">                                    
+                                        <strong>Paid </strong>
+                                  </div> 
+                                <?php } ?>
+                                <?php if($order['order_status'] == 3){ ?>
+                                  <div class="alert alert-dismissible alert-danger">                                    
+                                        <strong>Not Applicable</strong>
+                                  </div> 
+                                <?php } ?>
+                            <?php } else { ?>
+                                <?php if($order['order_status'] == 1){ ?>
+                                  <div class="alert alert-dismissible alert-warning">                                    
+                                        <strong>Pending!</strong> 
+                                  </div> 
+                                <?php } ?>
+                                <?php if($order['order_status'] == 2 && $order['payment_status'] == 'pending'){ ?>
+                                  <div class="alert alert-dismissible alert-warning">                                    
+                                        <strong>Pending!</strong> Payment will be done once you completed this order.
+                                  </div> 
+                                <?php } ?>
+                                <?php if($order['order_status'] == 2 && $order['payment_status'] != 'pending'){ ?>
+                                  <div class="alert alert-dismissible alert-success">                                    
+                                        <strong>Paid </strong>
+                                  </div> 
+                                <?php } ?>
+                                <?php if($order['order_status'] == 3){ ?>
+                                  <div class="alert alert-dismissible alert-danger">                                    
+                                        <strong>Not Applicable</strong>
+                                  </div> 
+                                <?php } ?>
+                            <?php } ?>
                         </div>
 
                         <!--<div class="Request_btn button">
@@ -194,9 +240,10 @@
                             if($order['payment_method'] != 'stripe'){
                               if($order['payment_status'] == 'pending'){
                                 ?>
-                                  <div class="Request_btn button">
-                                    <button onclick="changePaymentStatus();" class="btn btn_start"><span>Payment Done</span></button>
-                                  </div>
+                                  <small>Once you receive payment, please verify by clicking this button.</small>  
+                                  <div class="Request_btn button">                                    
+                                    <button onclick="changePaymentStatus();" class="btn btn_start"><span>Payment Done</span></button>                                    
+                                  </div>                                  
                                 <?php
                               }
                             }
@@ -325,7 +372,7 @@
                     <span><?=($vendor->country).', '.($vendor->city)?></span>
                     <span><i class="fa fa-phone" aria-hidden="true"></i><?=($vendor->phone)?></span>
                     <span><i class="fa fa-envelope" aria-hidden="true"></i><?=($vendor->email)?></span>                  
-                    <a href="<?php echo base_url('chat/message/').base64_encode($vendor->id); ?>" type="button" class="btn btn_accepted"> Chat</a>
+                    <a href="<?php echo base_url('chat/message/'.base64_encode($vendor->id).'/'.base64_encode($order['order_id'])); ?>" type="button" class="btn btn_accepted"> Chat</a>
                   </div>
 
                   <div class="map_section">
@@ -362,7 +409,7 @@
       },
       type:'POST',
       success: function(result){
-        //location.reload();
+        location.reload();
       }
     });
   }

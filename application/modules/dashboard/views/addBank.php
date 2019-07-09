@@ -43,30 +43,30 @@
                 <div class="login-header">
                     <h1>Bank Detail</h1></div>
                 <div class="login-form">
-                    <form method="post" action="<?php echo site_url('dashboard/addBank');?>">                     
+                    <form id="bankDetail" method="post" action="<?php echo site_url('dashboard/addBank');?>">                     
                         
                         <div class="form-group">
-                            <input type="text" value="<?=($checkData) ? $checkData->firstName : ''?>" name="firstName" placeholder="First Name" class="form-control" required>
+                            <input type="text" value="<?=($checkData) ? $checkData->firstName : ''?>" name="firstName" id="firstName" placeholder="First Name" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <input type="text" value="<?php echo ($checkData) ? $checkData->lastName : ''; ?>" name="lastName" placeholder="Last Name" class="form-control" required>
+                            <input type="text" value="<?php echo ($checkData) ? $checkData->lastName : ''; ?>" name="lastName" id="lastName" placeholder="Last Name" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <input type="text" name="accountNumber" placeholder="Account Number" class="number form-control" required value="<?=base64_decode(($checkData) ? $checkData->accountNumber :'')?>">
+                            <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" class="number form-control" required value="<?=base64_decode(($checkData) ? $checkData->accountNumber :'')?>">
                         </div>
 
                         <div class="form-group">
-                            <input type="text" name="routingNumber" placeholder="routingNumber" class="number form-control" required value="<?=base64_decode(($checkData) ? $checkData->routingNumber : '')?>">
+                            <input type="text" name="routingNumber" id="routingNumber" placeholder="routingNumber" class="number form-control" required value="<?=base64_decode(($checkData) ? $checkData->routingNumber : '')?>">
                         </div>
 
                         <div class="form-group">
-                            <input type="text" name="ssnLast" placeholder="SSN Last" class="number form-control" required value="<?=base64_decode(($checkData) ? $checkData->ssnLast : '')?>">
+                            <input type="text" name="ssnLast" id="ssnLast" placeholder="SSN Last" class="number form-control" required value="<?=base64_decode(($checkData) ? $checkData->ssnLast : '')?>">
                         </div>
 
                         <div class="form-group">
-                            <input type="text" name="postalCode" placeholder="Postal Code" class="number form-control" required value="<?=base64_decode(($checkData) ? $checkData->postalCode : '')?>">
+                            <input type="text" name="postalCode" id="postalCode" placeholder="Postal Code" class="number form-control" required value="<?=base64_decode(($checkData) ? $checkData->postalCode : '')?>">
                         </div>                        
                         
                         <div class="row">
@@ -121,4 +121,67 @@
             e.preventDefault();
         }
     });
-</script>  
+</script>
+
+<!-- validation start -->
+<script src="<?php echo base_url('front/js');?>/bootstrapValidator.min.js"></script>
+<script>
+    $(document).ready(function()
+    {
+        //alert('http://localhost/caroldata.com/hmvc_hotel_booking/registration/register_email_exists');
+        $('#bankDetail').bootstrapValidator({
+            //container: '#messages',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                firstName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The First Name is required'
+                        },
+                    }
+                },
+                lastName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Last Name is required'
+                        },
+                    }
+                },
+                
+                accountNumber: {
+                   validators: {
+                       notEmpty: {
+                           message: 'The Account Number is required'
+                       },
+                   }
+                },
+                routingNumber: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Routing Number is required'
+                        },
+                    }
+                },
+                  postalCode: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Postal Code is required'
+                        },
+                    }
+                },
+                ssnLast: {
+                    validators: {
+                        notEmpty: {
+                            message : 'The SSN Last is required'
+                        },                    
+                    },
+                },            
+            }
+        });
+    });    
+</script>
+<!-- validation end -->

@@ -143,7 +143,11 @@ $( function() {
                             <li class="login-btn">
                                 <a href="javascript:void(0)">
                                     <span class="u_img">
-                                        <img src="<?php echo base_url('upload/profile_image/'.$userDetail->image);?>" class="img-fluid" alt="User Thumb">
+                                        <?php if($userDetail->social_type){?>
+                                            <img src="<?php echo $userDetail->image;?>" class="img-fluid" alt="User Thumb">
+                                        <?php } else { ?>
+                                            <img src="<?php echo base_url('upload/profile_image/'.$userDetail->image);?>" class="img-fluid" alt="User Thumb">
+                                        <?php } ?>
                                     </span>
                                     <?php echo $userDetail->f_name; ?>
                                 </a>
@@ -151,7 +155,7 @@ $( function() {
                                     <li>
                                         <a href="<?php echo site_url('user/dashboard');?>">
                                             <i class="fas fa-clipboard-list"></i>
-                                            My Listing
+                                            My Orders
                                         </a>
                                     </li>
                                     

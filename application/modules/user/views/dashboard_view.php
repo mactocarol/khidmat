@@ -8,7 +8,7 @@
             <div class="col-lg-6">
                  <ol class="breadcrumb pull-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">My Listing</li>
+                    <li class="breadcrumb-item active" aria-current="page">My Orders</li>
                   </ol>
             </div>
         </div>

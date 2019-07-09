@@ -7,7 +7,7 @@
             </div>
             <div class="col-lg-6">
                  <ol class="breadcrumb pull-right">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo site_url('user/dashboard'); ?>">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Chat</li>
                   </ol>
             </div>

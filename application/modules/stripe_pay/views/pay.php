@@ -8,7 +8,8 @@
             </div>
             <div class="col-lg-6">
                  <ol class="breadcrumb pull-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo site_url('user/dashboard'); ?>">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo site_url('user/orderDetail/'.$this->uri->segment('3')); ?>">Order Detail</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Payment</li>
                   </ol>
             </div>

@@ -44,10 +44,10 @@
                 <div class="login-header">
                     <h1><i class="fa fa-gift"></i>Create New Promo Code</h1></div>
                 <div class="login-form">
-                    <form method="post" action="<?php echo site_url('dashboard/addPromo');?>">
+                    <form id="addPromoCode" method="post" action="<?php echo site_url('dashboard/addPromo');?>">
                         
                         <div class="form-group">
-                            <input type="text" name="promoName" placeholder="Promo code Name" class="form-control" required>
+                            <input type="text" name="promoName" id="promoName" placeholder="Promo code Name" class="form-control" required>
                         </div>
 
                         <div class="form-group">
@@ -194,3 +194,59 @@
     });
 
 </script>
+
+<!-- validation start -->
+<script src="<?php echo base_url('front/js');?>/bootstrapValidator.min.js"></script>
+<script>
+    $(document).ready(function()
+    {
+        //alert('http://localhost/caroldata.com/hmvc_hotel_booking/registration/register_email_exists');
+        $('#addPromoCode').bootstrapValidator({
+            //container: '#messages',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                promoName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Promo Name is required'
+                        },
+                    }
+                },
+                promoCode: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Promo Code is required'
+                        },
+                    }
+                },
+                
+                discountPresent: {
+                   validators: {
+                       notEmpty: {
+                           message: 'The Discount Present is required'
+                       },
+                   }
+                },
+                datepicker1: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Start Date is required'
+                        },
+                    }
+                },
+                  datepicker2: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The End Date is required'
+                        },
+                    }
+                },                   
+            }
+        });
+    });    
+</script>
+<!-- validation end -->

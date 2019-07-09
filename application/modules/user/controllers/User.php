@@ -904,7 +904,9 @@ class User extends MY_Controller
 
         function social_login(){
             $postData = $this->input->post();
+            //print_r($postData); die;
             $where = array(
+                'social_id !=' => Null,
                 'social_id' => $postData['socialId'],
                 'social_type' => $postData['socialType'],
             );
@@ -924,7 +926,7 @@ class User extends MY_Controller
                     'social_id' => $postData['socialId'],
                     'social_type' => $postData['socialType'],
                 );
-
+                //print_r($insert); die;
                 $new_id = $this->user_model->new_user($insert);
 
                 $sess_array = array(
@@ -942,7 +944,7 @@ class User extends MY_Controller
                 redirect('user/dashboard'); 
 
             }else{
-                //print_r($data);
+                //print_r($data); die;
                 $sess_array = array(
                     'user_id' => $data->id,
                     'email' => $data->email,
@@ -1106,7 +1108,7 @@ class User extends MY_Controller
         $postData = $this->input->post();
         $requestId = $postData['id'];
         
-        $data = $this->user_model->SelectSingleRecord('order','*',array('id'=>$requestId),$orderby=array());
+        $data = $this->user_model->SelectSingleRecord('order_detail','*',array('id'=>$requestId),$orderby=array());
 
         $cardAccount['cardToken'] = 'NA';
         $cardAccount['cardType'] = 'NA';
@@ -1116,15 +1118,16 @@ class User extends MY_Controller
         $cardAccount['transactionId'] = 'NA';
 
 
-        $cardAccount['requestId'] = $data->order_no;
+        $cardAccount['requestId'] = $data->order_id;
         $cardAccount['mainPrice'] = $data->amount*100;
         $cardAccount['discountPresent'] = 0;
         $cardAccount['price'] = $data->amount*100;
         $cardAccount['userId'] = $this->session->userdata('user_id');
-
+        
+        //print_r($cardAccount); die;
         $this->db->insert('payment',$cardAccount);
 
-        $this->db->where(array('order_id' => $data->order_no));
+        $this->db->where(array('order_id' => $data->order_id));
         $this->db->update('order_detail',array('payment_status' => 'paid'));
 
     }

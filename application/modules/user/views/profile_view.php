@@ -40,7 +40,11 @@
       <div class="col-md-4">
         <div class="customer_detail">
           <div class="buyer_profile_box  profile_image">
-            <img style="border: 1px solid #a47966;" id="pImg" src="<?php echo base_url('upload/profile_image/'.$result->image);?>">
+            <?php if($result->social_type){?>
+                <img style="border: 1px solid #a47966;" id="pImg" src="<?php echo $result->image;?>">
+            <?php } else { ?>
+                <img style="border: 1px solid #a47966;" id="pImg" src="<?php echo base_url('upload/profile_image/'.$result->image);?>">
+            <?php } ?>
             <form method="post" action="<?php echo site_url('user/upload_image'); ?>" enctype="multipart/form-data">
               <div class="form-group">
                 <input onchange="document.getElementById('pImg').src = window.URL.createObjectURL(this.files[0])" id="myId" style="display: none;" type="file" name="profile_pic" class="form-control" required>
