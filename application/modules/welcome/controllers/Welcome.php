@@ -471,7 +471,8 @@ class Welcome extends MY_Controller {
                                             return false;
                                         }
                                     }
-                                    if(!is_array($value)){                                    
+                                    if(!is_array($value)){
+                                        //echo substr($key,0,12);
                                         if($value == ''){                                        
                                             echo 0;
                                             return false;
