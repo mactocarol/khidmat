@@ -105,7 +105,7 @@ class Welcome extends MY_Controller {
         if(empty($category)){
             redirect('welcome/services/'.$subcat);
         }
-        
+        //print_r($category); die;
         
         $data->services = $category;
 		$this->load->view('catalog',$data);
@@ -390,9 +390,17 @@ class Welcome extends MY_Controller {
                                 $servicemethod = '';
                                 //print_r($this->session->userdata('service_cart'));die;
                                 foreach($this->session->userdata('service_cart') as $key=>$value){
-                                    if(!$value[0]){
-                                        echo 0;
-                                        return false;
+                                    if(is_array($value)){                                    
+                                        if($value[0] == ''){                                        
+                                            echo 0;
+                                            return false;
+                                        }
+                                    }
+                                    if(!is_array($value)){                                    
+                                        if($value == ''){                                        
+                                            echo 0;
+                                            return false;
+                                        }
                                     }
                                     if($key == 'Service_Method'){
                                         $servicemethod = implode('',$value);
@@ -419,7 +427,19 @@ class Welcome extends MY_Controller {
                         if(($this->session->userdata('service_cart1'))){
                             //print_r($_SESSION); die;
                                 $servicemethod = '';
-                                foreach($this->session->userdata('service_cart') as $key=>$value){                                
+                                foreach($this->session->userdata('service_cart') as $key=>$value){
+                                    if(is_array($value)){                                    
+                                        if($value[0] == ''){                                        
+                                            echo 0;
+                                            return false;
+                                        }
+                                    }
+                                    if(!is_array($value)){                                    
+                                        if($value == ''){                                        
+                                            echo 0;
+                                            return false;
+                                        }
+                                    }
                                     if($key == 'Service_Method'){
                                         $servicemethod = implode('',$value);
                                     }
@@ -447,6 +467,12 @@ class Welcome extends MY_Controller {
                                     //print_r($this->session->userdata('service_cart'));                                
                                     if(is_array($value)){                                    
                                         if($value[0] == ''){                                        
+                                            echo 0;
+                                            return false;
+                                        }
+                                    }
+                                    if(!is_array($value)){                                    
+                                        if($value == ''){                                        
                                             echo 0;
                                             return false;
                                         }

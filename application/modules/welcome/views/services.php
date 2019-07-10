@@ -66,14 +66,14 @@
 							<?php if($value['field_type'] == 'select-box'){?>
 							<div class="form-group col-md-12">
 								<label><?=($value['field_key'])?$value['field_key']:''?></label>
+                                <?php $field_name = implode('_',explode(' ',$value['field_name']));?>
 								<select class="<?=($value['is_multiple'])?'selectpicker':''?> form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" <?=($value['is_multiple'])?'multiple':''?> onchange="submit_form('<?=($value['field_name'])?$value['field_name']:''?>');" required>
-									<?php foreach(explode(',',$value['field_value']) as $k => $res) { ?>
-                                        <?php $field_name = implode('_',explode(' ',$value['field_name']));?>
+									<?php foreach(explode(',',$value['field_value']) as $k => $res) { ?>                                        
 										<option <?php if($this->session->userdata('service_cart')) { echo (in_array(trim($res),$this->session->userdata('service_cart')[$field_name])) ? 'selected' : ''; }else{ echo ($k == 0) ? '' : '';  } ?>><?=$res?></option>
 									<?php } ?>
 								  </select>
                                   <?php if($value['is_multiple']) {?>
-                                  <input name="selectvalues<?=($value['field_name'])?$value['field_name']:''?>" id="selectvalues<?=($value['field_name'])?$value['field_name']:''?>" type="hidden">
+                                  <input name="selectvalues<?=($field_name)?$field_name:''?>" id="selectvalues<?=($field_name)?$field_name:''?>" type="hidden">
                                   <?php } ?>
 							</div>                        
 							<?php } ?>
