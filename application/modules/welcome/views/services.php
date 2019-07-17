@@ -67,7 +67,7 @@
 							<div class="form-group col-md-12">
 								<label><?=($value['field_key'])?$value['field_key']:''?></label>
                                 <?php $field_name = implode('_',explode(' ',$value['field_name']));?>
-								<select class="<?=($value['is_multiple'])?'selectpicker':''?> form-control" id="<?=($value['field_name'])?$value['field_name']:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" <?=($value['is_multiple'])?'multiple':''?> onclick="submit_form('<?=($value['field_name'])?$value['field_name']:''?>');" required>
+								<select class="<?=($value['is_multiple'])?'selectpicker':''?> form-control" id="<?=($value['field_name'])?$field_name:''?>" name="<?=($value['field_name'])?$value['field_name']:''?>[]" <?=($value['is_multiple'])?'multiple':''?> onclick="submit_form('<?=($value['field_name'])?$field_name:''?>');" required>
 									<?php foreach(explode(',',$value['field_value']) as $k => $res) { ?>                                        
 										<option <?php if($this->session->userdata('service_cart')) { echo (in_array(trim($res),$this->session->userdata('service_cart')[$field_name])) ? 'selected' : ''; }else{ echo ($k == 0) ? '' : '';  } ?>><?=$res?></option>
 									<?php } ?>

@@ -155,6 +155,8 @@
 }
 .table_section{
 	padding: 15px;
+    overflow-y: scroll!important;    
+    height: 500px!important;
 }
 .table-customize tr:nth-child(even){
 	background-color: #f7f6fa;
